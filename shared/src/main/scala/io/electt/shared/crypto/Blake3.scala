@@ -1,8 +1,6 @@
 package io.electt.shared.crypto
 
 import scodec.bits._
-import spire.math._
-import spire.syntax.all._
 
 object Blake3 {
 
@@ -12,23 +10,23 @@ object Blake3 {
   val BLOCK_LEN: Int = 64
   val CHUNK_LEN: Int = 1024
 
-  private val CHUNK_START = ui"1" << 0
-  private val CHUNK_END = ui"1" << 1
-  private val PARENT = ui"1" << 2
-  private val ROOT = ui"1" << 3
-  private val KEYED_HASH = ui"1" << 4
-  private val DERIVE_KEY_CONTEXT = ui"1" << 5
-  private val DERIVE_KEY_MATERIAL = ui"1" << 6
+  private val CHUNK_START = 1 << 0
+  private val CHUNK_END = 1 << 1
+  private val PARENT = 1 << 2
+  private val ROOT = 1 << 3
+  private val KEYED_HASH = 1 << 4
+  private val DERIVE_KEY_CONTEXT = 1 << 5
+  private val DERIVE_KEY_MATERIAL = 1 << 6
 
   private val IV = Vector(
-    UInt(0x6A09E667),
-    UInt(0xBB67AE85),
-    UInt(0x3C6EF372),
-    UInt(0xA54FF53A),
-    UInt(0x510E527F),
-    UInt(0x9B05688C),
-    UInt(0x1F83D9AB),
-    UInt(0x5BE0CD19)
+    0x6A09E667,
+    0xBB67AE85,
+    0x3C6EF372,
+    0xA54FF53A,
+    0x510E527F,
+    0x9B05688C,
+    0x1F83D9AB,
+    0x5BE0CD19
   )
 
   private val MSG_PERMUTATION = Vector(
@@ -37,19 +35,19 @@ object Blake3 {
 
   // The mixing function, G, which mixes either a column or a diagonal.
   // this function uses mutable of Word
-  private def g(state: Array[UInt], a: Int, b: Int, c: Int, d: Int, mx: UInt, my: UInt): Unit = {
+  private def g(state: Array[Int], a: Int, b: Int, c: Int, d: Int, mx: Int, my: Int): Unit = {
     state(a) = state(a) + state(b) + mx
-    state(d) = (state(d) ^ state(a)) rotateRight 16
+    state(d) = Integer.rotateRight(state(d) ^ state(a), 16)
     state(c) = state(c) + state(d)
-    state(b) = (state(b) ^ state(c)) rotateRight 12
+    state(b) = Integer.rotateRight(state(b) ^ state(c), 12)
     state(a) = state(a) + state(b) + my
-    state(d) = (state(d) ^ state(a)) rotateRight 8
+    state(d) = Integer.rotateRight(state(d) ^ state(a), 8)
     state(c) = state(c) + state(d)
-    state(b) = (state(b) ^ state(c)) rotateRight 7
+    state(b) = Integer.rotateRight(state(b) ^ state(c), 7)
   }
 
   // this function uses mutable of Word
-  private def round(state: Array[UInt], m: Array[UInt]): Unit = {
+  private def round(state: Array[Int], m: Array[Int]): Unit = {
     // Mix the columns.
     g(state, 0, 4, 8, 12, m(0), m(1))
     g(state, 1, 5, 9, 13, m(2), m(3))
@@ -63,25 +61,25 @@ object Blake3 {
   }
 
   // this function uses mutable of Word
-  private def permute(m: Array[UInt]): Unit = {
-    val permuted = new Array[UInt](16)
+  private def permute(m: Array[Int]): Array[Int] = {
+    val permuted = new Array[Int](16)
 
-    for (i <- m.indices) {
+    var i = 0
+    while (i < m.length) {
       permuted(i) = m(MSG_PERMUTATION(i))
+      i += 1
     }
 
-    for (i <- m.indices) {
-      m(i) = permuted(i)
-    }
+    permuted
   }
 
   private def compress(
-    chainingValue: Vector[UInt],
-    blockWords: Vector[UInt],
-    counter: ULong,
-    blockLen: UInt,
-    flags: UInt
-  ): Vector[UInt] = {
+    chainingValue: Vector[Int],
+    blockWords: Vector[Int],
+    counter: Long,
+    blockLen: Int,
+    flags: Int
+  ): Vector[Int] = {
     val state = Array(
       chainingValue(0),
       chainingValue(1),
@@ -95,47 +93,51 @@ object Blake3 {
       IV(1),
       IV(2),
       IV(3),
-      UInt(counter.toInt),
-      UInt((counter >> 32).toInt),
+      counter.toInt,
+      (counter >> 32).toInt,
       blockLen,
       flags
     )
 
-    val block = blockWords.toArray
+    var block = blockWords.toArray
 
     // rounds 1..7
-    for (_ <- 1 to 7) {
+    var i = 0
+    while (i < 7) {
       round(state, block)
-      permute(block)
+      block = permute(block)
+      i += 1
     }
 
-    for (i <- 0 until 8) {
-      state(i) ^= state(i + 8);
-      state(i + 8) ^= chainingValue(i);
+    i = 0
+    while (i < 8) {
+      state(i) ^= state(i + 8)
+      state(i + 8) ^= chainingValue(i)
+      i += 1
     }
 
     state.toVector
   }
 
 
-  private def first8Words(compressionOutput: Vector[UInt]): Vector[UInt] =
+  private def first8Words(compressionOutput: Vector[Int]): Vector[Int] =
     compressionOutput.take(8)
 
-  private def wordsFromLittleEndianBytes(bytes: Array[Byte]): Vector[UInt] =
+  private def wordsFromLittleEndianBytes(bytes: Array[Byte]): Vector[Int] =
     bytes.grouped(4) // bytes per word
       .map { bytes =>
-        UInt(ByteVector(bytes).toInt(signed = true, ordering = ByteOrdering.LittleEndian))
+        ByteVector.view(bytes).toInt(signed = true, ordering = ByteOrdering.LittleEndian)
       }.toVector
 
   private class Output (
-    val inputChainingValue: Vector[UInt],
-    val blockWords: Vector[UInt],
-    val counter: ULong,
-    val blockLen: UInt,
-    val flags: UInt
+    val inputChainingValue: Vector[Int],
+    val blockWords: Vector[Int],
+    val counter: Long,
+    val blockLen: Int,
+    val flags: Int
   ) {
 
-    def chainingValue(): Vector[UInt] =
+    def chainingValue(): Vector[Int] =
       first8Words(compress(
         inputChainingValue,
         blockWords,
@@ -145,8 +147,10 @@ object Blake3 {
       ))
 
     def root_output_bytes(out: Array[Byte]): Unit = {
-      var outputBlockCounter = ULong(0)
-      for (idxes <- out.indices.grouped(2 * OUT_LEN)) {
+      var outputBlockCounter = 0
+      val it = out.indices.grouped(2 * OUT_LEN)
+      while (it.hasNext) {
+        val idxes = it.next()
         val words = compress(
           inputChainingValue,
           blockWords,
@@ -155,96 +159,110 @@ object Blake3 {
           flags | ROOT
         )
         // The output length might not be a multiple of 4.
-        for ((word, idxes) <- words.zip(idxes.grouped(4).toList)) {
-          val bytes = ByteVector.fromInt(word.toInt, ordering = ByteOrdering.LittleEndian).toArray
-          idxes.zip(bytes).foreach { case (i, b) =>
-            out(i) = b
+        val pairs = words.zip(idxes.grouped(4).toSeq)
+        var i = 0
+        while (i < pairs.length) {
+          val (word, idxes) = pairs(i)
+          val bytes = ByteVector.fromInt(word.toInt, ordering = ByteOrdering.LittleEndian)
+          var j = 0
+          val jMax = Math.min(idxes.length, bytes.length)
+          while (j < jMax) {
+            out(idxes(j)) = bytes.get(j)
+            j += 1
           }
+          i += 1
         }
-        outputBlockCounter += ULong(1)
+        outputBlockCounter += 1
       }
     }
   }
 
   private class ChunkState(
-    var chainingValue: Vector[UInt],
-    val chunkCounter: ULong,
+    var chainingValue: Vector[Int],
+    val chunkCounter: Long,
     val block: Array[Byte],
     var blockLen: Int,
     var blocksCompressed: Int,
-    val flags: UInt
+    val flags: Int
   ) {
-    def this(key: Vector[UInt], chunkCounter: ULong, flags: UInt) =
+    def this(key: Vector[Int], chunkCounter: Long, flags: Int) =
       this(key, chunkCounter, Array.fill[Byte](BLOCK_LEN)(0), 0, 0, flags)
 
     def len(): Int =
       BLOCK_LEN * blocksCompressed.toInt + blockLen.toInt
 
-    private def startFlag(): UInt =
+    private def startFlag(): Int =
       if (blocksCompressed == 0)
         CHUNK_START
-      else ui"0"
+      else 0
 
-    def update(b: Byte): Unit = {
-      if (blockLen.toInt == BLOCK_LEN) {
-        chainingValue = first8Words(compress(
-          chainingValue,
-          wordsFromLittleEndianBytes(block),
-          chunkCounter,
-          UInt(BLOCK_LEN),
-          flags | startFlag()
-        ))
-        blocksCompressed += 1
-        for (i <- block.indices) {
-          block(i) = 0
+    def update(bytes: Array[Byte], from: Int, to: Int): Unit = {
+      var i = from
+      while (i < to) {
+        if (blockLen == BLOCK_LEN) {
+          chainingValue = first8Words(compress(
+            chainingValue,
+            wordsFromLittleEndianBytes(block),
+            chunkCounter,
+            BLOCK_LEN,
+            flags | startFlag()
+          ))
+          blocksCompressed += 1
+          var i = 0
+          while (i < block.length) {
+            block(i) = 0
+            i += 1
+          }
+          blockLen = 0
         }
-        blockLen = 0
+        val consume = Math.min(BLOCK_LEN, to - i)
+        Array.copy(bytes, i, block, blockLen, consume)
+        blockLen += consume
+        i += consume
       }
-      block(blockLen.toInt) = b
-      blockLen += 1
     }
 
     def output(): Output =
       new Output(chainingValue, wordsFromLittleEndianBytes(block),
-        chunkCounter, UInt(blockLen.toInt), flags | startFlag() | CHUNK_END)
+        chunkCounter, blockLen.toInt, flags | startFlag() | CHUNK_END)
   }
 
   private def parentOutput(
-    leftChildCV: Vector[UInt], rightChildCv: Vector[UInt], key: Vector[UInt], flags: UInt,
+    leftChildCV: Vector[Int], rightChildCv: Vector[Int], key: Vector[Int], flags: Int,
   ): Output =
-    new Output(key, leftChildCV ++ rightChildCv, ul"0", UInt(BLOCK_LEN), flags | PARENT)
+    new Output(key, leftChildCV ++ rightChildCv, 0, BLOCK_LEN, flags | PARENT)
 
   private def parentCV(
-    leftChildCV: Vector[UInt], rightChildCv: Vector[UInt], key: Vector[UInt], flags: UInt
-  ): Vector[UInt] =
+    leftChildCV: Vector[Int], rightChildCv: Vector[Int], key: Vector[Int], flags: Int
+  ): Vector[Int] =
     parentOutput(leftChildCV, rightChildCv, key, flags).chainingValue()
 
   // An incremental hasher that can accept any number of writes.
   private class HasherImpl (
     var chunkState: ChunkState,
-    val key: Vector[UInt],
-    val cvStack: Array[Vector[UInt]], // Space for 54 subtree chaining values:
+    val key: Vector[Int],
+    val cvStack: Array[Vector[Int]], // Space for 54 subtree chaining values:
     var cvStackLen: Int, // 2^54 * CHUNK_LEN = 2^64
-    val flags: UInt
+    val flags: Int
     ) extends Hasher {
 
-    def this(key: Vector[UInt], flags: UInt) =
-      this(new ChunkState(key, ul"0", flags), key,
-        Array.fill[Vector[UInt]](54)(Array.fill[UInt](8)(ui"0").toVector), 0, flags)
+    def this(key: Vector[Int], flags: Int) =
+      this(new ChunkState(key, 0, flags), key,
+        Array.fill[Vector[Int]](54)(Array.fill[Int](8)(0).toVector), 0, flags)
 
-    private def pushStack(cv: Vector[UInt]): Unit = {
+    private def pushStack(cv: Vector[Int]): Unit = {
       cvStack(cvStackLen) = cv
       cvStackLen += 1
     }
 
-    private def popStack(): Vector[UInt] = {
+    private def popStack(): Vector[Int] = {
       cvStackLen -= 1
       cvStack(cvStackLen)
     }
 
 
     // Section 5.1.2 of the BLAKE3 spec explains this algorithm in more detail.
-    private def add_chunk_chaining_value(cv: Vector[UInt], chunks: ULong): Vector[UInt] = {
+    private def add_chunk_chaining_value(cv: Vector[Int], chunks: Long): Vector[Int] = {
       // This chunk might complete some subtrees. For each completed subtree,
       // its left child will be the current top entry in the CV stack, and
       // its right child will be the current value of `new_cv`. Pop each left
@@ -254,7 +272,7 @@ object Blake3 {
       // by the number of trailing 0-bits in the new total number of chunks.
       var new_cv = cv
       var total_chunks = chunks
-      while ((total_chunks & ul"1") == ul"0") {
+      while ((total_chunks & 1) == 0) {
         new_cv = parentCV(popStack(), new_cv, key, flags)
         total_chunks >>= 1
       }
@@ -264,16 +282,21 @@ object Blake3 {
 
     // Add input to the hash state. This can be called any number of times.
     def update(input: Array[Byte]): Hasher = {
-      for (b <- input) {
+      var i = 0
+      val end = input.length
+      while (i < input.length) {
+        val len = chunkState.len()
         // If the current chunk is complete, finalize it and reset the
         // chunk state. More input is coming, so this chunk is not ROOT.
-        if (chunkState.len() == CHUNK_LEN) {
+        if (len == CHUNK_LEN) {
           val chunkCV = chunkState.output().chainingValue()
-          val totalChunks = chunkState.chunkCounter + ul"1";
+          val totalChunks = chunkState.chunkCounter + 1
           add_chunk_chaining_value(chunkCV, totalChunks)
           chunkState = new ChunkState(key, totalChunks, flags)
         }
-        chunkState.update(b)
+        val consume = Math.min(CHUNK_LEN - len, end - i)
+        chunkState.update(input, i, i + consume)
+        i += consume
       }
       this
     }
@@ -314,7 +337,7 @@ object Blake3 {
   }
 
   def newHasher(): Hasher =
-    new HasherImpl(IV, ui"0")
+    new HasherImpl(IV, 0)
 
   def newKeyedHasher(key: Array[Byte]): Hasher = {
     assert(key.length == KEY_LEN, "key should be Blake3.KEY_LEN bytes")
