@@ -215,7 +215,7 @@ object Blake3 {
           }
           blockLen = 0
         }
-        val consume = Math.min(BLOCK_LEN, to - i)
+        val consume = Math.min(BLOCK_LEN - blockLen, to - i)
         Array.copy(bytes, i, block, blockLen, consume)
         blockLen += consume
         i += consume
