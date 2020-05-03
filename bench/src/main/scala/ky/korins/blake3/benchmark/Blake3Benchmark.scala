@@ -1,6 +1,6 @@
-package io.electt.bench.crypto
+package ky.korins.blake3.benchmark
 
-import io.electt.shared.crypto.Blake3
+import ky.korins.blake3.Blake3
 import org.openjdk.jmh.annotations._
 
 import scala.util.Random

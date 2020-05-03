@@ -1,6 +1,6 @@
-package io.electt.shared.crypto
+package ky.korins.blake3
 
-import scodec.bits._
+import scodec.bits.{ByteOrdering, ByteVector}
 
 object Blake3 {
 

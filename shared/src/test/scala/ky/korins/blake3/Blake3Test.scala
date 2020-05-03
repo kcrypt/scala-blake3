@@ -1,4 +1,4 @@
-package io.electt.shared.crypto
+package ky.korins.blake3
 
 import org.scalatest.{Matchers, WordSpec}
 

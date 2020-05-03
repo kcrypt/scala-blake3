@@ -1,4 +1,4 @@
-package io.electt.shared.crypto
+package ky.korins.blake3
 
 import com.avsystem.commons.serialization.HasGenCodec
 import com.avsystem.commons.serialization.json.JsonStringInput
