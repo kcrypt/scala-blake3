@@ -1,6 +1,6 @@
 package ky.korins.blake3
 
-import scodec.bits.{ByteOrdering, ByteVector}
+import java.nio.{ByteBuffer, ByteOrder}
 
 object Blake3 {
 
@@ -126,7 +126,7 @@ object Blake3 {
   private def wordsFromLittleEndianBytes(bytes: Array[Byte]): Vector[Int] =
     bytes.grouped(4) // bytes per word
       .map { bytes =>
-        ByteVector.view(bytes).toInt(signed = true, ordering = ByteOrdering.LittleEndian)
+        ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).getInt()
       }.toVector
 
   private class Output (
@@ -161,11 +161,14 @@ object Blake3 {
         // The output length might not be a multiple of 4.
         val pairs = words.zip(idxes.grouped(4).toSeq)
         var i = 0
+        val bytes = ByteBuffer.allocate(4)
+        bytes.order(ByteOrder.LITTLE_ENDIAN)
         while (i < pairs.length) {
           val (word, idxes) = pairs(i)
-          val bytes = ByteVector.fromInt(word.toInt, ordering = ByteOrdering.LittleEndian)
+          bytes.clear()
+          bytes.putInt(word)
           var j = 0
-          val jMax = Math.min(idxes.length, bytes.length)
+          val jMax = Math.min(idxes.length, bytes.position())
           while (j < jMax) {
             out(idxes(j)) = bytes.get(j)
             j += 1
