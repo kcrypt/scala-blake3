@@ -1,6 +1,7 @@
 package ky.korins.blake3
 
-import org.scalatest.{Matchers, WordSpec}
+import ky.korins.blake3
+import org.scalatest._
 
 class Blake3Test extends WordSpec with Matchers {
 
@@ -12,9 +13,9 @@ class Blake3Test extends WordSpec with Matchers {
     }
 
     "passes authors test vectors" in {
-      val TEST_KEY = Blake3TestVectors.testVectors.key.getBytes().take(Blake3.KEY_LEN)
+      val TEST_KEY = Blake3TestVectors.testVectors.key.getBytes().take(blake3.KEY_LEN)
       val TEST_CONTEXT = "BLAKE3 2019-12-27 16:29:52 test vectors context"
-      val OUTPUT_LEN = 2 * Blake3.BLOCK_LEN + 3
+      val OUTPUT_LEN = 2 * blake3.BLOCK_LEN + 3
       lazy val inputStream: Stream[Byte] = Stream.range(0, 251).map(_.toByte) #::: inputStream
 
       for (testCase <- Blake3TestVectors.testVectors.cases) {
