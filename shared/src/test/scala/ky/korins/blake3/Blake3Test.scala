@@ -2,8 +2,9 @@ package ky.korins.blake3
 
 import ky.korins.blake3
 import org.scalatest._
+import org.scalatest.matchers.should
 
-class Blake3Test extends WordSpec with Matchers {
+class Blake3Test extends WordSpec with should.Matchers {
 
   "Blake3" should {
     "work at naive test" in {
@@ -16,7 +17,7 @@ class Blake3Test extends WordSpec with Matchers {
       val TEST_KEY = Blake3TestVectors.testVector.key.getBytes().take(blake3.KEY_LEN)
       val TEST_CONTEXT = "BLAKE3 2019-12-27 16:29:52 test vectors context"
       val OUTPUT_LEN = 2 * blake3.BLOCK_LEN + 3
-      lazy val inputStream: Stream[Byte] = Stream.range(0, 251).map(_.toByte) #::: inputStream
+      lazy val inputStream: LazyList[Byte] = LazyList.range(0, 251).map(_.toByte) #::: inputStream
 
       for (testCase <- Blake3TestVectors.testVector.cases) {
         val input = inputStream.take(testCase.input_len).toArray
