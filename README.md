@@ -21,7 +21,7 @@ scala> Blake3.newKeyedHasher("whats the Elvish word for friend".getBytes).update
 val res3: String = 79943402309f9bb05338193f21fb57d98ab848bdcac67e5e097340f116ff90ba
 
 scala> Blake3.hex("Some string".getBytes, 32)
-val res4: String = 2e5524f3481046587080604ae4b4ceb4
+val res4: String = 2e5524f3481046587080604ae4b4ceb44b721f3964ce0764627dee2c171de4c2
 
 scala> Blake3.bigInt("Some string".getBytes, 32)
 val res5: BigInt = 777331955
