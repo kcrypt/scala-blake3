@@ -66,7 +66,7 @@ private[blake3] class HasherImpl (
   }
 
   // Finalize the hash and write any number of output bytes.
-  def finalize(out: Array[Byte]): Unit = {
+  def done(out: Array[Byte]): Unit = {
     // Starting with the Output from the current chunk, compute all the
     // parent chaining values along the right edge of the tree, until we
     // have the root Output.

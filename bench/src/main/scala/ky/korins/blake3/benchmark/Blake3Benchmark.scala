@@ -27,5 +27,5 @@ class Blake3Benchmark {
   def hash(): Unit =
     Blake3.newHasher()
       .update(data)
-      .finalize(hashBytes)
+      .done(hashBytes)
 }

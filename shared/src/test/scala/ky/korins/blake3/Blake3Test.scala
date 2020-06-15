@@ -9,7 +9,7 @@ class Blake3Test extends WordSpec with should.Matchers {
   "Blake3" should {
     "work at naive test" in {
       val hash = Blake3.newHasher()
-        .finalizeHex(2)
+        .doneHex(2)
       "af13" should be(hash)
     }
 
@@ -23,13 +23,13 @@ class Blake3Test extends WordSpec with should.Matchers {
         val input = inputStream.take(testCase.input_len).toArray
         val hash = Blake3.newHasher()
           .update(input)
-          .finalizeHex(OUTPUT_LEN)
+          .doneHex(OUTPUT_LEN)
         val keyed_hash = Blake3.newKeyedHasher(TEST_KEY)
           .update(input)
-          .finalizeHex(OUTPUT_LEN)
+          .doneHex(OUTPUT_LEN)
         val derive_key = Blake3.newDeriveKeyHasher(TEST_CONTEXT)
           .update(input)
-          .finalizeHex(OUTPUT_LEN)
+          .doneHex(OUTPUT_LEN)
         testCase.hash should be(hash)
         testCase.keyed_hash should be(keyed_hash)
         testCase.derive_key should be(derive_key)

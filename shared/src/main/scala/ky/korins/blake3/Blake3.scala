@@ -14,22 +14,22 @@ object Blake3 {
   def newDeriveKeyHasher(context: String): Hasher = {
     val contextKey = new HasherImpl(IV, DERIVE_KEY_CONTEXT)
       .update(context.getBytes)
-      .finalize(KEY_LEN)
+      .done(KEY_LEN)
     val contextKeyWords = first8Words(wordsFromLittleEndianBytes(contextKey))
     new HasherImpl(contextKeyWords, DERIVE_KEY_MATERIAL)
   }
 
   def hash(source: Array[Byte], len: Int): Array[Byte] =
-    newHasher().update(source).finalize(len)
+    newHasher().update(source).done(len)
 
   def hex(source: Array[Byte], resultLength: Int): String = {
     assert(resultLength % 2 == 0, "resultLength should be even")
-    newHasher().update(source).finalizeHex(resultLength / 2)
+    newHasher().update(source).doneHex(resultLength / 2)
   }
 
   def bigInt(source: Array[Byte], bitLength: Int): BigInt = {
     assert(bitLength % 8 == 0, "bitLength should be a multiple of 8")
-    BigInt(newHasher().update(source).finalize(bitLength / 8))
+    BigInt(newHasher().update(source).done(bitLength / 8))
   }
 
 }
