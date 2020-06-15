@@ -100,7 +100,7 @@ private[blake3] object CommonFunction {
       }.toVector
 
   def parentOutput(
-    leftChildCV: Vector[Int], rightChildCv: Vector[Int], key: Vector[Int], flags: Int,
+    leftChildCV: Vector[Int], rightChildCv: Vector[Int], key: Vector[Int], flags: Int
   ): Output =
     new Output(key, leftChildCV ++ rightChildCv, 0, BLOCK_LEN, flags | PARENT)
 
