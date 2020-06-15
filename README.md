@@ -2,6 +2,11 @@
 
 This is blake3 implementation for scala-2.11, scala-2.12, scala-2.13, scala-js-1.0 and scala-native-0.4.0-M2.
 
+You can use it as
+```
+libraryDependencies += "ky.korins" %%% "blake3" % "1.0.0"
+```
+
 API is pretty simple:
 ```
 scala> import ky.korins.blake3.Blake3
