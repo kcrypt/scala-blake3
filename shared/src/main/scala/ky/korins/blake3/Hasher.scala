@@ -6,7 +6,7 @@ trait Hasher {
   def done(out_slice: Array[Byte]): Unit
 
   def done(len: Int): Array[Byte] = {
-    val bytes = Array.fill[Byte](len)(0)
+    val bytes = new Array[Byte](len)
     done(bytes)
     bytes
   }
