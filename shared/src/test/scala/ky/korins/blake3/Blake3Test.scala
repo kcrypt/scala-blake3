@@ -1,10 +1,10 @@
 package ky.korins.blake3
 
 import ky.korins.blake3
-import org.scalatest._
 import org.scalatest.matchers.should
+import org.scalatest.wordspec.AnyWordSpec
 
-class Blake3Test extends WordSpec with should.Matchers {
+class Blake3Test extends AnyWordSpec with should.Matchers {
 
   "Blake3" should {
     "work at naive test" in {
