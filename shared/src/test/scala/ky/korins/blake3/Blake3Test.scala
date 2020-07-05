@@ -17,7 +17,7 @@ class Blake3Test extends AnyWordSpec with should.Matchers {
       val TEST_KEY = Blake3TestVectors.testVector.key.getBytes().take(blake3.KEY_LEN)
       val TEST_CONTEXT = "BLAKE3 2019-12-27 16:29:52 test vectors context"
       val OUTPUT_LEN = 2 * blake3.BLOCK_LEN + 3
-      lazy val inputStream: LazyList[Byte] = LazyList.range(0, 251).map(_.toByte) #::: inputStream
+      lazy val inputStream: Stream[Byte] = Stream.range(0, 251).map(_.toByte) #::: inputStream
 
       for (testCase <- Blake3TestVectors.testVector.cases) {
         val input = inputStream.take(testCase.input_len).toArray
