@@ -45,10 +45,10 @@ private[blake3] class HasherImpl (
   }
 
   // Add input to the hash state. This can be called any number of times.
-  def update(input: Array[Byte]): Hasher = {
-    var i = 0
-    val end = input.length
-    while (i < input.length) {
+  def update(input: Array[Byte], offset: Int, len: Int): Hasher = {
+    var i = offset
+    val end = offset + len
+    while (i < end) {
       val len = chunkState.len()
       // If the current chunk is complete, finalize it and reset the
       // chunk state. More input is coming, so this chunk is not ROOT.
@@ -65,8 +65,11 @@ private[blake3] class HasherImpl (
     this
   }
 
+  def update(input: Array[Byte]): Hasher =
+    update(input, 0, input.length)
+
   // Finalize the hash and write any number of output bytes.
-  def done(out: Array[Byte]): Unit = {
+  def done(out: Array[Byte], offset: Int, len: Int): Unit = {
     // Starting with the Output from the current chunk, compute all the
     // parent chaining values along the right edge of the tree, until we
     // have the root Output.
@@ -80,6 +83,9 @@ private[blake3] class HasherImpl (
         flags
       )
     }
-    output.root_output_bytes(out)
+    output.root_output_bytes(out, offset, len)
   }
+
+  def done(out: Array[Byte]): Unit =
+    done(out, 0, out.length)
 }

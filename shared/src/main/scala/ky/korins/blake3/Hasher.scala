@@ -7,9 +7,19 @@ trait Hasher {
   def update(input: Array[Byte]): Hasher
 
   /**
+   * Updates a hasher by specified part of provided bytes, returns the same hasher
+   */
+  def update(input: Array[Byte], offset: Int, len: Int): Hasher
+
+  /**
    * Calculate a hash into specified byte array
    */
-  def done(out_slice: Array[Byte]): Unit
+  def done(out: Array[Byte]): Unit
+
+  /**
+   * Calculate a hash into specified part of array
+   */
+  def done(out: Array[Byte], offset: Int, len: Int): Unit
 
   /**
    * Create a new byte array of specified length and calculate a hash into this array

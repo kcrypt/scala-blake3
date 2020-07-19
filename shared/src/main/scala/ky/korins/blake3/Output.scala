@@ -21,9 +21,9 @@ private[blake3] class Output (
       flags
     ))
 
-  def root_output_bytes(out: Array[Byte]): Unit = {
+  def root_output_bytes(out: Array[Byte], offset: Int, len: Int): Unit = {
     var outputBlockCounter = 0
-    val it = out.indices.grouped(2 * OUT_LEN)
+    val it = (offset until (offset + len)).grouped(2 * OUT_LEN)
     while (it.hasNext) {
       val idxes = it.next()
       val words = compress(
