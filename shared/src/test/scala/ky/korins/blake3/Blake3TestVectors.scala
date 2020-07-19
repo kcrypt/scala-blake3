@@ -1,5 +1,37 @@
 package ky.korins.blake3
 
+import ky.korins.blake3
+
+import org.scalatest.matchers.should
+import org.scalatest.wordspec.AnyWordSpec
+
+class Blake3TestVectors extends AnyWordSpec with should.Matchers {
+  import Blake3TestVectors._
+
+  "Test vectors work as expected" in {
+    val TEST_KEY = testVector.key.getBytes().take(blake3.KEY_LEN)
+    val TEST_CONTEXT = "BLAKE3 2019-12-27 16:29:52 test vectors context"
+    val OUTPUT_LEN = 2 * blake3.BLOCK_LEN + 3
+    lazy val inputStream: Stream[Byte] = Stream.range(0, 251).map(_.toByte) #::: inputStream
+
+    for (testCase <- testVector.cases) {
+      val input = inputStream.take(testCase.input_len).toArray
+      val hash = Blake3.newHasher()
+        .update(input)
+        .doneHex(OUTPUT_LEN)
+      val keyed_hash = Blake3.newKeyedHasher(TEST_KEY)
+        .update(input)
+        .doneHex(OUTPUT_LEN)
+      val derive_key = Blake3.newDeriveKeyHasher(TEST_CONTEXT)
+        .update(input)
+        .doneHex(OUTPUT_LEN)
+      testCase.hash should be(hash)
+      testCase.keyed_hash should be(keyed_hash)
+      testCase.derive_key should be(derive_key)
+    }
+  }
+}
+
 object Blake3TestVectors {
   case class TestCase(input_len: Int, hash: String, keyed_hash: String, derive_key: String)
 
