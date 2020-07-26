@@ -10,6 +10,20 @@ class Blake3Test extends AnyWordSpec with should.Matchers {
     "af13" should be(hash)
   }
 
+  "A bit more complicated test" in {
+    val hash = Blake3.newHasher()
+      .update("a".getBytes)
+      .update("b".getBytes)
+      .update("c".getBytes)
+      .doneHex(3)
+
+    val oneShop = Blake3.newHasher()
+      .update("abc".getBytes)
+      .doneHex(3)
+
+    oneShop should be(hash)
+  }
+
   "Update from specified position" in {
     val pattern = "some test"
     val extended = s"xxx${pattern}xxx"
