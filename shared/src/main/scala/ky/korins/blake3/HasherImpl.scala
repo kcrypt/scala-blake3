@@ -2,6 +2,10 @@ package ky.korins.blake3
 
 import CommonFunction._
 
+private[blake3] object HasherImpl {
+  val emptySubtree: Vector[Int] = new Array[Int](8).toVector
+}
+
 // An incremental hasher that can accept any number of writes.
 private[blake3] class HasherImpl (
   var chunkState: ChunkState,
@@ -12,7 +16,7 @@ private[blake3] class HasherImpl (
 ) extends Hasher {
   def this(key: Vector[Int], flags: Int) =
     this(new ChunkState(key, 0, flags), key,
-      Array.fill[Vector[Int]](54)(Array.fill[Int](8)(0).toVector), 0, flags)
+      Array.fill[Vector[Int]](54)(HasherImpl.emptySubtree), 0, flags)
 
   private def pushStack(cv: Vector[Int]): Unit = {
     cvStack(cvStackLen) = cv

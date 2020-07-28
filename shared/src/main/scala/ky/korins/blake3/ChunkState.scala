@@ -11,7 +11,7 @@ private[blake3] class ChunkState(
   val flags: Int
 ) {
   def this(key: Vector[Int], chunkCounter: Long, flags: Int) =
-    this(key, chunkCounter, Array.fill[Byte](BLOCK_LEN)(0), 0, 0, flags)
+    this(key, chunkCounter, new Array[Byte](BLOCK_LEN), 0, 0, flags)
 
   def len(): Int =
     BLOCK_LEN * blocksCompressed.toInt + blockLen.toInt
