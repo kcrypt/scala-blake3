@@ -44,20 +44,25 @@ private[blake3] class HasherImpl (
     new_cv
   }
 
+  private def finalizeWhenCompleted(): Int = {
+    val len = chunkState.len()
+    // If the current chunk is complete, finalize it and reset the
+    // chunk state. More input is coming, so this chunk is not ROOT.
+    if (len == CHUNK_LEN) {
+      val chunkCV = chunkState.output().chainingValue()
+      val totalChunks = chunkState.chunkCounter + 1
+      add_chunk_chaining_value(chunkCV, totalChunks)
+      chunkState = new ChunkState(key, totalChunks, flags)
+    }
+    len
+  }
+
   // Add input to the hash state. This can be called any number of times.
   def update(input: Array[Byte], offset: Int, len: Int): Hasher = {
     var i = offset
     val end = offset + len
     while (i < end) {
-      val len = chunkState.len()
-      // If the current chunk is complete, finalize it and reset the
-      // chunk state. More input is coming, so this chunk is not ROOT.
-      if (len == CHUNK_LEN) {
-        val chunkCV = chunkState.output().chainingValue()
-        val totalChunks = chunkState.chunkCounter + 1
-        add_chunk_chaining_value(chunkCV, totalChunks)
-        chunkState = new ChunkState(key, totalChunks, flags)
-      }
+      val len = finalizeWhenCompleted()
       val consume = Math.min(CHUNK_LEN - len, end - i)
       chunkState.update(input, i, i + consume)
       i += consume
@@ -68,8 +73,14 @@ private[blake3] class HasherImpl (
   def update(input: Array[Byte]): Hasher =
     update(input, 0, input.length)
 
-  // Finalize the hash and write any number of output bytes.
-  def done(out: Array[Byte], offset: Int, len: Int): Unit = {
+  // Simplified version of update(Array[Byte])
+  def update(input: Byte): Hasher = {
+    finalizeWhenCompleted()
+    chunkState.update(input)
+    this
+  }
+
+  private def getOutput: Output = {
     // Starting with the Output from the current chunk, compute all the
     // parent chaining values along the right edge of the tree, until we
     // have the root Output.
@@ -83,9 +94,17 @@ private[blake3] class HasherImpl (
         flags
       )
     }
-    output.root_output_bytes(out, offset, len)
+    output
   }
+
+  // Finalize the hash and write any number of output bytes.
+  def done(out: Array[Byte], offset: Int, len: Int): Unit =
+    getOutput.root_output_bytes(out, offset, len)
 
   def done(out: Array[Byte]): Unit =
     done(out, 0, out.length)
+
+  // Finalize the hash and write one byte.
+  def done(): Byte =
+    getOutput.root_output_byte()
 }

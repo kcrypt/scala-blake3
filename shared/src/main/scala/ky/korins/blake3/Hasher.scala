@@ -12,6 +12,11 @@ trait Hasher {
   def update(input: Array[Byte], offset: Int, len: Int): Hasher
 
   /**
+   * Updates a hasher by specified byte, returns the same hasher
+   */
+  def update(input: Byte): Hasher
+
+  /**
    * Calculate a hash into specified byte array
    */
   def done(out: Array[Byte]): Unit
@@ -35,4 +40,10 @@ trait Hasher {
    */
   def doneHex(len: Int): String =
     done(len).map(b => "%02x" format (b & 0xff)).mkString
+
+  /**
+   * Calculate a hash as single byte
+   */
+  def done(): Byte
+
 }

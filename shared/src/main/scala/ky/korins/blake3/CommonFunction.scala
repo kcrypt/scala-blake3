@@ -43,13 +43,13 @@ private[blake3] object CommonFunction {
     permuted
   }
 
-  def compress(
+  private def compressRounds(
     chainingValue: Vector[Int],
     blockWords: Vector[Int],
     counter: Long,
     blockLen: Int,
     flags: Int
-  ): Vector[Int] = {
+  ): Array[Int] = {
     val state = Array(
       chainingValue(0),
       chainingValue(1),
@@ -79,7 +79,19 @@ private[blake3] object CommonFunction {
       i += 1
     }
 
-    i = 0
+    state
+  }
+
+  def compress(
+    chainingValue: Vector[Int],
+    blockWords: Vector[Int],
+    counter: Long,
+    blockLen: Int,
+    flags: Int
+  ): Vector[Int] = {
+    val state = compressRounds(chainingValue, blockWords, counter, blockLen, flags)
+
+    var i = 0
     while (i < 8) {
       state(i) ^= state(i + 8)
       state(i + 8) ^= chainingValue(i)
@@ -89,6 +101,17 @@ private[blake3] object CommonFunction {
     state.toVector
   }
 
+  def compressSingle(
+    chainingValue: Vector[Int],
+    blockWords: Vector[Int],
+    counter: Long,
+    blockLen: Int,
+    flags: Int
+  ): Int = {
+    val state = compressRounds(chainingValue, blockWords, counter, blockLen, flags)
+
+    state(0) ^ state(8)
+  }
 
   def first8Words(compressionOutput: Vector[Int]): Vector[Int] =
     compressionOutput.take(8)

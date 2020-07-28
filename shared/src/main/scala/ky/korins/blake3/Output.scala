@@ -53,4 +53,13 @@ private[blake3] class Output (
       outputBlockCounter += 1
     }
   }
+
+  def root_output_byte(): Byte =
+    compressSingle(
+      inputChainingValue,
+      blockWords,
+      0,
+      blockLen,
+      flags | ROOT
+    ).toByte
 }
