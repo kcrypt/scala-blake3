@@ -18,15 +18,21 @@ object Blake3 {
   }
 
   /**
-   * A new hasher with derive key that might be any string
+   * A new hasher with derive key that might be any array of bytes
    */
-  def newDeriveKeyHasher(context: String): Hasher = {
+  def newDeriveKeyHasher(context: Array[Byte]): Hasher = {
     val contextKey = new HasherImpl(IV, DERIVE_KEY_CONTEXT)
-      .update(context.getBytes)
+      .update(context)
       .done(KEY_LEN)
     val contextKeyWords = first8Words(wordsFromLittleEndianBytes(contextKey))
     new HasherImpl(contextKeyWords, DERIVE_KEY_MATERIAL)
   }
+
+  /**
+   * A new hasher with derive key that might be any string
+   */
+  def newDeriveKeyHasher(context: String): Hasher =
+    newDeriveKeyHasher(context.getBytes)
 
   /**
    * Compute a hash of specified len from specified source
