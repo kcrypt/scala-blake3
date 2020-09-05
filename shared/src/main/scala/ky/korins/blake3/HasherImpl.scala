@@ -77,6 +77,9 @@ private[blake3] class HasherImpl (
   def update(input: Array[Byte]): Hasher =
     update(input, 0, input.length)
 
+  def update(input: String): Hasher =
+    update(input.getBytes)
+
   // Simplified version of update(Array[Byte])
   def update(input: Byte): Hasher = {
     finalizeWhenCompleted()

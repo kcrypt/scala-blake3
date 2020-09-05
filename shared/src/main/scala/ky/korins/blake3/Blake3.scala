@@ -41,12 +41,24 @@ object Blake3 {
     newHasher().update(source).done(len)
 
   /**
+   * Compute a hash of specified len from specified source
+   */
+  def hash(source: String, len: Int): Array[Byte] =
+    hash(source.getBytes, len)
+
+  /**
    * Compute a hex representative of hash of specified len from specified source
    */
   def hex(source: Array[Byte], resultLength: Int): String = {
     assert(resultLength % 2 == 0, "resultLength should be even")
     newHasher().update(source).doneHex(resultLength / 2)
   }
+
+  /**
+   * Compute a hex representative of hash of specified len from specified source
+   */
+  def hex(source: String, resultLength: Int): String =
+    hex(source.getBytes, resultLength)
 
   /**
    * Compute a BigInt representative of hash of specified len from specified source

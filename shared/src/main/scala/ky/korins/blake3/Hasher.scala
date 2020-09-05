@@ -17,6 +17,11 @@ trait Hasher {
   def update(input: Byte): Hasher
 
   /**
+   * Updates a hasher by specified string, returns the same hasher
+   */
+  def update(input: String): Hasher
+
+  /**
    * Calculate a hash into specified byte array
    */
   def done(out: Array[Byte]): Unit
