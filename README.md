@@ -4,7 +4,7 @@ This is blake3 implementation for scala-2.11, scala-2.12, scala-2.13, scala-js-1
 
 You can use it as
 ```
-libraryDependencies += "ky.korins" %%% "blake3" % "1.2.0"
+libraryDependencies += "ky.korins" %%% "blake3" % "1.3.0"
 ```
 
 API is pretty simple:
