@@ -8,7 +8,7 @@ lazy val scalatestVersion = "3.2.0"
 
 name := "blake3"
 organization in ThisBuild := "ky.korins"
-version in ThisBuild := "1.3.0"
+version in ThisBuild := "1.4.0"
 scalaVersion in ThisBuild := scala213
 crossScalaVersions in ThisBuild := Seq(scala212, scala211, scala213)
 scalacOptions in ThisBuild ++= Seq("-unchecked", "-deprecation")
