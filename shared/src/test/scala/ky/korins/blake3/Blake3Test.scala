@@ -6,7 +6,7 @@ import org.scalatest.wordspec.AnyWordSpec
 class Blake3Test extends AnyWordSpec with should.Matchers {
   "Very naive test" in {
     val hash = Blake3.newHasher()
-      .doneHex(2)
+      .doneHex(4)
     "af13" should be(hash)
   }
 
@@ -15,11 +15,11 @@ class Blake3Test extends AnyWordSpec with should.Matchers {
       .update("a")
       .update("b")
       .update("c")
-      .doneHex(3)
+      .doneHex(4)
 
     val oneShop = Blake3.newHasher()
       .update("abc")
-      .doneHex(3)
+      .doneHex(4)
 
     oneShop should be(hash)
   }
@@ -83,6 +83,24 @@ class Blake3Test extends AnyWordSpec with should.Matchers {
 
     Blake3.hash(key, 42) shouldBe Blake3.hash(key.getBytes, 42)
     Blake3.hex(key, 42) shouldBe Blake3.hex(key.getBytes, 42)
+  }
+
+  "Output encoding works" in {
+    val input = "some text"
+
+    Blake3.hash(input) shouldBe 0xa0.toByte
+    Blake3.hash(input, 4) shouldBe Array(0xa0.toByte, 0xa1.toByte, 0xc1.toByte, 0x59.toByte)
+
+    Blake3.hex(input, 4) shouldBe "a0a1"
+    Blake3.base16(input, 4) shouldBe "A0A1C159"
+
+    Blake3.base32(input, 4) shouldBe "UCQ4CWI"
+    Blake3.base32Hex(input, 4) shouldBe "K2GS2M8"
+
+    Blake3.base64(input, 4) shouldBe "oKHBWQ"
+    Blake3.base64Url(input, 4) shouldBe "oKHBWQ"
+
+    Blake3.bigInt(input, 16).toString() shouldBe "41121"
   }
 }
 

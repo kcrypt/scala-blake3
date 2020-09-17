@@ -41,14 +41,53 @@ trait Hasher {
   }
 
   /**
-   * Create a hex representative of calculated hash for specified length
-   */
-  def doneHex(len: Int): String =
-    done(len).map(b => "%02x" format (b & 0xff)).mkString
-
-  /**
    * Calculate a hash as single byte
    */
   def done(): Byte
 
+  /**
+   * Calculate a hash and return it as positive BigInt with specified length in bits
+   */
+  def doneBigInt(bitLength: Int): BigInt = {
+    assert(bitLength % 8 == 0, "bitLength should be a multiple of 8")
+    BigInt(1, done(bitLength / 8))
+  }
+
+  /**
+   * Calculate a hash and return as hex encoded string with specified output length in characters
+   */
+  def doneHex(resultLength: Int): String = {
+    assert(resultLength % 2 == 0, "resultLength should be even")
+    RFC4648.base16(done(resultLength / 2)).toLowerCase
+  }
+
+  /**
+   * Create a base16 representative of calculated hash for specified length
+   */
+  def doneBase16(len: Int): String =
+    RFC4648.base16(done(len))
+
+  /**
+   * Create a base32 representative of calculated hash for specified length
+   */
+  def doneBase32(len: Int): String =
+    RFC4648.base32(done(len))
+
+  /**
+   * Create a base32 hex-compatibly representative of calculated hash for specified length
+   */
+  def doneBase32Hex(len: Int): String =
+    RFC4648.base32_hex(done(len))
+
+  /**
+   * Create a base64 representative of calculated hash for specified length
+   */
+  def doneBase64(len: Int): String =
+    RFC4648.base64(done(len))
+
+  /**
+   * Create a base64 URL-safe representative of calculated hash for specified length
+   */
+  def doneBase64Url(len: Int): String =
+    RFC4648.base64_url(done(len))
 }

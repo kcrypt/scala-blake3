@@ -18,19 +18,21 @@ class Blake3TestVectors extends AnyWordSpec with should.Matchers {
       val input = inputStream.take(testCase.input_len).toArray
       val hash = Blake3.newHasher()
         .update(input)
-        .doneHex(OUTPUT_LEN)
+        .doneBase16(OUTPUT_LEN)
+        .toLowerCase
 
-      // Update one of test per byte to confrim that is works as expected
+      // Update one of test per byte to confirm that is works as expected
       val keyed_hasher = Blake3.newKeyedHasher(TEST_KEY)
       input.foreach(keyed_hasher.update)
-      val keyed_hash = keyed_hasher.doneHex(OUTPUT_LEN)
+      val keyed_hash = keyed_hasher.doneBase16(OUTPUT_LEN).toLowerCase
 
       val keyed_single_array = keyed_hasher.done(1)
       val keyed_single_byte = keyed_hasher.done()
 
       val derive_key = Blake3.newDeriveKeyHasher(TEST_CONTEXT)
         .update(input)
-        .doneHex(OUTPUT_LEN)
+        .doneBase16(OUTPUT_LEN)
+        .toLowerCase
       testCase.hash should be(hash)
       testCase.keyed_hash should be(keyed_hash)
       testCase.derive_key should be(derive_key)

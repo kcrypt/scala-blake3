@@ -11,26 +11,35 @@ API is pretty simple:
 ```
 scala> import ky.korins.blake3.Blake3
 
-scala> Blake3.newHasher().update("Some string".getBytes).doneHex(32)
+scala> Blake3.newHasher().update("Some string").doneHex(64)
 val res1: String = 2e5524f3481046587080604ae4b4ceb44b721f3964ce0764627dee2c171de4c2
 
-scala> Blake3.newDeriveKeyHasher("whats the Elvish word for friend").update("Some string".getBytes).doneHex(32)
+scala> Blake3.newDeriveKeyHasher("whats the Elvish word for friend").update("Some string").doneHex(64)
 val res2: String = c2e79fe73dde16a13b4aa5a947b0e9cd7277ea8e68da250759de3ae62372b340
 
-scala> Blake3.newKeyedHasher("whats the Elvish word for friend".getBytes).update("Some string".getBytes).doneHex(32)
+scala> Blake3.newKeyedHasher("whats the Elvish word for friend").update("Some string").doneHex(64)
 val res3: String = 79943402309f9bb05338193f21fb57d98ab848bdcac67e5e097340f116ff90ba
 
-scala> Blake3.hex("Some string".getBytes, 32)
+scala> Blake3.hex("Some string", 64)
 val res4: String = 2e5524f3481046587080604ae4b4ceb44b721f3964ce0764627dee2c171de4c2
 
-scala> Blake3.bigInt("Some string".getBytes, 32)
+scala> Blake3.bigInt("Some string", 32)
 val res5: BigInt = 777331955
 
 scala> 
 ```
-you can use `done(Array[Byte])` or `done(Int)` instead of `doneHex(Int)`.
 
 `Hasher.update` is mutable when `Hasher.done` isn't.
+
+`Hasher.update` supports different input such as: byte array, part of byte array, single byte or string.
+
+`Hasher.done` supports different output such as:
+ - `done(out: Array[Byte])` to fill full provided array;
+ - `done(out: Array[Byte], offset: Int, len: Int)` to fill specified part of provided array;
+ - `done()` that returns a single byte hash value;
+ - `doneBigInt(bitLength: Int)` that returns positive BigInt with specified length in bits;
+ - `doneHex(resultLength: Int)` that returns hex encoded string with specified output length in characters;
+ - `doneBaseXXX(len: Int)` that returns string representative of XXX encoded as it defined in RFC 4648 without padding.
 
 Performance on `Intel® Core™ i9-8950HK`:
 ```
