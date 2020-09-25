@@ -102,5 +102,9 @@ class Blake3Test extends AnyWordSpec with should.Matchers {
 
     Blake3.bigInt(input, 16).toString() shouldBe "41121"
   }
+
+  "Zero done" in {
+    Blake3.hash("Some string", 0) shouldBe Array()
+  }
 }
 
