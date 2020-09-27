@@ -40,7 +40,7 @@ private[blake3] class ChunkState(
     }
   }
 
-  def update(bytes: Array[Byte], from: Int, to: Int): Unit = {
+  def update(bytes: Array[Byte], from: Int, to: Int): Unit = synchronized {
     var i = from
     while (i < to) {
       compressIfRequired()
@@ -51,7 +51,7 @@ private[blake3] class ChunkState(
     }
   }
 
-  def update(byte: Byte): Unit = {
+  def update(byte: Byte): Unit = synchronized {
     compressIfRequired()
     block(blockLen) = byte
     blockLen += 1

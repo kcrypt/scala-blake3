@@ -62,7 +62,7 @@ private[blake3] class HasherImpl (
   }
 
   // Add input to the hash state. This can be called any number of times.
-  def update(input: Array[Byte], offset: Int, len: Int): Hasher = {
+  def update(input: Array[Byte], offset: Int, len: Int): Hasher = synchronized {
     var i = offset
     val end = offset + len
     while (i < end) {
@@ -81,13 +81,13 @@ private[blake3] class HasherImpl (
     update(input.getBytes)
 
   // Simplified version of update(Array[Byte])
-  def update(input: Byte): Hasher = {
+  def update(input: Byte): Hasher = synchronized {
     finalizeWhenCompleted()
     chunkState.update(input)
     this
   }
 
-  private def getOutput: Output = {
+  private def getOutput: Output = synchronized {
     // Starting with the Output from the current chunk, compute all the
     // parent chaining values along the right edge of the tree, until we
     // have the root Output.

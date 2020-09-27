@@ -21,7 +21,7 @@ private[blake3] class Output (
       flags
     ))
 
-  def root_output_bytes(out: Array[Byte], offset: Int, len: Int): Unit = {
+  def root_output_bytes(out: Array[Byte], offset: Int, len: Int): Unit = synchronized {
     var outputBlockCounter = 0
     val it = (offset until (offset + len)).grouped(2 * OUT_LEN)
     while (it.hasNext) {
@@ -54,7 +54,7 @@ private[blake3] class Output (
     }
   }
 
-  def root_output_byte(): Byte =
+  def root_output_byte(): Byte = synchronized {
     compressSingle(
       inputChainingValue,
       blockWords,
@@ -62,4 +62,5 @@ private[blake3] class Output (
       blockLen,
       flags | ROOT
     ).toByte
+  }
 }
