@@ -12,8 +12,11 @@ object Blake3 {
   /**
    * A new keyed hasher where key is 32 byte
    */
+  @throws(classOf[IllegalArgumentException])
   def newKeyedHasher(key: Array[Byte]): Hasher = {
-    assert(key.length == KEY_LEN, "key should be ky.korins.blake3.KEY_LEN bytes")
+    if (key.length != KEY_LEN) {
+      throw new IllegalArgumentException(s"key should be ky.korins.blake3.KEY_LEN: $KEY_LEN bytes")
+    }
     new HasherImpl(wordsFromLittleEndianBytes(key), KEYED_HASH)
   }
 

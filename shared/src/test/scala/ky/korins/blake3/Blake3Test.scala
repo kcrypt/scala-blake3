@@ -106,5 +106,25 @@ class Blake3Test extends AnyWordSpec with should.Matchers {
   "Zero done" in {
     Blake3.hash("Some string", 0) shouldBe Array()
   }
+
+  "Incorrect input reported" when {
+    "wrong key length on Blake3.newKeyedHasher" in {
+      the[IllegalArgumentException] thrownBy {
+        Blake3.newKeyedHasher("42".getBytes())
+      } should have message "key should be ky.korins.blake3.KEY_LEN: 32 bytes"
+    }
+
+    "wrong key length on Hasher#doneBigInt" in {
+      the[IllegalArgumentException] thrownBy {
+        Blake3.bigInt("42", 37)
+      } should have message "bitLength: 37 should be a multiple of 8"
+    }
+
+    "wrong key length on Hasher#doneHex" in {
+      the[IllegalArgumentException] thrownBy {
+        Blake3.hex("42", 37)
+      } should have message "resultLength: 37 should be even"
+    }
+  }
 }
 

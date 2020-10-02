@@ -48,16 +48,22 @@ trait Hasher {
   /**
    * Calculate a hash and return it as positive BigInt with specified length in bits
    */
+  @throws(classOf[IllegalArgumentException])
   def doneBigInt(bitLength: Int): BigInt = {
-    assert(bitLength % 8 == 0, "bitLength should be a multiple of 8")
+    if (bitLength % 8 != 0) {
+      throw new IllegalArgumentException(s"bitLength: $bitLength should be a multiple of 8")
+    }
     BigInt(1, done(bitLength / 8))
   }
 
   /**
    * Calculate a hash and return as hex encoded string with specified output length in characters
    */
+  @throws(classOf[IllegalArgumentException])
   def doneHex(resultLength: Int): String = {
-    assert(resultLength % 2 == 0, "resultLength should be even")
+    if (resultLength % 2 != 0) {
+      throw new IllegalArgumentException(s"resultLength: $resultLength should be even")
+    }
     RFC4648.base16(done(resultLength / 2)).toLowerCase
   }
 
