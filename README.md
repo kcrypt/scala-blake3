@@ -1,10 +1,10 @@
 # Blake3 for scala
 
-This is blake3 implementation for scala-2.11, scala-2.12, scala-2.13, scala-js-1.0 and scala-native-0.4.0-M2.
+This is blake3 implementation for scala-2.11, scala-2.12, scala-2.13, dotty-0.27-RC1, scala-js-1.0 and scala-native-0.4.0-M2.
 
 You can use it as
 ```
-libraryDependencies += "ky.korins" %%% "blake3" % "1.5.0"
+libraryDependencies += "ky.korins" %%% "blake3" % "1.6.0"
 ```
 
 API is pretty simple:
