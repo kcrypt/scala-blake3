@@ -4,7 +4,7 @@ lazy val scala211 = "2.11.12"
 lazy val scala212 = "2.12.12"
 lazy val scala213 = "2.13.3"
 
-lazy val dotty = "0.26.0"
+lazy val dotty = "0.27.0-RC1"
 
 lazy val scalatestVersion = "3.2.2"
 
@@ -15,7 +15,7 @@ scalaVersion in ThisBuild := scala213
 crossScalaVersions in ThisBuild := Seq(scala212, scala211, scala213, dotty)
 scalacOptions in ThisBuild ++= Seq("-unchecked", "-deprecation")
 
-publishTo in ThisBuild := sonatypePublishTo.value
+publishTo in ThisBuild := sonatypePublishToBundle.value
 sonatypeProfileName in ThisBuild := "ky.korins"
 publishMavenStyle in ThisBuild := true
 sonatypeProjectHosting in ThisBuild := Some(xerial.sbt.Sonatype.GitHubHosting("catap", "scala-blake3", "kirill@korins.ky"))
