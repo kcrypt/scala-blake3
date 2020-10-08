@@ -3,6 +3,8 @@ package ky.korins.blake3
 import org.scalatest.matchers.should
 import org.scalatest.wordspec.AnyWordSpec
 
+import scala.language.implicitConversions
+
 class RFC4648Test extends AnyWordSpec with should.Matchers {
   "base16 works on test vector" in {
     RFC4648.base16("".getBytes()) shouldBe ""

@@ -5,6 +5,8 @@ import ky.korins.blake3
 import org.scalatest.matchers.should
 import org.scalatest.wordspec.AnyWordSpec
 
+import scala.language.implicitConversions
+
 class Blake3TestVectors extends AnyWordSpec with should.Matchers {
   import Blake3TestVectors._
 

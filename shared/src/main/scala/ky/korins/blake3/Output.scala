@@ -4,6 +4,8 @@ import CommonFunction._
 
 import java.nio.{ByteBuffer, ByteOrder}
 
+import scala.language.implicitConversions
+
 private[blake3] class Output (
   val inputChainingValue: Vector[Int],
   val blockWords: Vector[Int],

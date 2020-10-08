@@ -3,6 +3,8 @@ package ky.korins.blake3
 import org.scalatest.matchers.should
 import org.scalatest.wordspec.AnyWordSpec
 
+import scala.language.implicitConversions
+
 class Blake3Test extends AnyWordSpec with should.Matchers {
   "Very naive test" in {
     val hash = Blake3.newHasher()
@@ -104,7 +106,7 @@ class Blake3Test extends AnyWordSpec with should.Matchers {
   }
 
   "Zero done" in {
-    Blake3.hash("Some string", 0) shouldBe Array()
+    Blake3.hash("Some string", 0) shouldBe Array[Byte]()
   }
 
   "Incorrect input reported" when {
