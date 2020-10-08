@@ -31,8 +31,6 @@ developers in ThisBuild := List(
   Developer(id="catap", name="Kirill A. Korinsky", email="kirill@korins.ky", url=url("https://github.com/catap"))
 )
 
-skip in publish := true
-
 lazy val blake3 = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .crossType(CrossType.Full)
   .in(file("."))
@@ -56,5 +54,6 @@ lazy val bench = project.in(file("bench"))
   .dependsOn(blake3.jvm)
   .settings(
     name := "blake3-bench",
+    skip in publish := true
   )
   .enablePlugins(JmhPlugin)
