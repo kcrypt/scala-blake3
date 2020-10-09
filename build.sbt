@@ -11,7 +11,7 @@ lazy val scalatestVersion = "3.2.2"
 name := "blake3"
 organization in ThisBuild := "ky.korins"
 version in ThisBuild := "1.6.0"
-scalaVersion in ThisBuild := scala213
+scalaVersion in ThisBuild := dotty
 crossScalaVersions in ThisBuild := Seq(scala212, scala211, scala213, dotty)
 scalacOptions in ThisBuild ++= Seq("-unchecked", "-deprecation")
 
@@ -42,6 +42,7 @@ lazy val blake3 = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     )
   )
   .jsSettings(
+    scalaVersion := scala213,
     crossScalaVersions := Seq(scala211, scala212, scala213),
   )
   .nativeSettings(
