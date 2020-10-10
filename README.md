@@ -4,7 +4,7 @@ This is blake3 implementation for scala-2.11, scala-2.12, scala-2.13, dotty-0.27
 
 You can use it as
 ```
-libraryDependencies += "ky.korins" %%% "blake3" % "1.6.0"
+libraryDependencies += "ky.korins" %%% "blake3" % "1.6.1"
 ```
 
 API is pretty simple:
