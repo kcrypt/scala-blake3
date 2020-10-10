@@ -1,3 +1,4 @@
+import sbt.Keys.crossScalaVersions
 import sbtcrossproject.CrossPlugin.autoImport.crossProject
 
 lazy val scala211 = "2.11.12"
@@ -11,35 +12,37 @@ lazy val scalatestVersion = "3.2.2"
 name := "blake3"
 organization in ThisBuild := "ky.korins"
 version in ThisBuild := "1.6.0"
+
 scalaVersion in ThisBuild := dotty
-crossScalaVersions in ThisBuild := Seq(scala212, scala211, scala213, dotty)
-scalacOptions in ThisBuild ++= Seq("-unchecked", "-deprecation")
+crossScalaVersions in ThisBuild := Seq()
+
+scalacOptions in ThisBuild ++= Seq(
+  "-target:jvm-1.8",
+  "-unchecked",
+  "-deprecation"
+)
 
 publishTo in ThisBuild := sonatypePublishToBundle.value
-sonatypeProfileName in ThisBuild := "ky.korins"
-publishMavenStyle in ThisBuild := true
-sonatypeProjectHosting in ThisBuild := Some(xerial.sbt.Sonatype.GitHubHosting("catap", "scala-blake3", "kirill@korins.ky"))
-licenses in ThisBuild := Seq("The Unlicense" -> url("https://github.com/catap/scala-blake3/blob/master/LICENSE.txt"))
-homepage in ThisBuild := Some(url("https://github.com/catap/scala-blake3"))
-scmInfo in ThisBuild := Some(
-  ScmInfo(
-    url("https://github.com/catap/scala-blake3"),
-    "scm:git@github.com:catap/scala-blake3.git"
-  )
-)
-developers in ThisBuild := List(
-  Developer(id="catap", name="Kirill A. Korinsky", email="kirill@korins.ky", url=url("https://github.com/catap"))
-)
 
 lazy val blake3 = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .crossType(CrossType.Full)
   .in(file("."))
+  .settings(disableDottyDocs)
   .settings(
     skip in publish := false,
     publishArtifact in Test := false,
+    buildInfoKeys := Seq(
+      BuildInfoKey.action("commit") {
+        scala.sys.process.Process("git rev-parse HEAD").!!.trim
+      }
+    ),
     libraryDependencies ++= Seq(
       "org.scalatest" %%% "scalatest" % scalatestVersion % Test,
     )
+  )
+  .jvmSettings(
+    scalaVersion := dotty,
+    crossScalaVersions := Seq(scala212, scala211, scala213, dotty)
   )
   .jsSettings(
     scalaVersion := scala213,
@@ -53,8 +56,20 @@ lazy val blake3 = crossProject(JSPlatform, JVMPlatform, NativePlatform)
 
 lazy val bench = project.in(file("bench"))
   .dependsOn(blake3.jvm)
+  .settings(disableDottyDocs)
   .settings(
     name := "blake3-bench",
     skip in publish := true
   )
   .enablePlugins(JmhPlugin)
+
+// Dotty has at least two bugs in docs generation:
+//  - it copies whole project to _site
+//  - it creates empty javadocs artifact.
+// Details: https://github.com/lampepfl/dotty/issues/8769
+// Let disable it
+lazy val disableDottyDocs = Seq(
+  sources in (Compile, doc) := {
+    if (isDotty.value) Seq() else (sources in (Compile, doc)).value
+  }
+)
