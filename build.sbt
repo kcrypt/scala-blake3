@@ -4,16 +4,15 @@ import sbtcrossproject.CrossPlugin.autoImport.crossProject
 lazy val scala211 = "2.11.12"
 lazy val scala212 = "2.12.12"
 lazy val scala213 = "2.13.3"
+lazy val scala3 = "3.0.0-M1"
 
-lazy val dotty = "0.27.0-RC1"
-
-lazy val scalatestVersion = "3.2.2"
+lazy val scalatestVersion = "3.2.3"
 
 name := "blake3"
 organization in ThisBuild := "ky.korins"
 version in ThisBuild := "1.6.1"
 
-scalaVersion in ThisBuild := dotty
+scalaVersion in ThisBuild := scala3
 crossScalaVersions in ThisBuild := Seq()
 
 scalacOptions in ThisBuild ++= Seq(
@@ -41,8 +40,8 @@ lazy val blake3 = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     )
   )
   .jvmSettings(
-    scalaVersion := dotty,
-    crossScalaVersions := Seq(scala212, scala211, scala213, dotty)
+    scalaVersion := scala3,
+    crossScalaVersions := Seq(scala212, scala211, scala213, scala3)
   )
   .jsSettings(
     scalaVersion := scala213,
