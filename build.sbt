@@ -26,7 +26,6 @@ publishTo in ThisBuild := sonatypePublishToBundle.value
 lazy val blake3 = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .crossType(CrossType.Full)
   .in(file("."))
-  .settings(disableDottyDocs)
   .settings(
     skip in publish := false,
     publishArtifact in Test := false,
@@ -55,20 +54,8 @@ lazy val blake3 = crossProject(JSPlatform, JVMPlatform, NativePlatform)
 
 lazy val bench = project.in(file("bench"))
   .dependsOn(blake3.jvm)
-  .settings(disableDottyDocs)
   .settings(
     name := "blake3-bench",
     skip in publish := true
   )
   .enablePlugins(JmhPlugin)
-
-// Dotty has at least two bugs in docs generation:
-//  - it copies whole project to _site
-//  - it creates empty javadocs artifact.
-// Details: https://github.com/lampepfl/dotty/issues/8769
-// Let disable it
-lazy val disableDottyDocs = Seq(
-  sources in (Compile, doc) := {
-    if (isDotty.value) Seq() else (sources in (Compile, doc)).value
-  }
-)
