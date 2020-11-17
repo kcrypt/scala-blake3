@@ -36,21 +36,19 @@ private[blake3] class Output (
         flags | ROOT
       )
       // The output length might not be a multiple of 4.
-      val pairs = words.zip(idxes.grouped(4).toSeq)
-      var i = 0
+      val pairs = words.iterator.zip(idxes.grouped(4))
       val bytes = ByteBuffer.allocate(4)
       bytes.order(ByteOrder.LITTLE_ENDIAN)
-      while (i < pairs.length) {
-        val (word, idxes) = pairs(i)
+      while (pairs.hasNext) {
+        val (word, idxes) = pairs.next()
         bytes.clear()
         bytes.putInt(word)
-        var j = 0
+        var i = 0
         val jMax = Math.min(idxes.length, bytes.position())
-        while (j < jMax) {
-          out(idxes(j)) = bytes.get(j)
-          j += 1
+        while (i < jMax) {
+          out(idxes(i)) = bytes.get(i)
+          i += 1
         }
-        i += 1
       }
       outputBlockCounter += 1
     }
