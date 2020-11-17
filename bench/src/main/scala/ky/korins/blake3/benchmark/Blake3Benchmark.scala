@@ -38,3 +38,14 @@ class Blake3Benchmark {
       .update(data)
       .done(hashBytes)
 }
+
+object Blake3Benchmark extends App {
+  val benchmark = new Blake3Benchmark()
+  benchmark.dataLen = 16384
+  benchmark.hashLen = 256
+  benchmark.setup()
+
+  while (true) {
+    benchmark.concurrentHash()
+  }
+}
