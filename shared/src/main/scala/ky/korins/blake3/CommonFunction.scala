@@ -44,8 +44,8 @@ private[blake3] object CommonFunction {
   }
 
   private def compressRounds(
-    chainingValue: Vector[Int],
-    blockWords: Vector[Int],
+    chainingValue: Array[Int],
+    blockWords: Array[Int],
     counter: Long,
     blockLen: Int,
     flags: Int
@@ -69,7 +69,7 @@ private[blake3] object CommonFunction {
       flags
     )
 
-    var block = blockWords.toArray
+    var block = blockWords
 
     // rounds 1..7
     var i = 0
@@ -83,12 +83,12 @@ private[blake3] object CommonFunction {
   }
 
   def compress(
-    chainingValue: Vector[Int],
-    blockWords: Vector[Int],
+    chainingValue: Array[Int],
+    blockWords: Array[Int],
     counter: Long,
     blockLen: Int,
     flags: Int
-  ): Vector[Int] = {
+  ): Array[Int] = {
     val state = compressRounds(chainingValue, blockWords, counter, blockLen, flags)
 
     var i = 0
@@ -98,12 +98,12 @@ private[blake3] object CommonFunction {
       i += 1
     }
 
-    state.toVector
+    state
   }
 
   def compressSingle(
-    chainingValue: Vector[Int],
-    blockWords: Vector[Int],
+    chainingValue: Array[Int],
+    blockWords: Array[Int],
     counter: Long,
     blockLen: Int,
     flags: Int
@@ -113,23 +113,23 @@ private[blake3] object CommonFunction {
     state(0) ^ state(8)
   }
 
-  def first8Words(compressionOutput: Vector[Int]): Vector[Int] =
+  def first8Words(compressionOutput: Array[Int]): Array[Int] =
     compressionOutput.take(8)
 
-  def wordsFromLittleEndianBytes(bytes: Array[Byte]): Vector[Int] =
+  def wordsFromLittleEndianBytes(bytes: Array[Byte]): Array[Int] =
     bytes.grouped(4) // bytes per word
       .map { bytes =>
         ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).getInt()
-      }.toVector
+      }.toArray
 
   def parentOutput(
-    leftChildCV: Vector[Int], rightChildCv: Vector[Int], key: Vector[Int], flags: Int
+    leftChildCV: Array[Int], rightChildCv: Array[Int], key: Array[Int], flags: Int
   ): Output =
     new Output(key, leftChildCV ++ rightChildCv, 0, BLOCK_LEN, flags | PARENT)
 
   def parentCV(
-    leftChildCV: Vector[Int], rightChildCv: Vector[Int], key: Vector[Int], flags: Int
-  ): Vector[Int] =
+    leftChildCV: Array[Int], rightChildCv: Array[Int], key: Array[Int], flags: Int
+  ): Array[Int] =
     parentOutput(leftChildCV, rightChildCv, key, flags).chainingValue()
 
 }

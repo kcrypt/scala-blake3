@@ -3,14 +3,14 @@ package ky.korins.blake3
 import CommonFunction._
 
 private[blake3] class ChunkState(
-  var chainingValue: Vector[Int],
+  var chainingValue: Array[Int],
   val chunkCounter: Long,
   val block: Array[Byte],
   var blockLen: Int,
   var blocksCompressed: Int,
   val flags: Int
 ) {
-  def this(key: Vector[Int], chunkCounter: Long, flags: Int) =
+  def this(key: Array[Int], chunkCounter: Long, flags: Int) =
     this(key, chunkCounter, new Array[Byte](BLOCK_LEN), 0, 0, flags)
 
   def len(): Int =

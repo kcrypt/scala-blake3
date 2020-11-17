@@ -7,14 +7,14 @@ import java.nio.{ByteBuffer, ByteOrder}
 import scala.language.implicitConversions
 
 private[blake3] class Output (
-  val inputChainingValue: Vector[Int],
-  val blockWords: Vector[Int],
+  val inputChainingValue: Array[Int],
+  val blockWords: Array[Int],
   val counter: Long,
   val blockLen: Int,
   val flags: Int
 ) {
 
-  def chainingValue(): Vector[Int] =
+  def chainingValue(): Array[Int] =
     first8Words(compress(
       inputChainingValue,
       blockWords,

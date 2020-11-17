@@ -3,34 +3,34 @@ package ky.korins.blake3
 import CommonFunction._
 
 private[blake3] object HasherImpl {
-  val emptySubtree: Vector[Int] = new Array[Int](8).toVector
+  val emptySubtree: Array[Int] = new Array[Int](8)
 }
 
 // An incremental hasher that can accept any number of writes.
 private[blake3] class HasherImpl (
   var chunkState: ChunkState,
-  val key: Vector[Int],
-  val cvStack: Array[Vector[Int]], // Space for 54 subtree chaining values:
+  val key: Array[Int],
+  val cvStack: Array[Array[Int]], // Space for 54 subtree chaining values:
   var cvStackLen: Int, // 2^54 * CHUNK_LEN = 2^64
   val flags: Int
 ) extends Hasher {
-  def this(key: Vector[Int], flags: Int) =
+  def this(key: Array[Int], flags: Int) =
     this(new ChunkState(key, 0, flags), key,
-      Array.fill[Vector[Int]](54)(HasherImpl.emptySubtree), 0, flags)
+      Array.fill[Array[Int]](54)(HasherImpl.emptySubtree), 0, flags)
 
-  private def pushStack(cv: Vector[Int]): Unit = {
+  private def pushStack(cv: Array[Int]): Unit = {
     cvStack(cvStackLen) = cv
     cvStackLen += 1
   }
 
-  private def popStack(): Vector[Int] = {
+  private def popStack(): Array[Int] = {
     cvStackLen -= 1
     cvStack(cvStackLen)
   }
 
 
   // Section 5.1.2 of the BLAKE3 spec explains this algorithm in more detail.
-  private def add_chunk_chaining_value(cv: Vector[Int], chunks: Long): Vector[Int] = {
+  private def add_chunk_chaining_value(cv: Array[Int], chunks: Long): Array[Int] = {
     // This chunk might complete some subtrees. For each completed subtree,
     // its left child will be the current top entry in the CV stack, and
     // its right child will be the current value of `new_cv`. Pop each left
