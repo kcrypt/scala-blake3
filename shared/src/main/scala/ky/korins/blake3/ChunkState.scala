@@ -15,7 +15,7 @@ private[blake3] class ChunkState(
     this(key, chunkCounter, new Array[Byte](BLOCK_LEN), new Array[Int](BLOCK_LEN_WORDS), 0, 0, flags)
 
   def len(): Int =
-    BLOCK_LEN * blocksCompressed.toInt + blockLen.toInt
+    BLOCK_LEN * blocksCompressed + blockLen
 
   private def startFlag(): Int =
     if (blocksCompressed == 0)
@@ -61,6 +61,6 @@ private[blake3] class ChunkState(
       i += 1
     }
     new Output(chainingValue, wordsFromLittleEndianBytes(block),
-      chunkCounter, blockLen.toInt, flags | startFlag() | CHUNK_END)
+      chunkCounter, blockLen, flags | startFlag() | CHUNK_END)
   }
 }

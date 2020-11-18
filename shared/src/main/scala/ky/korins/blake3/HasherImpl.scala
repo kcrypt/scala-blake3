@@ -91,7 +91,7 @@ private[blake3] class HasherImpl (
     // parent chaining values along the right edge of the tree, until we
     // have the root Output.
     var output = chunkState.output()
-    var parentNodesRemaining = cvStackLen.toInt
+    var parentNodesRemaining = cvStackLen
     while (parentNodesRemaining > 0) {
       parentNodesRemaining -= 1
       output = parentOutput(cvStack(parentNodesRemaining),
