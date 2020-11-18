@@ -44,26 +44,27 @@ scala>
 This implementation is thread-safe and you can use it in multithreaded environment.
 Anyway this implementation doesn't currently include any multithreading optimizations.
 
-Performance on `Intel® Core™ i9-8950HK`:
+Performance on `AdoptOpenJDK (build 11.0.9.1+1)` at `Intel® Core™ i7-8700B`:
 ```
-[info] Blake3Benchmark.hash          0         32  avgt    5    19.112 ±   0.873  us/op
-[info] Blake3Benchmark.hash          0         64  avgt    5    22.965 ±   0.284  us/op
-[info] Blake3Benchmark.hash          0        128  avgt    5    30.977 ±   0.726  us/op
-[info] Blake3Benchmark.hash          0        256  avgt    5    48.661 ±   0.982  us/op
-[info] Blake3Benchmark.hash         64         32  avgt    5    19.080 ±   0.608  us/op
-[info] Blake3Benchmark.hash         64         64  avgt    5    22.675 ±   1.305  us/op
-[info] Blake3Benchmark.hash         64        128  avgt    5    31.982 ±   0.202  us/op
-[info] Blake3Benchmark.hash         64        256  avgt    5    50.842 ±  17.778  us/op
-[info] Blake3Benchmark.hash        256         32  avgt    5    41.505 ±  14.989  us/op
-[info] Blake3Benchmark.hash        256         64  avgt    5    42.371 ±  21.145  us/op
-[info] Blake3Benchmark.hash        256        128  avgt    5    48.634 ±   3.520  us/op
-[info] Blake3Benchmark.hash        256        256  avgt    5    66.164 ±   4.235  us/op
-[info] Blake3Benchmark.hash       1024         32  avgt    5    95.868 ±   3.424  us/op
-[info] Blake3Benchmark.hash       1024         64  avgt    5   115.464 ±   5.200  us/op
-[info] Blake3Benchmark.hash       1024        128  avgt    5   123.400 ±   6.153  us/op
-[info] Blake3Benchmark.hash       1024        256  avgt    5   120.792 ±   3.556  us/op
-[info] Blake3Benchmark.hash      16384         32  avgt    5  1574.141 ±  28.947  us/op
-[info] Blake3Benchmark.hash      16384         64  avgt    5  1518.879 ± 113.151  us/op
-[info] Blake3Benchmark.hash      16384        128  avgt    5  1580.558 ±  55.243  us/op
-[info] Blake3Benchmark.hash      16384        256  avgt    5  1610.715 ± 101.767  us/op
+Benchmark             (dataLen)  (hashLen)  Mode  Cnt   Score   Error  Units
+Blake3Benchmark.hash          0         32  avgt    5   0,430 ± 0,012  us/op
+Blake3Benchmark.hash          0         64  avgt    5   0,430 ± 0,006  us/op
+Blake3Benchmark.hash          0        128  avgt    5   0,667 ± 0,010  us/op
+Blake3Benchmark.hash          0        256  avgt    5   1,188 ± 0,017  us/op
+Blake3Benchmark.hash         64         32  avgt    5   0,429 ± 0,001  us/op
+Blake3Benchmark.hash         64         64  avgt    5   0,425 ± 0,005  us/op
+Blake3Benchmark.hash         64        128  avgt    5   0,660 ± 0,024  us/op
+Blake3Benchmark.hash         64        256  avgt    5   1,215 ± 0,015  us/op
+Blake3Benchmark.hash        256         32  avgt    5   1,070 ± 0,002  us/op
+Blake3Benchmark.hash        256         64  avgt    5   1,085 ± 0,028  us/op
+Blake3Benchmark.hash        256        128  avgt    5   1,306 ± 0,004  us/op
+Blake3Benchmark.hash        256        256  avgt    5   1,819 ± 0,014  us/op
+Blake3Benchmark.hash       1024         32  avgt    5   3,592 ± 0,007  us/op
+Blake3Benchmark.hash       1024         64  avgt    5   3,623 ± 0,009  us/op
+Blake3Benchmark.hash       1024        128  avgt    5   3,869 ± 0,017  us/op
+Blake3Benchmark.hash       1024        256  avgt    5   4,401 ± 0,022  us/op
+Blake3Benchmark.hash      16384         32  avgt    5  58,235 ± 1,292  us/op
+Blake3Benchmark.hash      16384         64  avgt    5  58,502 ± 0,259  us/op
+Blake3Benchmark.hash      16384        128  avgt    5  58,808 ± 0,261  us/op
+Blake3Benchmark.hash      16384        256  avgt    5  59,770 ± 1,406  us/op
 ```
