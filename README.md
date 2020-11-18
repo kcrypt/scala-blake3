@@ -1,6 +1,6 @@
 # Blake3 for scala
 
-This is blake3 implementation for scala-2.11, scala-2.12, scala-2.13, scala-3.0.0-M1, scala-js-1.0 and scala-native-0.4.0-M2.
+This is highly optimized blake3 implementation for scala, scala-js and scala-native.
 
 You can use it as
 ```
@@ -52,10 +52,11 @@ All benchmarks was performed on `JDK 15.0.1, OpenJDK 64-Bit Server VM, 15.0.1+9-
 at `Intel® Core™ i7-8700B` from [Q2'18](https://ark.intel.com/content/www/us/en/ark/products/134905/intel-core-i7-8700b-processor-12m-cache-up-to-4-60-ghz.html).
 
 Short summary:
- - it has memory footprint near 4x of hashed data and near to constant non-garbage memory footprint,
- - it hashes about 30mb/s on tested CPU,
- - result hash size hasn't got any significant impact on performance,
- - it is 5 time faster than Bouncy Castle's SHA3 and has 10 time less memory footprint.
+ - it has memory footprint near 70% of hashed data,
+ - it has near to constant memory footprint that won't be cleaned up by GC,
+ - it hashes about 300mb/s on tested CPU,
+ - result hash size hasn't got any significant impact on performance or memory footprint,
+ - it is 5 time faster than Bouncy Castle's SHA3 and has 50 time less memory footprint.
 
 Full version also available as [jmh-result.json](jmh-result.json)
 or via [JMH Visualizer](https://jmh.morethan.io/?source=https://raw.githubusercontent.com/catap/scala-blake3/master/jmh-result.json).
