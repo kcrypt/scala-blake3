@@ -35,7 +35,7 @@ private[blake3] object CommonFunction {
   // this function uses mutable of Word
   def permute(m: Array[Int], permuted: Array[Int]): Unit = {
     var i = 0
-    while (i < m.length) {
+    while (i < BLOCK_LEN_WORDS) {
       permuted(i) = m(MSG_PERMUTATION(i))
       i += 1
     }
@@ -67,10 +67,10 @@ private[blake3] object CommonFunction {
       flags
     )
 
-    var block = new Array[Int](blockWords.length)
-    var permuted = new Array[Int](blockWords.length)
+    var block = new Array[Int](BLOCK_LEN_WORDS)
+    var permuted = new Array[Int](BLOCK_LEN_WORDS)
     var i = 0
-    while (i < block.length) {
+    while (i < BLOCK_LEN_WORDS) {
       block(i) = blockWords(i)
       i += 1
     }
