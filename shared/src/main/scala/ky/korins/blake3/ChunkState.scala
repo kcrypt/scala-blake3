@@ -6,12 +6,13 @@ private[blake3] class ChunkState(
   var chainingValue: Array[Int],
   val chunkCounter: Long,
   val block: Array[Byte],
+  val words: Array[Int],
   var blockLen: Int,
   var blocksCompressed: Int,
   val flags: Int
 ) {
   def this(key: Array[Int], chunkCounter: Long, flags: Int) =
-    this(key, chunkCounter, new Array[Byte](BLOCK_LEN), 0, 0, flags)
+    this(key, chunkCounter, new Array[Byte](BLOCK_LEN), new Array[Int](BLOCK_LEN_WORDS), 0, 0, flags)
 
   def len(): Int =
     BLOCK_LEN * blocksCompressed.toInt + blockLen.toInt
@@ -23,9 +24,10 @@ private[blake3] class ChunkState(
 
   private def compressIfRequired(): Unit = {
     if (blockLen == BLOCK_LEN) {
+      wordsFromLittleEndianBytes(block, words)
       chainingValue = compress(
         chainingValue,
-        wordsFromLittleEndianBytes(block),
+        words,
         chunkCounter,
         BLOCK_LEN,
         flags | startFlag()

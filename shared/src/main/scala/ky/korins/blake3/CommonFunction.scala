@@ -130,8 +130,7 @@ private[blake3] object CommonFunction {
       ((bytes(0 + off) & 0xff) << 0)
   }
 
-  def wordsFromLittleEndianBytes(bytes: Array[Byte]): Array[Int] = {
-    val res = new Array[Int](bytes.length / 4)
+  def wordsFromLittleEndianBytes(bytes: Array[Byte], res: Array[Int]): Unit = {
     var i = 0
     var off = 0
     while (i < res.length) {
@@ -139,7 +138,11 @@ private[blake3] object CommonFunction {
       i += 1
       off += 4
     }
+  }
 
+  def wordsFromLittleEndianBytes(bytes: Array[Byte]): Array[Int] = {
+    val res = new Array[Int](bytes.length / 4)
+    wordsFromLittleEndianBytes(bytes, res)
     res
   }
 
