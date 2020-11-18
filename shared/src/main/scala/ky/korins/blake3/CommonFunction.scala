@@ -33,16 +33,12 @@ private[blake3] object CommonFunction {
   }
 
   // this function uses mutable of Word
-  def permute(m: Array[Int]): Array[Int] = {
-    val permuted = new Array[Int](16)
-
+  def permute(m: Array[Int], permuted: Array[Int]): Unit = {
     var i = 0
     while (i < m.length) {
       permuted(i) = m(MSG_PERMUTATION(i))
       i += 1
     }
-
-    permuted
   }
 
   private def compressRounds(
@@ -71,13 +67,24 @@ private[blake3] object CommonFunction {
       flags
     )
 
-    var block = blockWords
+    var block = new Array[Int](blockWords.length)
+    var permuted = new Array[Int](blockWords.length)
+    var i = 0
+    while (i < block.length) {
+      block(i) = blockWords(i)
+      i += 1
+    }
 
     // rounds 1..7
-    var i = 0
+    i = 0
     while (i < 7) {
       round(state, block)
-      block = permute(block)
+      if (i < 6) {
+        permute(block, permuted)
+        val newBlock = permuted
+        permuted = block
+        block = newBlock
+      }
       i += 1
     }
 
