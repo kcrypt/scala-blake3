@@ -34,6 +34,7 @@ lazy val blake3 = crossProject(JSPlatform, JVMPlatform, NativePlatform)
         scala.sys.process.Process("git rev-parse HEAD").!!.trim
       }
     ),
+    buildInfoPackage := "ky.korins.blake3",
     libraryDependencies ++= Seq(
       "org.scalatest" %%% "scalatest" % scalatestVersion % Test,
     )
