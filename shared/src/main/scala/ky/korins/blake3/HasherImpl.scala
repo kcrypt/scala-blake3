@@ -30,7 +30,7 @@ private[blake3] class HasherImpl (
 
 
   // Section 5.1.2 of the BLAKE3 spec explains this algorithm in more detail.
-  private def addChunkChainingValue(cv: Array[Int], chunks: Long): Array[Int] = {
+  private def addChunkChainingValue(cv: Array[Int], chunks: Long): Unit = {
     // This chunk might complete some subtrees. For each completed subtree,
     // its left child will be the current top entry in the CV stack, and
     // its right child will be the current value of `newCv`. Pop each left
@@ -45,7 +45,6 @@ private[blake3] class HasherImpl (
       totalChunks >>= 1
     }
     pushStack(newCv)
-    newCv
   }
 
   private def finalizeWhenCompleted(): Int = {
