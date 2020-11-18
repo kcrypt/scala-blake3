@@ -15,13 +15,13 @@ private[blake3] class Output (
 ) {
 
   def chainingValue(): Array[Int] =
-    first8Words(compress(
+    compress(
       inputChainingValue,
       blockWords,
       counter,
       blockLen,
       flags
-    ))
+    )
 
   def root_output_bytes(out: Array[Byte], offset: Int, len: Int): Unit = synchronized {
     var outputBlockCounter = 0

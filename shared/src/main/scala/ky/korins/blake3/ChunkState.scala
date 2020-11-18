@@ -23,13 +23,13 @@ private[blake3] class ChunkState(
 
   private def compressIfRequired(): Unit = {
     if (blockLen == BLOCK_LEN) {
-      chainingValue = first8Words(compress(
+      chainingValue = compress(
         chainingValue,
         wordsFromLittleEndianBytes(block),
         chunkCounter,
         BLOCK_LEN,
         flags | startFlag()
-      ))
+      )
       blocksCompressed += 1
       var i = 0
       while (i < block.length) {

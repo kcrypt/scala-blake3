@@ -122,9 +122,6 @@ private[blake3] object CommonFunction {
     state(0) ^ state(8)
   }
 
-  def first8Words(compressionOutput: Array[Int]): Array[Int] =
-    compressionOutput.take(8)
-
   @inline
   def littleEndian2Int(bytes: Array[Byte], off: Int): Int = {
     ((bytes(3 + off) & 0xff) << 24) +
@@ -146,10 +143,17 @@ private[blake3] object CommonFunction {
     res
   }
 
+  def mergeChildCV(leftChildCV: Array[Int], rightChildCv: Array[Int]): Array[Int] = {
+    val merged = new Array[Int](16)
+    System.arraycopy(leftChildCV, 0, merged, 0, 8)
+    System.arraycopy(rightChildCv, 0, merged, 8, 8)
+    merged
+  }
+
   def parentOutput(
     leftChildCV: Array[Int], rightChildCv: Array[Int], key: Array[Int], flags: Int
   ): Output =
-    new Output(key, leftChildCV ++ rightChildCv, 0, BLOCK_LEN, flags | PARENT)
+    new Output(key, mergeChildCV(leftChildCV, rightChildCv), 0, BLOCK_LEN, flags | PARENT)
 
   def parentCV(
     leftChildCV: Array[Int], rightChildCv: Array[Int], key: Array[Int], flags: Int

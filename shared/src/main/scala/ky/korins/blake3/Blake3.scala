@@ -27,8 +27,7 @@ object Blake3 {
     val contextKey = new HasherImpl(IV, DERIVE_KEY_CONTEXT)
       .update(context)
       .done(KEY_LEN)
-    val contextKeyWords = first8Words(wordsFromLittleEndianBytes(contextKey))
-    new HasherImpl(contextKeyWords, DERIVE_KEY_MATERIAL)
+    new HasherImpl(wordsFromLittleEndianBytes(contextKey), DERIVE_KEY_MATERIAL)
   }
 
   /**
