@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [unreleased]
+- Reduce memory footprint when compress is required.
 - Enabled `BuildInfo` plugin.
 
 ## [1.7.1] - 2020-11-18
