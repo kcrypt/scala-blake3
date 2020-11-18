@@ -2,8 +2,6 @@ package ky.korins.blake3
 
 import CommonFunction._
 
-import java.nio.{ByteBuffer, ByteOrder}
-
 import scala.language.implicitConversions
 
 private[blake3] class Output (
@@ -37,17 +35,15 @@ private[blake3] class Output (
       )
       // The output length might not be a multiple of 4.
       val pairs = words.iterator.zip(idxes.grouped(4))
-      val bytes = ByteBuffer.allocate(4)
-      bytes.order(ByteOrder.LITTLE_ENDIAN)
       while (pairs.hasNext) {
         val (word, idxes) = pairs.next()
-        bytes.clear()
-        bytes.putInt(word)
         var i = 0
-        val jMax = Math.min(idxes.length, bytes.position())
+        var off = 0
+        val jMax = Math.min(idxes.length, 4)
         while (i < jMax) {
-          out(idxes(i)) = bytes.get(i)
+          out(idxes(i)) = ((word >>> off) & 0xff).toByte
           i += 1
+          off += 8
         }
       }
       outputBlockCounter += 1
