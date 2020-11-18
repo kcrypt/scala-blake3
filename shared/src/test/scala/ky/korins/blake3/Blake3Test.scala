@@ -128,5 +128,20 @@ class Blake3Test extends AnyWordSpec with should.Matchers {
       } should have message "resultLength: 37 should be even"
     }
   }
+
+  "Infinity loop inside rootByte when offste is bigger than chunk" in {
+    val hasher = Blake3.newHasher()
+    var chunks = 4
+    val bytes = new Array[Byte](chunks * CHUNK_LEN)
+    var len = bytes.length
+    var off = 0
+    while (chunks > 0) {
+      hasher.done(bytes, off, len)
+      hasher.update(bytes, off, len)
+      chunks -= 1
+      off += CHUNK_LEN
+      len -= CHUNK_LEN
+    }
+  }
 }
 

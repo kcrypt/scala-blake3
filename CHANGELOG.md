@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [unreleased]
+- Fixed an infinity loop at `done` when `off` is bigger than `CHUNK_LEN`.
 
 ## [1.7.0] - 2020-11-18
 - Significant performance improvement and reducing memory footprint.

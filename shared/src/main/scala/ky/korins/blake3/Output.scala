@@ -35,7 +35,7 @@ private[blake3] class Output (
       )
 
       var wordIdx = 0
-      val wordsLimit = Math.min(words.length, len - pos)
+      val wordsLimit = Math.min(words.length, lim - pos)
       while (wordIdx < wordsLimit) {
         val word = words(wordIdx)
         wordIdx += 1
