@@ -57,7 +57,7 @@ private[blake3] class HasherImpl (
       addChunkChainingValue(chunkCV, totalChunks)
       chunkState = new ChunkState(key, totalChunks, flags)
     }
-    len
+    chunkState.len()
   }
 
   // Add input to the hash state. This can be called any number of times.
