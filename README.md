@@ -45,14 +45,17 @@ scala>
 This implementation is thread-safe and you can use it in multithreaded environment.
 Anyway this implementation doesn't currently include any multithreading optimizations.
 
+As baseline for benchmarks I've used SHA3 from Bouncy Castle that can be assumed as
+ references implementation for SHA3 for JVM.
+
 All benchmarks was performed on `JDK 15.0.1, OpenJDK 64-Bit Server VM, 15.0.1+9-18`
 at `Intel® Core™ i7-8700B` from [Q2'18](https://ark.intel.com/content/www/us/en/ark/products/134905/intel-core-i7-8700b-processor-12m-cache-up-to-4-60-ghz.html).
 
 Short summary:
- - it has memory footprint near 4x of hashed data,
- - it has near to constant non-garbage memory footprint,
+ - it has memory footprint near 4x of hashed data and near to constant non-garbage memory footprint,
  - it hashes about 30mb/s on tested CPU,
- - result has size hasn't got any significant impact on performance.
+ - result hash size hasn't got any significant impact on performance,
+ - it is 5 time faster than Bouncy Castle's SHA3 and has 10 time less memory footprint.
 
 Full version also available as [jmh-result.json](jmh-result.json)
 or via [JMH Visualizer](https://jmh.morethan.io/?source=https://raw.githubusercontent.com/catap/scala-blake3/master/jmh-result.json).
