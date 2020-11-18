@@ -45,27 +45,14 @@ scala>
 This implementation is thread-safe and you can use it in multithreaded environment.
 Anyway this implementation doesn't currently include any multithreading optimizations.
 
-Performance on `AdoptOpenJDK (build 11.0.9.1+1)` at `Intel® Core™ i7-8700B`:
-```
-Benchmark             (dataLen)  (hashLen)  Mode  Cnt   Score   Error  Units
-Blake3Benchmark.hash          0         32  avgt    5   0,430 ± 0,012  us/op
-Blake3Benchmark.hash          0         64  avgt    5   0,430 ± 0,006  us/op
-Blake3Benchmark.hash          0        128  avgt    5   0,667 ± 0,010  us/op
-Blake3Benchmark.hash          0        256  avgt    5   1,188 ± 0,017  us/op
-Blake3Benchmark.hash         64         32  avgt    5   0,429 ± 0,001  us/op
-Blake3Benchmark.hash         64         64  avgt    5   0,425 ± 0,005  us/op
-Blake3Benchmark.hash         64        128  avgt    5   0,660 ± 0,024  us/op
-Blake3Benchmark.hash         64        256  avgt    5   1,215 ± 0,015  us/op
-Blake3Benchmark.hash        256         32  avgt    5   1,070 ± 0,002  us/op
-Blake3Benchmark.hash        256         64  avgt    5   1,085 ± 0,028  us/op
-Blake3Benchmark.hash        256        128  avgt    5   1,306 ± 0,004  us/op
-Blake3Benchmark.hash        256        256  avgt    5   1,819 ± 0,014  us/op
-Blake3Benchmark.hash       1024         32  avgt    5   3,592 ± 0,007  us/op
-Blake3Benchmark.hash       1024         64  avgt    5   3,623 ± 0,009  us/op
-Blake3Benchmark.hash       1024        128  avgt    5   3,869 ± 0,017  us/op
-Blake3Benchmark.hash       1024        256  avgt    5   4,401 ± 0,022  us/op
-Blake3Benchmark.hash      16384         32  avgt    5  58,235 ± 1,292  us/op
-Blake3Benchmark.hash      16384         64  avgt    5  58,502 ± 0,259  us/op
-Blake3Benchmark.hash      16384        128  avgt    5  58,808 ± 0,261  us/op
-Blake3Benchmark.hash      16384        256  avgt    5  59,770 ± 1,406  us/op
-```
+All benchmarks was performed on `JDK 15.0.1, OpenJDK 64-Bit Server VM, 15.0.1+9-18`
+at `Intel® Core™ i7-8700B` from [Q2'18](https://ark.intel.com/content/www/us/en/ark/products/134905/intel-core-i7-8700b-processor-12m-cache-up-to-4-60-ghz.html).
+
+Short summary:
+ - it has memory footprint near 4x of hashed data,
+ - it has near to constant non-garbage memory footprint,
+ - it hashes about 30mb/s on tested CPU,
+ - result has size hasn't got any significant impact on performance.
+
+Full version also available as [jmh-result.json](jmh-result.json)
+or via [JMH Visualizer](https://jmh.morethan.io/?source=https://raw.githubusercontent.com/catap/scala-blake3/master/jmh-result.json).
