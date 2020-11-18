@@ -53,11 +53,10 @@ private[blake3] class HasherImpl (
     // chunk state. More input is coming, so this chunk is not ROOT.
     if (len == CHUNK_LEN) {
       val chunkCV = chunkState.output().chainingValue()
-      val totalChunks = chunkState.chunkCounter + 1
+      val totalChunks = chunkState.reset(key)
       addChunkChainingValue(chunkCV, totalChunks)
-      chunkState = new ChunkState(key, totalChunks, flags)
-    }
-    chunkState.len()
+      0
+    } else len
   }
 
   // Add input to the hash state. This can be called any number of times.

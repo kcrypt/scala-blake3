@@ -41,54 +41,89 @@ private[blake3] object CommonFunction {
     }
   }
 
+  def initCompressState(
+    state: Array[Int],
+    chainingValue: Array[Int],
+    counter: Long,
+    blockLen: Int,
+    flags: Int
+  ): Unit = {
+    // CV 0..7
+    System.arraycopy(chainingValue, 0, state, 0, 8)
+    // IV 0..3
+    System.arraycopy(IV, 0, state, 8, 4)
+
+    state(12) = counter.toInt
+    state(13) = (counter >> 32).toInt
+    state(14) = blockLen
+    state(15) = flags
+  }
+
   private def compressRounds(
+    state: Array[Int],
+    blockWords: Array[Int],
+    window1: Array[Int],
+    window2: Array[Int]
+  ): Unit = {
+    System.arraycopy(blockWords, 0, window1, 0, BLOCK_LEN_WORDS)
+
+    // round 1
+    round(state, window1)
+    permute(window1, window2)
+
+    // round 2
+    round(state, window2)
+    permute(window2, window1)
+
+    // round 3
+    round(state, window1)
+    permute(window1, window2)
+
+    // round 4
+    round(state, window2)
+    permute(window2, window1)
+
+    // round 5
+    round(state, window1)
+    permute(window1, window2)
+
+    // round 6
+    round(state, window2)
+    permute(window2, window1)
+
+    // round 7
+    round(state, window1)
+  }
+
+  @inline
+  def newCompressState(
     chainingValue: Array[Int],
     blockWords: Array[Int],
     counter: Long,
     blockLen: Int,
     flags: Int
   ): Array[Int] = {
-    val state = Array(
-      chainingValue(0),
-      chainingValue(1),
-      chainingValue(2),
-      chainingValue(3),
-      chainingValue(4),
-      chainingValue(5),
-      chainingValue(6),
-      chainingValue(7),
-      IV(0),
-      IV(1),
-      IV(2),
-      IV(3),
-      counter.toInt,
-      (counter >> 32).toInt,
-      blockLen,
-      flags
-    )
+    val state = new Array[Int](BLOCK_LEN_WORDS)
+    val window1 = new Array[Int](BLOCK_LEN_WORDS)
+    val window2 = new Array[Int](BLOCK_LEN_WORDS)
 
-    var block = new Array[Int](BLOCK_LEN_WORDS)
-    var permuted = new Array[Int](BLOCK_LEN_WORDS)
-    var i = 0
-    while (i < BLOCK_LEN_WORDS) {
-      block(i) = blockWords(i)
-      i += 1
-    }
-
-    // rounds 1..7
-    i = 0
-    while (i < 7) {
-      round(state, block)
-      if (i < 6) {
-        permute(block, permuted)
-        val newBlock = permuted
-        permuted = block
-        block = newBlock
-      }
-      i += 1
-    }
+    initCompressState(state, chainingValue, counter, blockLen, flags)
+    compressRounds(state, blockWords, window1, window2)
 
     state
+  }
+
+  @inline
+  private def doneCompression(
+    state: Array[Int],
+    chainingValue: Array[Int]
+  ): Unit = {
+    var i = 0
+    while (i < 8) {
+      state(i) ^= state(i + 8)
+      state(i + 8) ^= chainingValue(i)
+      i += 1
+    }
   }
 
   def compress(
@@ -98,14 +133,27 @@ private[blake3] object CommonFunction {
     blockLen: Int,
     flags: Int
   ): Array[Int] = {
-    val state = compressRounds(chainingValue, blockWords, counter, blockLen, flags)
+    val state = newCompressState(chainingValue, blockWords, counter, blockLen, flags)
 
-    var i = 0
-    while (i < 8) {
-      state(i) ^= state(i + 8)
-      state(i + 8) ^= chainingValue(i)
-      i += 1
-    }
+    doneCompression(state, chainingValue)
+
+    state
+  }
+
+  def compress(
+    state: Array[Int],
+    chainingValue: Array[Int],
+    blockWords: Array[Int],
+    counter: Long,
+    blockLen: Int,
+    flags: Int,
+    window1: Array[Int],
+    window2: Array[Int]
+  ): Array[Int] = {
+
+    initCompressState(state, chainingValue, counter, blockLen, flags)
+    compressRounds(state, blockWords, window1, window2)
+    doneCompression(state, chainingValue)
 
     state
   }
@@ -117,8 +165,9 @@ private[blake3] object CommonFunction {
     blockLen: Int,
     flags: Int
   ): Int = {
-    val state = compressRounds(chainingValue, blockWords, counter, blockLen, flags)
+    val state = newCompressState(chainingValue, blockWords, counter, blockLen, flags)
 
+    // a fast-track for single byte
     state(0) ^ state(8)
   }
 

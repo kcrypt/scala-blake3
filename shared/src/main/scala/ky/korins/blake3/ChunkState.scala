@@ -4,15 +4,29 @@ import CommonFunction._
 
 private[blake3] class ChunkState(
   var chainingValue: Array[Int],
-  val chunkCounter: Long,
+  var chunkCounter: Long,
   val block: Array[Byte],
-  val words: Array[Int],
   var blockLen: Int,
   var blocksCompressed: Int,
   val flags: Int
 ) {
+
+  private val words: Array[Int] = new Array[Int](BLOCK_LEN_WORDS)
+  private val state = new Array[Int](BLOCK_LEN_WORDS)
+  private val window1 = new Array[Int](BLOCK_LEN_WORDS)
+  private val window2 = new Array[Int](BLOCK_LEN_WORDS)
+
   def this(key: Array[Int], chunkCounter: Long, flags: Int) =
-    this(key, chunkCounter, new Array[Byte](BLOCK_LEN), new Array[Int](BLOCK_LEN_WORDS), 0, 0, flags)
+    this(key, chunkCounter, new Array[Byte](BLOCK_LEN), 0, 0, flags)
+
+  def reset(key: Array[Int]): Long = {
+    chainingValue = key
+    chunkCounter += 1
+    blockLen = 0
+    blocksCompressed = 0
+
+    chunkCounter // aka totalChunks
+  }
 
   def len(): Int =
     BLOCK_LEN * blocksCompressed + blockLen
@@ -24,11 +38,14 @@ private[blake3] class ChunkState(
 
   private def compressedWords(): Unit = {
     chainingValue = compress(
+      state,
       chainingValue,
       words,
       chunkCounter,
       BLOCK_LEN,
-      flags | startFlag()
+      flags | startFlag(),
+      window1,
+      window2
     )
     blocksCompressed += 1
     blockLen = 0
@@ -72,13 +89,17 @@ private[blake3] class ChunkState(
     blockLen += 1
   }
 
-  def output(): Output = {
+  def output(): Output = synchronized {
     var i = blockLen
     while (i < BLOCK_LEN) {
       block(i) = 0
       i += 1
     }
-    new Output(chainingValue, wordsFromLittleEndianBytes(block),
+
+    val safeChainingValue = new Array[Int](KEY_LEN_WORDS)
+    System.arraycopy(chainingValue, 0, safeChainingValue, 0, KEY_LEN_WORDS)
+
+    new Output(safeChainingValue, wordsFromLittleEndianBytes(block),
       chunkCounter, blockLen, flags | startFlag() | CHUNK_END)
   }
 }

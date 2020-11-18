@@ -4,6 +4,7 @@ package object blake3 {
   // constants
   val OUT_LEN: Int = 32
   val KEY_LEN: Int = 32
+  val KEY_LEN_WORDS: Int = 8
   val BLOCK_LEN: Int = 64
   val BLOCK_LEN_WORDS: Int = 16
   val CHUNK_LEN: Int = 1024
