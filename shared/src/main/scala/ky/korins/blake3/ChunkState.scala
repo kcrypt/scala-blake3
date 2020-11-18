@@ -31,11 +31,6 @@ private[blake3] class ChunkState(
         flags | startFlag()
       )
       blocksCompressed += 1
-      var i = 0
-      while (i < block.length) {
-        block(i) = 0
-        i += 1
-      }
       blockLen = 0
     }
   }
@@ -45,7 +40,7 @@ private[blake3] class ChunkState(
     while (i < to) {
       compressIfRequired()
       val consume = Math.min(BLOCK_LEN - blockLen, to - i)
-      Array.copy(bytes, i, block, blockLen, consume)
+      System.arraycopy(bytes, i, block, blockLen, consume)
       blockLen += consume
       i += consume
     }
@@ -57,7 +52,13 @@ private[blake3] class ChunkState(
     blockLen += 1
   }
 
-  def output(): Output =
+  def output(): Output = {
+    var i = blockLen
+    while (i < BLOCK_LEN) {
+      block(i) = 0
+      i += 1
+    }
     new Output(chainingValue, wordsFromLittleEndianBytes(block),
       chunkCounter, blockLen.toInt, flags | startFlag() | CHUNK_END)
+  }
 }
