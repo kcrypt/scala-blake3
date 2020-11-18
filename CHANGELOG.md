@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [unreleased]
+- Enabled `BuildInfo` plugin.
 
 ## [1.7.1] - 2020-11-18
 - Fixed an infinity loop at `done` when `off` is bigger than `CHUNK_LEN`.

@@ -25,6 +25,7 @@ publishTo in ThisBuild := sonatypePublishToBundle.value
 
 lazy val blake3 = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .crossType(CrossType.Full)
+  .enablePlugins(BuildInfoPlugin)
   .in(file("."))
   .settings(
     skip in publish := false,
