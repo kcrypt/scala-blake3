@@ -4,8 +4,9 @@ This is blake3 implementation for scala-2.11, scala-2.12, scala-2.13, scala-3.0.
 
 You can use it as
 ```
-libraryDependencies += "ky.korins" %%% "blake3" % "1.7.1"
+libraryDependencies += "ky.korins" %%% "blake3" % "x.x.x"
 ```
+The latest version is ![maven-central](https://img.shields.io/maven-central/v/ky.korins/blake3_2.13?style=flat-square)
 
 API is pretty simple:
 ```
