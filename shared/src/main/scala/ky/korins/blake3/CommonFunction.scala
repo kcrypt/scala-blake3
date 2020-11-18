@@ -3,17 +3,21 @@ package ky.korins.blake3
 import java.nio.{ByteBuffer, ByteOrder}
 
 private[blake3] object CommonFunction {
+  @inline
+  private def rotateRight(i: Int, distance: Int): Int =
+    (i >>> distance) | (i << -distance)
+
   // The mixing function, G, which mixes either a column or a diagonal.
   // this function uses mutable of Word
   def g(state: Array[Int], a: Int, b: Int, c: Int, d: Int, mx: Int, my: Int): Unit = {
     state(a) = state(a) + state(b) + mx
-    state(d) = Integer.rotateRight(state(d) ^ state(a), 16)
+    state(d) = rotateRight(state(d) ^ state(a), 16)
     state(c) = state(c) + state(d)
-    state(b) = Integer.rotateRight(state(b) ^ state(c), 12)
+    state(b) = rotateRight(state(b) ^ state(c), 12)
     state(a) = state(a) + state(b) + my
-    state(d) = Integer.rotateRight(state(d) ^ state(a), 8)
+    state(d) = rotateRight(state(d) ^ state(a), 8)
     state(c) = state(c) + state(d)
-    state(b) = Integer.rotateRight(state(b) ^ state(c), 7)
+    state(b) = rotateRight(state(b) ^ state(c), 7)
   }
 
   // this function uses mutable of Word
