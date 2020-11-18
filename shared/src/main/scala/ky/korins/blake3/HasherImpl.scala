@@ -30,22 +30,22 @@ private[blake3] class HasherImpl (
 
 
   // Section 5.1.2 of the BLAKE3 spec explains this algorithm in more detail.
-  private def add_chunk_chaining_value(cv: Array[Int], chunks: Long): Array[Int] = {
+  private def addChunkChainingValue(cv: Array[Int], chunks: Long): Array[Int] = {
     // This chunk might complete some subtrees. For each completed subtree,
     // its left child will be the current top entry in the CV stack, and
-    // its right child will be the current value of `new_cv`. Pop each left
-    // child off the stack, merge it with `new_cv`, and overwrite `new_cv`
+    // its right child will be the current value of `newCv`. Pop each left
+    // child off the stack, merge it with `newCv`, and overwrite `newCv`
     // with the result. After all these merges, push the final value of
-    // `new_cv` onto the stack. The number of completed subtrees is given
+    // `newCv` onto the stack. The number of completed subtrees is given
     // by the number of trailing 0-bits in the new total number of chunks.
-    var new_cv = cv
-    var total_chunks = chunks
-    while ((total_chunks & 1) == 0) {
-      new_cv = parentCV(popStack(), new_cv, key, flags)
-      total_chunks >>= 1
+    var newCv = cv
+    var totalChunks = chunks
+    while ((totalChunks & 1) == 0) {
+      newCv = parentCV(popStack(), newCv, key, flags)
+      totalChunks >>= 1
     }
-    pushStack(new_cv)
-    new_cv
+    pushStack(newCv)
+    newCv
   }
 
   private def finalizeWhenCompleted(): Int = {
@@ -55,7 +55,7 @@ private[blake3] class HasherImpl (
     if (len == CHUNK_LEN) {
       val chunkCV = chunkState.output().chainingValue()
       val totalChunks = chunkState.chunkCounter + 1
-      add_chunk_chaining_value(chunkCV, totalChunks)
+      addChunkChainingValue(chunkCV, totalChunks)
       chunkState = new ChunkState(key, totalChunks, flags)
     }
     len
