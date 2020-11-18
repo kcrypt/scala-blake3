@@ -1,7 +1,5 @@
 package ky.korins.blake3
 
-import java.nio.{ByteBuffer, ByteOrder}
-
 private[blake3] object CommonFunction {
   @inline
   private def rotateRight(i: Int, distance: Int): Int =
@@ -120,11 +118,26 @@ private[blake3] object CommonFunction {
   def first8Words(compressionOutput: Array[Int]): Array[Int] =
     compressionOutput.take(8)
 
-  def wordsFromLittleEndianBytes(bytes: Array[Byte]): Array[Int] =
-    bytes.grouped(4) // bytes per word
-      .map { bytes =>
-        ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).getInt()
-      }.toArray
+  @inline
+  def littleEndian2Int(bytes: Array[Byte], off: Int): Int = {
+    ((bytes(3 + off) & 0xff) << 24) +
+      ((bytes(2 + off) & 0xff) << 16) +
+      ((bytes(1 + off) & 0xff) << 8) +
+      ((bytes(0 + off) & 0xff) << 0)
+  }
+
+  def wordsFromLittleEndianBytes(bytes: Array[Byte]): Array[Int] = {
+    val res = new Array[Int](bytes.length / 4)
+    var i = 0
+    var off = 0
+    while (i < res.length) {
+      res(i) = littleEndian2Int(bytes, off)
+      i += 1
+      off += 4
+    }
+
+    res
+  }
 
   def parentOutput(
     leftChildCV: Array[Int], rightChildCv: Array[Int], key: Array[Int], flags: Int
