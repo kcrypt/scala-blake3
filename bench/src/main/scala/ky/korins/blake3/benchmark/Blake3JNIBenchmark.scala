@@ -1,12 +1,12 @@
 package ky.korins.blake3.benchmark
 
-import ky.korins.blake3._
+import io.lktk.NativeBLAKE3
 import org.openjdk.jmh.annotations._
 
 import scala.util.Random
 
 @State(Scope.Benchmark)
-class Blake3Benchmark {
+class Blake3JNIBenchmark {
   @Param(Array("16384", "10485760", "104857600"))
   var dataLen: Int = 0
   var data: Array[Byte] = Array()
@@ -15,31 +15,29 @@ class Blake3Benchmark {
   var hashLen: Int = 0
   var hashBytes: Array[Byte] = Array()
 
-  var hasher: Hasher = _
+  var hasher: NativeBLAKE3 = _
 
   @Setup
   def setup(): Unit = {
+    assert(NativeBLAKE3.isEnabled)
+
+    hasher = new NativeBLAKE3()
+    hasher.initDefault()
+
     val random = new Random()
     data = Array.fill(dataLen)(0)
     random.nextBytes(data)
-    hashBytes = Array.fill[Byte](hashLen)(0)
-    hasher = Blake3.newHasher()
+  }
+
+  @TearDown
+  def tearDown(): Unit = {
+    hasher.close()
   }
 
   @Benchmark
-  def hash(): Unit =
-    hasher
-      .update(data)
-      .done(hashBytes)
-}
-
-object Blake3Benchmark extends App {
-  val benchmark = new Blake3Benchmark()
-  benchmark.dataLen = 104857600
-  benchmark.hashLen = 1024
-  benchmark.setup()
-
-  while (true) {
-    benchmark.hash()
+  def hash(): Unit = {
+    hasher.update(data)
+    hasher.getOutput(hashLen)
   }
 }
+

@@ -8,7 +8,7 @@ lazy val scala3 = "3.0.0-M1"
 
 lazy val scalatestVersion = "3.2.3"
 
-lazy val bouncyCastleVersion = "1.67"
+lazy val blake3jniVersion = "0.2.2"
 
 name := "blake3"
 organization in ThisBuild := "ky.korins"
@@ -65,16 +65,10 @@ lazy val bench = project.in(file("bench"))
     mainClass in assembly := Some("org.openjdk.jmh.Main"),
     test in assembly := {},
     libraryDependencies ++= Seq(
-      "org.bouncycastle" % "bcpkix-jdk15on" % bouncyCastleVersion,
+      "io.lktk" % "blake3jni" % blake3jniVersion,
     ),
     assemblyMergeStrategy in assembly := {
       case PathList("META-INF", "MANIFEST.MF") =>
-        MergeStrategy.discard
-      case PathList("META-INF", name) if name.endsWith(".SF") =>
-        MergeStrategy.discard
-      case PathList("META-INF", name) if name.endsWith(".DSA") =>
-        MergeStrategy.discard
-      case PathList("META-INF", name) if name.endsWith(".RSA") =>
         MergeStrategy.discard
       case _ =>
         MergeStrategy.first

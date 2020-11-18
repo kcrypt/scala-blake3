@@ -45,18 +45,23 @@ scala>
 This implementation is thread-safe and you can use it in multithreaded environment.
 Anyway this implementation doesn't currently include any multithreading optimizations.
 
-As baseline for benchmarks I've used SHA3 from Bouncy Castle that can be assumed as
- references implementation for SHA3 for JVM.
+As baseline for benchmarks I've used [BLAKE3jni] that is used original C/assembly version [c-0.3.7],
+ that includes a lot of performance optimizations but this way introduced one limitation:
+ unfortunately I can't measure memory footprint, because it is managed by original library.
 
 All benchmarks was performed on `JDK 15.0.1, OpenJDK 64-Bit Server VM, 15.0.1+9-18`
-at `Intel® Core™ i7-8700B` from [Q2'18](https://ark.intel.com/content/www/us/en/ark/products/134905/intel-core-i7-8700b-processor-12m-cache-up-to-4-60-ghz.html).
+ at [Intel® Core™ i7-8700B] from Q2'18.
 
 Short summary:
+ - it is 10 times slower than JNI version,
  - it has memory footprint near 70% of hashed data,
  - it has near to constant memory footprint that won't be cleaned up by GC,
- - it hashes about 300mb/s on tested CPU,
- - result hash size hasn't got any significant impact on performance or memory footprint,
- - it is 5 time faster than Bouncy Castle's SHA3 and has 50 time less memory footprint.
+ - result hash size hasn't got any significant impact on performance or memory footprint.
 
-Full version also available as [jmh-result.json](jmh-result.json)
-or via [JMH Visualizer](https://jmh.morethan.io/?source=https://raw.githubusercontent.com/catap/scala-blake3/master/jmh-result.json).
+Full version also available as [jmh-result.json] or via [JMH Visualizer]
+
+[BLAKE3jni]: https://github.com/sken77/BLAKE3jni
+[c-0.3.7]: https://github.com/BLAKE3-team/BLAKE3/releases/tag/c-0.3.7
+[Intel® Core™ i7-8700B]: https://ark.intel.com/content/www/us/en/ark/products/134905/intel-core-i7-8700b-processor-12m-cache-up-to-4-60-ghz.html
+[jmh-result.json]: jmh-result.json
+[JMH Visualizer]: https://jmh.morethan.io/?source=https://raw.githubusercontent.com/catap/scala-blake3/master/jmh-result.json
