@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [unreleased]
+
+## [1.7.1] - 2020-11-18
 - Fixed an infinity loop at `done` when `off` is bigger than `CHUNK_LEN`.
 
 ## [1.7.0] - 2020-11-18
@@ -41,7 +43,8 @@ All notable changes to this project will be documented in this file.
 ## [1.0.0] - 2020-07-15
 - The first public release as dedicated project.
 
-[unreleased]: https://github.com/catap/scala-blake3/compare/v1.7.0...HEAD
+[unreleased]: https://github.com/catap/scala-blake3/compare/v1.7.1...HEAD
+[1.7.1]: https://github.com/catap/scala-blake3/compare/v1.7.0...v1.7.1
 [1.7.0]: https://github.com/catap/scala-blake3/compare/v1.6.2...v1.7.0
 [1.6.2]: https://github.com/catap/scala-blake3/compare/v1.6.1...v1.6.2
 [1.6.1]: https://github.com/catap/scala-blake3/compare/v1.6.0...v1.6.1

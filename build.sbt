@@ -10,7 +10,7 @@ lazy val scalatestVersion = "3.2.3"
 
 name := "blake3"
 organization in ThisBuild := "ky.korins"
-version in ThisBuild := "1.7.0"
+version in ThisBuild := "1.7.1"
 
 scalaVersion in ThisBuild := scala3
 crossScalaVersions in ThisBuild := Seq()
