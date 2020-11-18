@@ -106,12 +106,12 @@ private[blake3] class HasherImpl (
 
   // Finalize the hash and write any number of output bytes.
   def done(out: Array[Byte], offset: Int, len: Int): Unit =
-    getOutput.root_output_bytes(out, offset, len)
+    getOutput.rootBytes(out, offset, len)
 
   def done(out: Array[Byte]): Unit =
     done(out, 0, out.length)
 
   // Finalize the hash and write one byte.
   def done(): Byte =
-    getOutput.root_output_byte()
+    getOutput.rootByte()
 }
