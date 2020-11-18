@@ -22,29 +22,47 @@ private[blake3] class ChunkState(
       CHUNK_START
     else 0
 
-  private def compressIfRequired(): Unit = {
-    if (blockLen == BLOCK_LEN) {
-      wordsFromLittleEndianBytes(block, words)
-      chainingValue = compress(
-        chainingValue,
-        words,
-        chunkCounter,
-        BLOCK_LEN,
-        flags | startFlag()
-      )
-      blocksCompressed += 1
-      blockLen = 0
-    }
+  private def compressedWords(): Unit = {
+    chainingValue = compress(
+      chainingValue,
+      words,
+      chunkCounter,
+      BLOCK_LEN,
+      flags | startFlag()
+    )
+    blocksCompressed += 1
+    blockLen = 0
   }
+
+  private def compressIfRequired(): Unit =
+    if (blockLen == BLOCK_LEN) {
+      wordsFromLittleEndianBytes(block, 0, words)
+      compressedWords()
+    }
 
   def update(bytes: Array[Byte], from: Int, to: Int): Unit = synchronized {
     var i = from
-    while (i < to) {
-      compressIfRequired()
-      val consume = Math.min(BLOCK_LEN - blockLen, to - i)
+
+    var consume = Math.min(BLOCK_LEN - blockLen, to - i)
+    if (consume < BLOCK_LEN) {
       System.arraycopy(bytes, i, block, blockLen, consume)
       blockLen += consume
       i += consume
+      compressIfRequired()
+    }
+
+    consume = to - i
+    while (consume > BLOCK_LEN) {
+      wordsFromLittleEndianBytes(bytes, i, words)
+      blockLen = BLOCK_LEN
+      compressedWords()
+      i += BLOCK_LEN
+      consume = to - i
+    }
+
+    if (consume > 0) {
+      System.arraycopy(bytes, i, block, blockLen, consume)
+      blockLen += consume
     }
   }
 
