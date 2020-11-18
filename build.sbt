@@ -56,6 +56,14 @@ lazy val bench = project.in(file("bench"))
   .dependsOn(blake3.jvm)
   .settings(
     name := "blake3-bench",
-    skip in publish := true
+    skip in publish := true,
+    assemblyJarName in assembly := "bench.jar",
+    mainClass in assembly := Some("org.openjdk.jmh.Main"),
+    test in assembly := {},
+    assemblyMergeStrategy in assembly := {
+      case PathList("META-INF", "MANIFEST.MF") => MergeStrategy.discard
+      case _ => MergeStrategy.first
+    },
+    assembly in Jmh := (assembly in Jmh).dependsOn(Keys.compile in Jmh).value
   )
   .enablePlugins(JmhPlugin)
