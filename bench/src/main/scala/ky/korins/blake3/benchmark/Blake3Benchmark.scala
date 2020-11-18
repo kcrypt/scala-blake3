@@ -7,11 +7,11 @@ import scala.util.Random
 
 @State(Scope.Benchmark)
 class Blake3Benchmark {
-  @Param(Array("0", "64", "256", "1024", "16384"))
+  @Param(Array("0", "64", "256", "1024", "16384", "10485760", "104857600"))
   var dataLen: Int = 0
   var data: Array[Byte] = Array()
 
-  @Param(Array("32", "64", "128", "256"))
+  @Param(Array("32", "64", "128", "256", "1024"))
   var hashLen: Int = 0
   var hashBytes: Array[Byte] = Array()
 
@@ -41,8 +41,8 @@ class Blake3Benchmark {
 
 object Blake3Benchmark extends App {
   val benchmark = new Blake3Benchmark()
-  benchmark.dataLen = 16384
-  benchmark.hashLen = 256
+  benchmark.dataLen = 104857600
+  benchmark.hashLen = 1024
   benchmark.setup()
 
   while (true) {
