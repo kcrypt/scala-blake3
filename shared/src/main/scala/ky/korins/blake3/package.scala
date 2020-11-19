@@ -8,6 +8,7 @@ package object blake3 {
   val BLOCK_LEN: Int = 64
   val BLOCK_LEN_WORDS: Int = 16
   val CHUNK_LEN: Int = 1024
+  val MAX_DEPTH: Int = 54
 
   private[blake3] val CHUNK_START = 1 << 0
   private[blake3] val CHUNK_END = 1 << 1

@@ -16,7 +16,7 @@ private[blake3] class HasherImpl (
 ) extends Hasher {
   def this(key: Array[Int], flags: Int) =
     this(new ChunkState(key, 0, flags), key,
-      Array.fill[Array[Int]](54)(HasherImpl.emptySubtree), 0, flags)
+      Array.fill[Array[Int]](MAX_DEPTH)(HasherImpl.emptySubtree), 0, flags)
 
   private def pushStack(cv: Array[Int]): Unit = {
     cvStack(cvStackLen) = cv
