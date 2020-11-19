@@ -127,8 +127,11 @@ private[blake3] object CommonFunction {
   ): Unit = {
     // CV 0..7
     System.arraycopy(chainingValue, 0, state, 0, 8)
-    // IV 0..3
-    System.arraycopy(IV, 0, state, 8, 4)
+
+    state(8) = IV(0)
+    state(9) = IV(1)
+    state(10) = IV(2)
+    state(11) = IV(3)
 
     state(12) = counter.toInt
     state(13) = (counter >> 32).toInt
@@ -237,8 +240,8 @@ private[blake3] object CommonFunction {
 
   def mergeChildCV(leftChildCV: Array[Int], rightChildCv: Array[Int]): Array[Int] = {
     val merged = new Array[Int](16)
-    System.arraycopy(leftChildCV, 0, merged, 0, 8)
-    System.arraycopy(rightChildCv, 0, merged, 8, 8)
+    System.arraycopy(leftChildCV, 0, merged, 0, KEY_LEN_WORDS)
+    System.arraycopy(rightChildCv, 0, merged, KEY_LEN_WORDS, KEY_LEN_WORDS)
     merged
   }
 
