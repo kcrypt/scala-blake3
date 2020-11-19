@@ -25,20 +25,95 @@ private[blake3] object CommonFunction {
     state(d) = state_d
   }
 
-  // this function uses mutable of Word
   @inline
-  private def round(state: Array[Int], m: Array[Int], round: Int): Unit = {
-    val schedule = MSG_SCHEDULE(round)
-    // Mix the columns.
-    g(state, 0, 4, 8, 12, m(schedule(0)), m(schedule(1)))
-    g(state, 1, 5, 9, 13, m(schedule(2)), m(schedule(3)))
-    g(state, 2, 6, 10, 14, m(schedule(4)), m(schedule(5)))
-    g(state, 3, 7, 11, 15, m(schedule(6)), m(schedule(7)))
-    // Mix the diagonals.
-    g(state, 0, 5, 10, 15, m(schedule(8)), m(schedule(9)))
-    g(state, 1, 6, 11, 12, m(schedule(10)), m(schedule(11)))
-    g(state, 2, 7, 8, 13, m(schedule(12)), m(schedule(13)))
-    g(state, 3, 4, 9, 14, m(schedule(14)), m(schedule(15)))
+  private def round_1(state: Array[Int], m: Array[Int]): Unit = {
+    g(state, 0, 4, 8, 12, m(0), m(1))
+    g(state, 1, 5, 9, 13, m(2), m(3))
+    g(state, 2, 6, 10, 14, m(4), m(5))
+    g(state, 3, 7, 11, 15, m(6), m(7))
+
+    g(state, 0, 5, 10, 15, m(8), m(9))
+    g(state, 1, 6, 11, 12, m(10), m(11))
+    g(state, 2, 7, 8, 13, m(12), m(13))
+    g(state, 3, 4, 9, 14, m(14), m(15))
+  }
+
+  @inline
+  private def round_2(state: Array[Int], m: Array[Int]): Unit = {
+    g(state, 0, 4, 8, 12, m(2), m(6))
+    g(state, 1, 5, 9, 13, m(3), m(10))
+    g(state, 2, 6, 10, 14, m(7), m(0))
+    g(state, 3, 7, 11, 15, m(4), m(13))
+
+    g(state, 0, 5, 10, 15, m(1), m(11))
+    g(state, 1, 6, 11, 12, m(12), m(5))
+    g(state, 2, 7, 8, 13, m(9), m(14))
+    g(state, 3, 4, 9, 14, m(15), m(8))
+  }
+
+  @inline
+  private def round_3(state: Array[Int], m: Array[Int]): Unit = {
+    g(state, 0, 4, 8, 12, m(3), m(4))
+    g(state, 1, 5, 9, 13, m(10), m(12))
+    g(state, 2, 6, 10, 14, m(13), m(2))
+    g(state, 3, 7, 11, 15, m(7), m(14))
+
+    g(state, 0, 5, 10, 15, m(6), m(5))
+    g(state, 1, 6, 11, 12, m(9), m(0))
+    g(state, 2, 7, 8, 13, m(11), m(15))
+    g(state, 3, 4, 9, 14, m(8), m(1))
+  }
+
+  @inline
+  private def round_4(state: Array[Int], m: Array[Int]): Unit = {
+    g(state, 0, 4, 8, 12, m(10), m(7))
+    g(state, 1, 5, 9, 13, m(12), m(9))
+    g(state, 2, 6, 10, 14, m(14), m(3))
+    g(state, 3, 7, 11, 15, m(13), m(15))
+
+    g(state, 0, 5, 10, 15, m(4), m(0))
+    g(state, 1, 6, 11, 12, m(11), m(2))
+    g(state, 2, 7, 8, 13, m(5), m(8))
+    g(state, 3, 4, 9, 14, m(1), m(6))
+  }
+
+  @inline
+  private def round_5(state: Array[Int], m: Array[Int]): Unit = {
+    g(state, 0, 4, 8, 12, m(12), m(13))
+    g(state, 1, 5, 9, 13, m(9), m(11))
+    g(state, 2, 6, 10, 14, m(15), m(10))
+    g(state, 3, 7, 11, 15, m(14), m(8))
+
+    g(state, 0, 5, 10, 15, m(7), m(2))
+    g(state, 1, 6, 11, 12, m(5), m(3))
+    g(state, 2, 7, 8, 13, m(0), m(1))
+    g(state, 3, 4, 9, 14, m(6), m(4))
+  }
+
+  @inline
+  private def round_6(state: Array[Int], m: Array[Int]): Unit = {
+    g(state, 0, 4, 8, 12, m(9), m(14))
+    g(state, 1, 5, 9, 13, m(11), m(5))
+    g(state, 2, 6, 10, 14, m(8), m(12))
+    g(state, 3, 7, 11, 15, m(15), m(1))
+
+    g(state, 0, 5, 10, 15, m(13), m(3))
+    g(state, 1, 6, 11, 12, m(0), m(10))
+    g(state, 2, 7, 8, 13, m(2), m(6))
+    g(state, 3, 4, 9, 14, m(4), m(7))
+  }
+
+  @inline
+  private def round_7(state: Array[Int], m: Array[Int]): Unit = {
+    g(state, 0, 4, 8, 12, m(11), m(15))
+    g(state, 1, 5, 9, 13, m(5), m(0))
+    g(state, 2, 6, 10, 14, m(1), m(9))
+    g(state, 3, 7, 11, 15, m(8), m(6))
+
+    g(state, 0, 5, 10, 15, m(14), m(10))
+    g(state, 1, 6, 11, 12, m(2), m(12))
+    g(state, 2, 7, 8, 13, m(3), m(4))
+    g(state, 3, 4, 9, 14, m(7), m(13))
   }
 
   @inline
@@ -60,13 +135,13 @@ private[blake3] object CommonFunction {
     state(14) = blockLen
     state(15) = flags
 
-    round(state, blockWords, 0)
-    round(state, blockWords, 1)
-    round(state, blockWords, 2)
-    round(state, blockWords, 3)
-    round(state, blockWords, 4)
-    round(state, blockWords, 5)
-    round(state, blockWords, 6)
+    round_1(state, blockWords)
+    round_2(state, blockWords)
+    round_3(state, blockWords)
+    round_4(state, blockWords)
+    round_5(state, blockWords)
+    round_6(state, blockWords)
+    round_7(state, blockWords)
   }
 
   def compressInPlace(
