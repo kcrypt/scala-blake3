@@ -6,7 +6,7 @@ You can use it as
 ```
 libraryDependencies += "ky.korins" %%% "blake3" % "x.x.x"
 ```
-The latest version is ![maven-central](https://img.shields.io/maven-central/v/ky.korins/blake3_2.13?style=flat-square)
+The latest version is ![maven-central]
 
 API is pretty simple:
 ```
@@ -40,14 +40,15 @@ scala>
  - `done()` that returns a single byte hash value;
  - `doneBigInt(bitLength: Int)` that returns positive BigInt with specified length in bits;
  - `doneHex(resultLength: Int)` that returns hex encoded string with specified output length in characters;
- - `doneBaseXXX(len: Int)` that returns string representative of XXX encoded as it defined in RFC 4648 without padding.
+ - `doneBaseXXX(len: Int)` that returns string representative of XXX encoded as it defined in [RFC 4648] without padding.
  
 This implementation is thread-safe and you can use it in multithreaded environment.
 Anyway this implementation doesn't currently include any multithreading optimizations.
 
-As baseline for benchmarks I've used [BLAKE3jni] that is used original C/assembly version [c-0.3.7],
- that includes a lot of performance optimizations but this way introduced one limitation:
- unfortunately I can't measure memory footprint, because it is managed by original library.
+As baseline for benchmarks I've used [BLAKE3jni] that is used original C version [c-0.3.7],
+ that includes a lot of performance optimizations likes [SSE 4.1 assembly] version,
+ but this way introduced one limitation: unfortunately I can't measure memory footprint,
+ because it is managed by original library.
 
 All benchmarks was performed on `JDK 15.0.1, OpenJDK 64-Bit Server VM, 15.0.1+9-18`
  at [Intel® Core™ i7-8700B] from Q2'18.
@@ -60,7 +61,10 @@ Short summary:
 
 Full version also available as [jmh-result.json] or via [JMH Visualizer]
 
+[maven-central]: https://img.shields.io/maven-central/v/ky.korins/blake3_2.13?style=flat-square
+[RFC 4648]: https://tools.ietf.org/html/rfc4648
 [BLAKE3jni]: https://github.com/sken77/BLAKE3jni
+[SSE 4.1 assembly]: https://github.com/BLAKE3-team/BLAKE3/blob/master/c/blake3_sse41_x86-64_unix.S
 [c-0.3.7]: https://github.com/BLAKE3-team/BLAKE3/releases/tag/c-0.3.7
 [Intel® Core™ i7-8700B]: https://ark.intel.com/content/www/us/en/ark/products/134905/intel-core-i7-8700b-processor-12m-cache-up-to-4-60-ghz.html
 [jmh-result.json]: jmh-result.json
