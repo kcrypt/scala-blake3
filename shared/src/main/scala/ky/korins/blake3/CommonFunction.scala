@@ -190,12 +190,11 @@ private[blake3] object CommonFunction {
   }
 
   @inline
-  def littleEndian2Int(bytes: Array[Byte], off: Int): Int = {
-    ((bytes(3 + off) & 0xff) << 24) +
-      ((bytes(2 + off) & 0xff) << 16) +
-      ((bytes(1 + off) & 0xff) << 8) +
+  def littleEndian2Int(bytes: Array[Byte], off: Int): Int =
+    ((bytes(3 + off) & 0xff) << 24) |
+      ((bytes(2 + off) & 0xff) << 16) |
+      ((bytes(1 + off) & 0xff) << 8) |
       ((bytes(0 + off) & 0xff) << 0)
-  }
 
   def wordsFromLittleEndianBytes(bytes: Array[Byte], offset: Int, res: Array[Int]): Unit = {
     var i = 0
