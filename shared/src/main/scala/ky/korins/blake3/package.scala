@@ -27,8 +27,4 @@ package object blake3 {
     0x1F83D9AB,
     0x5BE0CD19
   )
-
-  private[blake3] val MSG_PERMUTATION = Array(
-    2, 6, 3, 10, 7, 0, 4, 13, 1, 11, 12, 5, 9, 14, 15, 8
-  )
 }

@@ -33,12 +33,24 @@ private[blake3] object CommonFunction {
   }
 
   // this function uses mutable of Word
+  @inline
   def permute(m: Array[Int], permuted: Array[Int]): Unit = {
-    var i = 0
-    while (i < BLOCK_LEN_WORDS) {
-      permuted(i) = m(MSG_PERMUTATION(i))
-      i += 1
-    }
+    permuted(0) = m(2)
+    permuted(1) = m(6)
+    permuted(2) = m(3)
+    permuted(3) = m(10)
+    permuted(4) = m(7)
+    permuted(5) = m(0)
+    permuted(6) = m(4)
+    permuted(7) = m(13)
+    permuted(8) = m(1)
+    permuted(9) = m(11)
+    permuted(10) = m(12)
+    permuted(11) = m(5)
+    permuted(12) = m(9)
+    permuted(13) = m(14)
+    permuted(14) = m(15)
+    permuted(15) = m(8)
   }
 
   def initCompressState(
