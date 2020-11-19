@@ -46,7 +46,8 @@ This implementation is thread-safe and you can use it in multithreaded environme
 Anyway this implementation doesn't currently include any multithreading optimizations.
 
 As baseline for benchmarks I've used [BLAKE3jni] that is used original C version [c-0.3.7],
- that includes a lot of performance optimizations likes [SSE 4.1 assembly] version,
+ that includes a lot of performance optimizations likes [SSE 4.1 assembly] version
+ that allows to use one CPU instruction for bits rotation instead of at least 5,
  but this way introduced one limitation: unfortunately I can't measure memory footprint,
  because it is managed by original library.
 
@@ -54,12 +55,12 @@ All benchmarks was performed on `JDK 15.0.1, OpenJDK 64-Bit Server VM, 15.0.1+9-
  at [Intel® Core™ i7-8700B] from Q2'18.
 
 Short summary:
- - it is about 8 times slower than [SSE 4.1 assembly] version via JNI,
+ - it is about 8 times slower than [SSE 4.1 assembly] version via JNI that is expected,
  - it has memory footprint near 37% of hashed data that is cleaned up by GC,
  - it has near to constant memory footprint that won't be cleaned up by GC,
  - result hash size hasn't got any significant impact on performance or memory footprint.
 
-Full version also available as [jmh-result.json] or via [JMH Visualizer]
+Full version also available as [jmh-result.json] or via [JMH Visualizer].
 
 [maven-central]: https://img.shields.io/maven-central/v/ky.korins/blake3_2.13?style=flat-square
 [RFC 4648]: https://tools.ietf.org/html/rfc4648
