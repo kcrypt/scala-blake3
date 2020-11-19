@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [unreleased]
-- Performance improvement that reduce CPU time for about 10% at some platofrms.
+- Performance improvement that reduce CPU and memory footprint near doubles.
 
 ## [1.8.0] - 2020-11-18
 - Reduce memory footprint when compress is required.
