@@ -13,8 +13,6 @@ private[blake3] class ChunkState(
 
   private val words: Array[Int] = new Array[Int](BLOCK_LEN_WORDS)
   private val state = new Array[Int](BLOCK_LEN_WORDS)
-  private val window1 = new Array[Int](BLOCK_LEN_WORDS)
-  private val window2 = new Array[Int](BLOCK_LEN_WORDS)
 
   def this(key: Array[Int], chunkCounter: Long, flags: Int) =
     this(key, chunkCounter, new Array[Byte](BLOCK_LEN), 0, 0, flags)
@@ -43,9 +41,7 @@ private[blake3] class ChunkState(
       words,
       chunkCounter,
       BLOCK_LEN,
-      flags | startFlag(),
-      window1,
-      window2
+      flags | startFlag()
     )
     blocksCompressed += 1
     blockLen = 0

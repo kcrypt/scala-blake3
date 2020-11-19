@@ -3,6 +3,7 @@ package ky.korins.blake3
 private[blake3] object CommonFunction {
   // The mixing function, G, which mixes either a column or a diagonal.
   // this function uses mutable of Word
+  @inline
   def g(state: Array[Int], a: Int, b: Int, c: Int, d: Int, mx: Int, my: Int): Unit = {
     var state_a = state(a)
     var state_b = state(b)
@@ -25,38 +26,19 @@ private[blake3] object CommonFunction {
   }
 
   // this function uses mutable of Word
-  def round(state: Array[Int], m: Array[Int]): Unit = {
-    // Mix the columns.
-    g(state, 0, 4, 8, 12, m(0), m(1))
-    g(state, 1, 5, 9, 13, m(2), m(3))
-    g(state, 2, 6, 10, 14, m(4), m(5))
-    g(state, 3, 7, 11, 15, m(6), m(7))
-    // Mix the diagonals.
-    g(state, 0, 5, 10, 15, m(8), m(9))
-    g(state, 1, 6, 11, 12, m(10), m(11))
-    g(state, 2, 7, 8, 13, m(12), m(13))
-    g(state, 3, 4, 9, 14, m(14), m(15))
-  }
-
-  // this function uses mutable of Word
   @inline
-  def permute(m: Array[Int], permuted: Array[Int]): Unit = {
-    permuted(0) = m(2)
-    permuted(1) = m(6)
-    permuted(2) = m(3)
-    permuted(3) = m(10)
-    permuted(4) = m(7)
-    permuted(5) = m(0)
-    permuted(6) = m(4)
-    permuted(7) = m(13)
-    permuted(8) = m(1)
-    permuted(9) = m(11)
-    permuted(10) = m(12)
-    permuted(11) = m(5)
-    permuted(12) = m(9)
-    permuted(13) = m(14)
-    permuted(14) = m(15)
-    permuted(15) = m(8)
+  def round(state: Array[Int], m: Array[Int], round: Int): Unit = {
+    val schedule = MSG_SCHEDULE(round)
+    // Mix the columns.
+    g(state, 0, 4, 8, 12, m(schedule(0)), m(schedule(1)))
+    g(state, 1, 5, 9, 13, m(schedule(2)), m(schedule(3)))
+    g(state, 2, 6, 10, 14, m(schedule(4)), m(schedule(5)))
+    g(state, 3, 7, 11, 15, m(schedule(6)), m(schedule(7)))
+    // Mix the diagonals.
+    g(state, 0, 5, 10, 15, m(schedule(8)), m(schedule(9)))
+    g(state, 1, 6, 11, 12, m(schedule(10)), m(schedule(11)))
+    g(state, 2, 7, 8, 13, m(schedule(12)), m(schedule(13)))
+    g(state, 3, 4, 9, 14, m(schedule(14)), m(schedule(15)))
   }
 
   def initCompressState(
@@ -79,38 +61,15 @@ private[blake3] object CommonFunction {
 
   private def compressRounds(
     state: Array[Int],
-    blockWords: Array[Int],
-    window1: Array[Int],
-    window2: Array[Int]
+    blockWords: Array[Int]
   ): Unit = {
-    System.arraycopy(blockWords, 0, window1, 0, BLOCK_LEN_WORDS)
-
-    // round 1
-    round(state, window1)
-    permute(window1, window2)
-
-    // round 2
-    round(state, window2)
-    permute(window2, window1)
-
-    // round 3
-    round(state, window1)
-    permute(window1, window2)
-
-    // round 4
-    round(state, window2)
-    permute(window2, window1)
-
-    // round 5
-    round(state, window1)
-    permute(window1, window2)
-
-    // round 6
-    round(state, window2)
-    permute(window2, window1)
-
-    // round 7
-    round(state, window1)
+    round(state, blockWords, 0)
+    round(state, blockWords, 1)
+    round(state, blockWords, 2)
+    round(state, blockWords, 3)
+    round(state, blockWords, 4)
+    round(state, blockWords, 5)
+    round(state, blockWords, 6)
   }
 
   @inline
@@ -122,11 +81,9 @@ private[blake3] object CommonFunction {
     flags: Int
   ): Array[Int] = {
     val state = new Array[Int](BLOCK_LEN_WORDS)
-    val window1 = new Array[Int](BLOCK_LEN_WORDS)
-    val window2 = new Array[Int](BLOCK_LEN_WORDS)
 
     initCompressState(state, chainingValue, counter, blockLen, flags)
-    compressRounds(state, blockWords, window1, window2)
+    compressRounds(state, blockWords)
 
     state
   }
@@ -164,13 +121,11 @@ private[blake3] object CommonFunction {
     blockWords: Array[Int],
     counter: Long,
     blockLen: Int,
-    flags: Int,
-    window1: Array[Int],
-    window2: Array[Int]
+    flags: Int
   ): Array[Int] = {
 
     initCompressState(state, chainingValue, counter, blockLen, flags)
-    compressRounds(state, blockWords, window1, window2)
+    compressRounds(state, blockWords)
     doneCompression(state, chainingValue)
 
     state
