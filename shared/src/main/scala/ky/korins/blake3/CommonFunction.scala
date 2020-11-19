@@ -8,14 +8,24 @@ private[blake3] object CommonFunction {
   // The mixing function, G, which mixes either a column or a diagonal.
   // this function uses mutable of Word
   def g(state: Array[Int], a: Int, b: Int, c: Int, d: Int, mx: Int, my: Int): Unit = {
-    state(a) = state(a) + state(b) + mx
-    state(d) = rotateRight(state(d) ^ state(a), 16)
-    state(c) = state(c) + state(d)
-    state(b) = rotateRight(state(b) ^ state(c), 12)
-    state(a) = state(a) + state(b) + my
-    state(d) = rotateRight(state(d) ^ state(a), 8)
-    state(c) = state(c) + state(d)
-    state(b) = rotateRight(state(b) ^ state(c), 7)
+    var state_a = state(a)
+    var state_b = state(b)
+    var state_c = state(c)
+    var state_d = state(d)
+
+    state_a = state_a + state_b + mx
+    state_d = rotateRight(state_d ^ state_a, 16)
+    state_c = state_c + state_d
+    state_b = rotateRight(state_b ^ state_c, 12)
+    state_a = state_a + state_b + my
+    state_d = rotateRight(state_d ^ state_a, 8)
+    state_c = state_c + state_d
+    state_b = rotateRight(state_b ^ state_c, 7)
+
+    state(a) = state_a
+    state(b) = state_b
+    state(c) = state_c
+    state(d) = state_d
   }
 
   // this function uses mutable of Word
