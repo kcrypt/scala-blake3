@@ -16,7 +16,7 @@ private[blake3] class ChunkState(
   var blockLen: Int = 0
   var blocksCompressed: Int = 0
 
-  private val words: Array[Int] = new Array[Int](BLOCK_LEN_WORDS)
+  private val tmpBlockWords: Array[Int] = new Array[Int](BLOCK_LEN_WORDS)
   private val tmpState = new Array[Int](BLOCK_LEN_WORDS)
 
   def reset(key: Array[Int]): Long = {
@@ -36,14 +36,16 @@ private[blake3] class ChunkState(
       CHUNK_START
     else 0
 
-  private def compressedWords(): Unit = {
+  private def compressedWords(bytes: Array[Byte], bytesOffset: Int): Unit = {
     compressInPlace(
       chainingValue,
-      words,
+      bytes,
+      bytesOffset,
       chunkCounter,
       BLOCK_LEN,
       flags | startFlag(),
-      tmpState
+      tmpState,
+      tmpBlockWords
     )
     blocksCompressed += 1
     blockLen = 0
@@ -51,8 +53,7 @@ private[blake3] class ChunkState(
 
   private def compressIfRequired(): Unit =
     if (blockLen == BLOCK_LEN) {
-      wordsFromLittleEndianBytes(block, 0, words)
-      compressedWords()
+      compressedWords(block, 0)
     }
 
   def update(bytes: Array[Byte], from: Int, to: Int): Unit = synchronized {
@@ -68,9 +69,8 @@ private[blake3] class ChunkState(
 
     consume = to - i
     while (consume > BLOCK_LEN) {
-      wordsFromLittleEndianBytes(bytes, i, words)
       blockLen = BLOCK_LEN
-      compressedWords()
+      compressedWords(bytes, i)
       i += BLOCK_LEN
       consume = to - i
     }
