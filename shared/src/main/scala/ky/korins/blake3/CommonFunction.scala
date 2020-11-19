@@ -4,7 +4,7 @@ private[blake3] object CommonFunction {
   // The mixing function, G, which mixes either a column or a diagonal.
   // this function uses mutable of Word
   @inline
-  def g(state: Array[Int], a: Int, b: Int, c: Int, d: Int, mx: Int, my: Int): Unit = {
+  private def g(state: Array[Int], a: Int, b: Int, c: Int, d: Int, mx: Int, my: Int): Unit = {
     var state_a = state(a)
     var state_b = state(b)
     var state_c = state(c)
@@ -27,7 +27,7 @@ private[blake3] object CommonFunction {
 
   // this function uses mutable of Word
   @inline
-  def round(state: Array[Int], m: Array[Int], round: Int): Unit = {
+  private def round(state: Array[Int], m: Array[Int], round: Int): Unit = {
     val schedule = MSG_SCHEDULE(round)
     // Mix the columns.
     g(state, 0, 4, 8, 12, m(schedule(0)), m(schedule(1)))
@@ -41,8 +41,10 @@ private[blake3] object CommonFunction {
     g(state, 3, 4, 9, 14, m(schedule(14)), m(schedule(15)))
   }
 
-  def initCompressState(
+  @inline
+  private def compressRounds(
     state: Array[Int],
+    blockWords: Array[Int],
     chainingValue: Array[Int],
     counter: Long,
     blockLen: Int,
@@ -57,12 +59,7 @@ private[blake3] object CommonFunction {
     state(13) = (counter >> 32).toInt
     state(14) = blockLen
     state(15) = flags
-  }
 
-  private def compressRounds(
-    state: Array[Int],
-    blockWords: Array[Int]
-  ): Unit = {
     round(state, blockWords, 0)
     round(state, blockWords, 1)
     round(state, blockWords, 2)
@@ -72,8 +69,28 @@ private[blake3] object CommonFunction {
     round(state, blockWords, 6)
   }
 
-  @inline
-  def newCompressState(
+  def compressInPlace(
+    chainingValue: Array[Int],
+    blockWords: Array[Int],
+    counter: Long,
+    blockLen: Int,
+    flags: Int,
+    tmpState: Array[Int]
+  ): Unit = {
+    compressRounds(tmpState, blockWords, chainingValue, counter, blockLen, flags)
+
+    chainingValue(0) = tmpState(0) ^ tmpState(8)
+    chainingValue(1) = tmpState(1) ^ tmpState(9)
+    chainingValue(2) = tmpState(2) ^ tmpState(10)
+    chainingValue(3) = tmpState(3) ^ tmpState(11)
+    chainingValue(4) = tmpState(4) ^ tmpState(12)
+    chainingValue(5) = tmpState(5) ^ tmpState(13)
+    chainingValue(6) = tmpState(6) ^ tmpState(14)
+    chainingValue(7) = tmpState(7) ^ tmpState(15)
+
+  }
+
+  def compress(
     chainingValue: Array[Int],
     blockWords: Array[Int],
     counter: Long,
@@ -82,51 +99,25 @@ private[blake3] object CommonFunction {
   ): Array[Int] = {
     val state = new Array[Int](BLOCK_LEN_WORDS)
 
-    initCompressState(state, chainingValue, counter, blockLen, flags)
-    compressRounds(state, blockWords)
+    compressRounds(state, blockWords, chainingValue, counter, blockLen, flags)
 
-    state
-  }
+    state(0) ^= state(8)
+    state(1) ^= state(9)
+    state(2) ^= state(10)
+    state(3) ^= state(11)
+    state(4) ^= state(12)
+    state(5) ^= state(13)
+    state(6) ^= state(14)
+    state(7) ^= state(15)
 
-  @inline
-  private def doneCompression(
-    state: Array[Int],
-    chainingValue: Array[Int]
-  ): Unit = {
-    var i = 0
-    while (i < 8) {
-      state(i) ^= state(i + 8)
-      state(i + 8) ^= chainingValue(i)
-      i += 1
-    }
-  }
-
-  def compress(
-    chainingValue: Array[Int],
-    blockWords: Array[Int],
-    counter: Long,
-    blockLen: Int,
-    flags: Int
-  ): Array[Int] = {
-    val state = newCompressState(chainingValue, blockWords, counter, blockLen, flags)
-
-    doneCompression(state, chainingValue)
-
-    state
-  }
-
-  def compress(
-    state: Array[Int],
-    chainingValue: Array[Int],
-    blockWords: Array[Int],
-    counter: Long,
-    blockLen: Int,
-    flags: Int
-  ): Array[Int] = {
-
-    initCompressState(state, chainingValue, counter, blockLen, flags)
-    compressRounds(state, blockWords)
-    doneCompression(state, chainingValue)
+    state(8) ^= chainingValue(0)
+    state(9) ^= chainingValue(1)
+    state(10) ^= chainingValue(2)
+    state(11) ^= chainingValue(3)
+    state(12) ^= chainingValue(4)
+    state(13) ^= chainingValue(5)
+    state(14) ^= chainingValue(6)
+    state(15) ^= chainingValue(7)
 
     state
   }
@@ -138,7 +129,9 @@ private[blake3] object CommonFunction {
     blockLen: Int,
     flags: Int
   ): Int = {
-    val state = newCompressState(chainingValue, blockWords, counter, blockLen, flags)
+    val state = new Array[Int](BLOCK_LEN_WORDS)
+
+    compressRounds(state, blockWords, chainingValue, counter, blockLen, flags)
 
     // a fast-track for single byte
     state(0) ^ state(8)

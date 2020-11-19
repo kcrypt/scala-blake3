@@ -3,22 +3,24 @@ package ky.korins.blake3
 import CommonFunction._
 
 private[blake3] class ChunkState(
-  var chainingValue: Array[Int],
+  val key: Array[Int],
   var chunkCounter: Long,
-  val block: Array[Byte],
-  var blockLen: Int,
-  var blocksCompressed: Int,
   val flags: Int
 ) {
 
-  private val words: Array[Int] = new Array[Int](BLOCK_LEN_WORDS)
-  private val state = new Array[Int](BLOCK_LEN_WORDS)
+  val chainingValue: Array[Int] = new Array[Int](BLOCK_LEN_WORDS)
+  System.arraycopy(key, 0, chainingValue, 0, KEY_LEN_WORDS)
 
-  def this(key: Array[Int], chunkCounter: Long, flags: Int) =
-    this(key, chunkCounter, new Array[Byte](BLOCK_LEN), 0, 0, flags)
+  val block: Array[Byte] = new Array[Byte](BLOCK_LEN)
+
+  var blockLen: Int = 0
+  var blocksCompressed: Int = 0
+
+  private val words: Array[Int] = new Array[Int](BLOCK_LEN_WORDS)
+  private val tmpState = new Array[Int](BLOCK_LEN_WORDS)
 
   def reset(key: Array[Int]): Long = {
-    chainingValue = key
+    System.arraycopy(key, 0, chainingValue, 0, KEY_LEN_WORDS)
     chunkCounter += 1
     blockLen = 0
     blocksCompressed = 0
@@ -35,13 +37,13 @@ private[blake3] class ChunkState(
     else 0
 
   private def compressedWords(): Unit = {
-    chainingValue = compress(
-      state,
+    compressInPlace(
       chainingValue,
       words,
       chunkCounter,
       BLOCK_LEN,
-      flags | startFlag()
+      flags | startFlag(),
+      tmpState
     )
     blocksCompressed += 1
     blockLen = 0
