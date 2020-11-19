@@ -12,7 +12,7 @@ lazy val blake3jniVersion = "0.2.2"
 
 name := "blake3"
 organization in ThisBuild := "ky.korins"
-version in ThisBuild := "1.8.0"
+version in ThisBuild := "1.8.1"
 
 scalaVersion in ThisBuild := scala3
 crossScalaVersions in ThisBuild := Seq()
