@@ -1,10 +1,6 @@
 package ky.korins.blake3
 
 private[blake3] object CommonFunction {
-  @inline
-  private def rotateRight(i: Int, distance: Int): Int =
-    (i >>> distance) | (i << -distance)
-
   // The mixing function, G, which mixes either a column or a diagonal.
   // this function uses mutable of Word
   def g(state: Array[Int], a: Int, b: Int, c: Int, d: Int, mx: Int, my: Int): Unit = {
@@ -14,13 +10,13 @@ private[blake3] object CommonFunction {
     var state_d = state(d)
 
     state_a = state_a + state_b + mx
-    state_d = rotateRight(state_d ^ state_a, 16)
+    state_d = Integer.rotateRight(state_d ^ state_a, 16)
     state_c = state_c + state_d
-    state_b = rotateRight(state_b ^ state_c, 12)
+    state_b = Integer.rotateRight(state_b ^ state_c, 12)
     state_a = state_a + state_b + my
-    state_d = rotateRight(state_d ^ state_a, 8)
+    state_d = Integer.rotateRight(state_d ^ state_a, 8)
     state_c = state_c + state_d
-    state_b = rotateRight(state_b ^ state_c, 7)
+    state_b = Integer.rotateRight(state_b ^ state_c, 7)
 
     state(a) = state_a
     state(b) = state_b
