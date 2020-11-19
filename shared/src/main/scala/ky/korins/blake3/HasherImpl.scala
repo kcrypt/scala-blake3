@@ -3,7 +3,7 @@ package ky.korins.blake3
 import CommonFunction._
 
 private[blake3] object HasherImpl {
-  val emptySubtree: Array[Int] = new Array[Int](8)
+  val emptySubtree: Array[Int] = new Array[Int](KEY_LEN_WORDS)
 }
 
 // An incremental hasher that can accept any number of writes.

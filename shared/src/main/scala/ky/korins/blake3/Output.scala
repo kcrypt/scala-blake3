@@ -45,7 +45,7 @@ private[blake3] class Output (
         while (pos < outLimit) {
           out(pos) = ((word >>> off) & 0xff).toByte
           pos += 1
-          off += 8
+          off += KEY_LEN_WORDS
         }
       }
 
