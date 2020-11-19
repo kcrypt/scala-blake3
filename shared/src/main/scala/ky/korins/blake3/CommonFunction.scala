@@ -11,13 +11,20 @@ private[blake3] object CommonFunction {
     var state_d = state(d)
 
     state_a = state_a + state_b + mx
-    state_d = Integer.rotateRight(state_d ^ state_a, 16)
+    var `state_d ^ state_a` = state_d ^ state_a
+    state_d = (`state_d ^ state_a` >>> 16) | (`state_d ^ state_a` << 16)
+
     state_c = state_c + state_d
-    state_b = Integer.rotateRight(state_b ^ state_c, 12)
+    var `state_b ^ state_c` = state_b ^ state_c
+    state_b = (`state_b ^ state_c` >>> 12) | (`state_b ^ state_c` << 20)
+
     state_a = state_a + state_b + my
-    state_d = Integer.rotateRight(state_d ^ state_a, 8)
+    `state_d ^ state_a` = state_d ^ state_a
+    state_d = (`state_d ^ state_a` >>> 8) | (`state_d ^ state_a` << 24)
+
     state_c = state_c + state_d
-    state_b = Integer.rotateRight(state_b ^ state_c, 7)
+    `state_b ^ state_c` = state_b ^ state_c
+    state_b = (`state_b ^ state_c` >>> 7) | (`state_b ^ state_c` << 25)
 
     state(a) = state_a
     state(b) = state_b
