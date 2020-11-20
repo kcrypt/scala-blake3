@@ -11,7 +11,7 @@ class Blake3Benchmark {
   var dataLen: Int = 0
   var data: Array[Byte] = Array()
 
-  @Param(Array("128", "256", "1024"))
+  @Param(Array("16384", "10485760", "104857600"))
   var hashLen: Int = 0
   var hashBytes: Array[Byte] = Array()
 
@@ -35,8 +35,8 @@ class Blake3Benchmark {
 
 object Blake3Benchmark extends App {
   val benchmark = new Blake3Benchmark()
-  benchmark.dataLen = 104857600
-  benchmark.hashLen = 1024
+  benchmark.dataLen = 10485760
+  benchmark.hashLen = 10485760
   benchmark.setup()
 
   while (true) {

@@ -11,7 +11,7 @@ class Blake3JNIBenchmark {
   var dataLen: Int = 0
   var data: Array[Byte] = Array()
 
-  @Param(Array("128", "256", "1024"))
+  @Param(Array("16384", "10485760", "104857600"))
   var hashLen: Int = 0
   var hashBytes: Array[Byte] = Array()
 
