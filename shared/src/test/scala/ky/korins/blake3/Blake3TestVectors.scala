@@ -5,6 +5,7 @@ import ky.korins.blake3
 import org.scalatest.matchers.should
 import org.scalatest.wordspec.AnyWordSpec
 
+import java.io.ByteArrayInputStream
 import scala.language.implicitConversions
 
 class Blake3TestVectors extends AnyWordSpec with should.Matchers {
@@ -31,7 +32,7 @@ class Blake3TestVectors extends AnyWordSpec with should.Matchers {
       val keyed_single_byte = keyed_hasher.done()
 
       val derive_key = Blake3.newDeriveKeyHasher(TEST_CONTEXT)
-        .update(input)
+        .update(new ByteArrayInputStream(input))
         .doneBase16(OUTPUT_LEN)
         .toLowerCase
       testCase.hash should be(hash)

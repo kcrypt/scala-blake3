@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ## [unreleased]
 - Significant performance improvement and reducing memory footprint at `done`.
 - Improved synchronization logic.
+- Introduced `update(InputStream)`.
 
 ## [1.8.1] - 2020-11-19
 - Performance improvement that reduce CPU and memory footprint near doubles.

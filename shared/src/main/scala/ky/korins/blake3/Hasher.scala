@@ -1,5 +1,7 @@
 package ky.korins.blake3
 
+import java.io.InputStream
+
 trait Hasher {
   /**
    * Updates a hasher by provided bytes, returns the same hasher
@@ -20,6 +22,13 @@ trait Hasher {
    * Updates a hasher by specified string, returns the same hasher
    */
   def update(input: String): Hasher
+
+  /**
+   * Updates a hasher from specified InputStream, returns the same hasher
+   *
+   * It reads `input` until it returns `-1`
+   */
+  def update(input: InputStream): Hasher
 
   /**
    * Calculate a hash into specified byte array
