@@ -3,7 +3,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [unreleased]
-- Minor performance improvement on non JVM platforms.
+- Significant performance improvement and reducing memory footprint at `done`.
+- Improved synchronization logic.
 
 ## [1.8.1] - 2020-11-19
 - Performance improvement that reduce CPU and memory footprint near doubles.
