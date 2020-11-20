@@ -36,9 +36,6 @@ All notable changes to this project will be documented in this file.
 ## [1.4.0] - 2020-09-17
 - Introduced RFC 4648 compatibly encoding of hash output.
 
-## [1.4.0] - 2020-09-17
-- Introduced RFC 4648 compatibly encoding of hash output.
-
 ## [1.3.0] - 2020-09-05
 - Introduced string level `hash`, `hex` and `update`.
 
