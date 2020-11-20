@@ -53,7 +53,8 @@ private[blake3] class HasherImpl (
     // If the current chunk is complete, finalize it and reset the
     // chunk state. More input is coming, so this chunk is not ROOT.
     if (len == CHUNK_LEN) {
-      val chunkCV = chunkState.output().chainingValue()
+      val chunkCV = new Array[Int](BLOCK_LEN_WORDS)
+      chunkState.output().chainingValue(chunkCV)
       val totalChunks = chunkState.reset(key)
       addChunkChainingValue(chunkCV, totalChunks)
       0
@@ -87,20 +88,26 @@ private[blake3] class HasherImpl (
   }
 
   private def getOutput: Output = synchronized {
-    // Starting with the Output from the current chunk, compute all the
-    // parent chaining values along the right edge of the tree, until we
-    // have the root Output.
-    var output = chunkState.output()
-    var parentNodesRemaining = cvStackLen
-    while (parentNodesRemaining > 0) {
-      parentNodesRemaining -= 1
-      output = parentOutput(cvStack(parentNodesRemaining),
-        output.chainingValue(),
-        key,
-        flags
-      )
+    if (cvStackLen == 0) chunkState.output()
+    else {
+      // Starting with the Output from the current chunk, compute all the
+      // parent chaining values along the right edge of the tree, until we
+      // have the root Output.
+      var output = chunkState.output()
+      val cv = new Array[Int](BLOCK_LEN_WORDS)
+      val blockWords = new Array[Int](BLOCK_LEN_WORDS)
+      var parentNodesRemaining = cvStackLen
+      while (parentNodesRemaining > 0) {
+        parentNodesRemaining -= 1
+        output.chainingValue(cv)
+        output = parentOutput(blockWords, cvStack(parentNodesRemaining),
+          cv,
+          key,
+          flags
+        )
+      }
+      output
     }
-    output
   }
 
   // Finalize the hash and write any number of output bytes.

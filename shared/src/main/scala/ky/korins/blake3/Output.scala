@@ -12,8 +12,9 @@ private[blake3] class Output (
   val flags: Int
 ) {
 
-  def chainingValue(): Array[Int] =
-    compress(
+  def chainingValue(chainingValue: Array[Int]): Unit =
+    compressInPlace(
+      chainingValue,
       inputChainingValue,
       blockWords,
       counter,

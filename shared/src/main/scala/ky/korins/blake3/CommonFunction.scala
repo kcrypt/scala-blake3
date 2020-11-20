@@ -349,17 +349,21 @@ private[blake3] object CommonFunction {
     res
   }
 
-  def mergeChildCV(merged: Array[Int], leftChildCV: Array[Int], rightChildCv: Array[Int]): Unit = {
+  @inline
+  private def mergeChildCV(merged: Array[Int], leftChildCV: Array[Int], rightChildCv: Array[Int]): Unit = {
     System.arraycopy(rightChildCv, 0, merged, KEY_LEN_WORDS, KEY_LEN_WORDS)
     System.arraycopy(leftChildCV, 0, merged, 0, KEY_LEN_WORDS)
   }
 
   def parentOutput(
-    leftChildCV: Array[Int], rightChildCv: Array[Int], key: Array[Int], flags: Int
+    blockWords: Array[Int],
+    leftChildCV: Array[Int],
+    rightChildCv: Array[Int],
+    key: Array[Int],
+    flags: Int
   ): Output = {
-    val merged = new Array[Int](BLOCK_LEN_WORDS)
-    mergeChildCV(merged, leftChildCV, rightChildCv)
-    new Output(key, merged, 0, BLOCK_LEN, flags | PARENT)
+    mergeChildCV(blockWords, leftChildCV, rightChildCv)
+    new Output(key, blockWords, 0, BLOCK_LEN, flags | PARENT)
   }
 
   def parentCV(
