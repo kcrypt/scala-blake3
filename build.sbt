@@ -3,7 +3,7 @@ import sbtcrossproject.CrossPlugin.autoImport.crossProject
 
 lazy val scala211 = "2.11.12"
 lazy val scala212 = "2.12.12"
-lazy val scala213 = "2.13.3"
+lazy val scala213 = "2.13.4"
 lazy val scala3 = "3.0.0-M1"
 
 lazy val scalatestVersion = "3.2.3"
