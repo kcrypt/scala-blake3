@@ -35,7 +35,22 @@ class Blake3JNIBenchmark {
   }
 
   @Benchmark
-  def hash(): Unit = {
+  @Threads(1)
+  def singleThreads(): Unit = {
+    hasher.update(data)
+    hasher.getOutput(hashLen)
+  }
+
+  @Benchmark
+  @Threads(10)
+  def tenThreads(): Unit = {
+    hasher.update(data)
+    hasher.getOutput(hashLen)
+  }
+
+  @Benchmark
+  @Threads(100)
+  def hundredThreads(): Unit = {
     hasher.update(data)
     hasher.getOutput(hashLen)
   }

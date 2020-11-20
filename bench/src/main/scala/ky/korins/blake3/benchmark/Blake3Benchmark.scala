@@ -27,7 +27,22 @@ class Blake3Benchmark {
   }
 
   @Benchmark
-  def hash(): Unit =
+  @Threads(1)
+  def singleThreads(): Unit =
+    hasher
+      .update(data)
+      .done(hashBytes)
+
+  @Benchmark
+  @Threads(10)
+  def tenThreads(): Unit =
+    hasher
+      .update(data)
+      .done(hashBytes)
+
+  @Benchmark
+  @Threads(100)
+  def hundredThreads(): Unit =
     hasher
       .update(data)
       .done(hashBytes)
@@ -40,6 +55,6 @@ object Blake3Benchmark extends App {
   benchmark.setup()
 
   while (true) {
-    benchmark.hash()
+    benchmark.singleThreads()
   }
 }
