@@ -22,7 +22,7 @@ private[blake3] class Output (
       flags
     )
 
-  def rootBytes(out: Array[Byte], off: Int, len: Int): Unit = synchronized {
+  def rootBytes(out: Array[Byte], off: Int, len: Int): Unit = {
     var outputBlockCounter = 0
     var pos = off
     val lim = off + len
@@ -74,7 +74,7 @@ private[blake3] class Output (
     }
   }
 
-  def rootByte(): Byte = synchronized {
+  def rootByte(): Byte =
     compressSingle(
       inputChainingValue,
       blockWords,
@@ -82,5 +82,4 @@ private[blake3] class Output (
       blockLen,
       flags | ROOT
     ).toByte
-  }
 }

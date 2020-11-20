@@ -56,7 +56,7 @@ private[blake3] class ChunkState(
       compressedWords(block, 0)
     }
 
-  def update(bytes: Array[Byte], from: Int, to: Int): Unit = synchronized {
+  def update(bytes: Array[Byte], from: Int, to: Int): Unit = {
     var i = from
 
     var consume = Math.min(BLOCK_LEN - blockLen, to - i)
@@ -81,13 +81,13 @@ private[blake3] class ChunkState(
     }
   }
 
-  def update(byte: Byte): Unit = synchronized {
+  def update(byte: Byte): Unit = {
     compressIfRequired()
     block(blockLen) = byte
     blockLen += 1
   }
 
-  def output(): Output = synchronized {
+  def output(): Output = {
     var i = blockLen
     while (i < BLOCK_LEN) {
       block(i) = 0
