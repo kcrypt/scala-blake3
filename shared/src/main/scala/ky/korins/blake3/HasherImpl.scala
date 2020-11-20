@@ -8,15 +8,16 @@ private[blake3] object HasherImpl {
 
 // An incremental hasher that can accept any number of writes.
 private[blake3] class HasherImpl (
-  var chunkState: ChunkState,
   val key: Array[Int],
-  val cvStack: Array[Array[Int]], // Space for 54 subtree chaining values:
-  var cvStackLen: Int, // 2^54 * CHUNK_LEN = 2^64
   val flags: Int
 ) extends Hasher {
-  def this(key: Array[Int], flags: Int) =
-    this(new ChunkState(key, 0, flags), key,
-      Array.fill[Array[Int]](MAX_DEPTH)(HasherImpl.emptySubtree), 0, flags)
+
+  val chunkState: ChunkState = new ChunkState(key, 0, flags)
+
+  // Space for 54 subtree chaining values
+  val cvStack: Array[Array[Int]] = Array.fill[Array[Int]](MAX_DEPTH)(HasherImpl.emptySubtree)
+
+  var cvStackLen: Int = 0
 
   private def pushStack(cv: Array[Int]): Unit = {
     cvStack(cvStackLen) = cv
@@ -27,7 +28,6 @@ private[blake3] class HasherImpl (
     cvStackLen -= 1
     cvStack(cvStackLen)
   }
-
 
   // Section 5.1.2 of the BLAKE3 spec explains this algorithm in more detail.
   private def addChunkChainingValue(cv: Array[Int], chunks: Long): Unit = {
