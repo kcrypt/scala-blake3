@@ -363,10 +363,22 @@ private[blake3] object CommonFunction {
   }
 
   def parentCV(
-    merged: Array[Int], leftChildCV: Array[Int], rightChildCv: Array[Int], key: Array[Int], flags: Int
-  ): Array[Int] = {
-    mergeChildCV(merged, leftChildCV, rightChildCv)
-    new Output(key, merged, 0, BLOCK_LEN, flags | PARENT).chainingValue()
+    parentCV: Array[Int],
+    leftChildCV: Array[Int],
+    rightChildCv: Array[Int],
+    key: Array[Int],
+    flags: Int,
+    tmpBlockWords: Array[Int]
+  ): Unit = {
+    mergeChildCV(tmpBlockWords, leftChildCV, rightChildCv)
+    compressInPlace(
+      parentCV,
+      key,
+      tmpBlockWords,
+      0,
+      BLOCK_LEN,
+      flags | PARENT
+    )
   }
 
 }

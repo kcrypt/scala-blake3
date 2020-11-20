@@ -19,6 +19,8 @@ private[blake3] class HasherImpl (
 
   var cvStackLen: Int = 0
 
+  private val tmpBlockWords = new Array[Int](BLOCK_LEN_WORDS)
+
   private def pushStack(cv: Array[Int]): Unit = {
     cvStack(cvStackLen) = cv
     cvStackLen += 1
@@ -38,13 +40,12 @@ private[blake3] class HasherImpl (
     // with the result. After all these merges, push the final value of
     // `newCv` onto the stack. The number of completed subtrees is given
     // by the number of trailing 0-bits in the new total number of chunks.
-    var newCv = cv
     var totalChunks = chunks
     while ((totalChunks & 1) == 0) {
-      newCv = parentCV(newCv, popStack(), newCv, key, flags)
+      parentCV(cv, popStack(), cv, key, flags, tmpBlockWords)
       totalChunks >>= 1
     }
-    pushStack(newCv)
+    pushStack(cv)
   }
 
   private def finalizeWhenCompleted(): Int = {
