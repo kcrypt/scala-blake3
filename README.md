@@ -55,10 +55,11 @@ All benchmarks was performed on `JDK 15.0.1, OpenJDK 64-Bit Server VM, 15.0.1+9-
  at [Intel® Core™ i7-8700B] from Q2'18.
 
 Short summary:
- - it is about 8 times slower than [SSE 4.1 assembly] version via JNI that is expected,
- - it has memory footprint near 37% of hashed data that is cleaned up by GC,
+ - it is about 7 times slower than [SSE 4.1 assembly] version via JNI that is expected,
+ - it is about 2,5 times slower in multithreaded environment,
+ - it has memory footprint near 20% of hashed data that is cleaned up by GC,
  - it has near to constant memory footprint that won't be cleaned up by GC,
- - result hash size hasn't got any significant impact on performance or memory footprint.
+ - increasing result hash size has the same impact such as hashing.
 
 Full version also available as [jmh-result.json] or via [JMH Visualizer].
 
