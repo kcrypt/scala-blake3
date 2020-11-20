@@ -349,21 +349,24 @@ private[blake3] object CommonFunction {
     res
   }
 
-  def mergeChildCV(leftChildCV: Array[Int], rightChildCv: Array[Int]): Array[Int] = {
-    val merged = new Array[Int](16)
-    System.arraycopy(leftChildCV, 0, merged, 0, KEY_LEN_WORDS)
+  def mergeChildCV(merged: Array[Int], leftChildCV: Array[Int], rightChildCv: Array[Int]): Unit = {
     System.arraycopy(rightChildCv, 0, merged, KEY_LEN_WORDS, KEY_LEN_WORDS)
-    merged
+    System.arraycopy(leftChildCV, 0, merged, 0, KEY_LEN_WORDS)
   }
 
   def parentOutput(
     leftChildCV: Array[Int], rightChildCv: Array[Int], key: Array[Int], flags: Int
-  ): Output =
-    new Output(key, mergeChildCV(leftChildCV, rightChildCv), 0, BLOCK_LEN, flags | PARENT)
+  ): Output = {
+    val merged = new Array[Int](BLOCK_LEN_WORDS)
+    mergeChildCV(merged, leftChildCV, rightChildCv)
+    new Output(key, merged, 0, BLOCK_LEN, flags | PARENT)
+  }
 
   def parentCV(
-    leftChildCV: Array[Int], rightChildCv: Array[Int], key: Array[Int], flags: Int
-  ): Array[Int] =
-    parentOutput(leftChildCV, rightChildCv, key, flags).chainingValue()
+    merged: Array[Int], leftChildCV: Array[Int], rightChildCv: Array[Int], key: Array[Int], flags: Int
+  ): Array[Int] = {
+    mergeChildCV(merged, leftChildCV, rightChildCv)
+    new Output(key, merged, 0, BLOCK_LEN, flags | PARENT).chainingValue()
+  }
 
 }

@@ -41,7 +41,7 @@ private[blake3] class HasherImpl (
     var newCv = cv
     var totalChunks = chunks
     while ((totalChunks & 1) == 0) {
-      newCv = parentCV(popStack(), newCv, key, flags)
+      newCv = parentCV(newCv, popStack(), newCv, key, flags)
       totalChunks >>= 1
     }
     pushStack(newCv)
