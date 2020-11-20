@@ -287,38 +287,6 @@ private[blake3] object CommonFunction {
     state(15) ^= chainingValue(7)
   }
 
-  def compress(
-    chainingValue: Array[Int],
-    blockWords: Array[Int],
-    counter: Long,
-    blockLen: Int,
-    flags: Int
-  ): Array[Int] = {
-    val state = new Array[Int](BLOCK_LEN_WORDS)
-
-    compressRounds(state, blockWords, chainingValue, counter, blockLen, flags)
-
-    state(0) ^= state(8)
-    state(1) ^= state(9)
-    state(2) ^= state(10)
-    state(3) ^= state(11)
-    state(4) ^= state(12)
-    state(5) ^= state(13)
-    state(6) ^= state(14)
-    state(7) ^= state(15)
-
-    state(8) ^= chainingValue(0)
-    state(9) ^= chainingValue(1)
-    state(10) ^= chainingValue(2)
-    state(11) ^= chainingValue(3)
-    state(12) ^= chainingValue(4)
-    state(13) ^= chainingValue(5)
-    state(14) ^= chainingValue(6)
-    state(15) ^= chainingValue(7)
-
-    state
-  }
-
   def compressSingle(
     chainingValue: Array[Int],
     blockWords: Array[Int],
