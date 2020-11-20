@@ -2,10 +2,6 @@ package ky.korins.blake3
 
 import CommonFunction._
 
-private[blake3] object HasherImpl {
-  val emptySubtree: Array[Int] = new Array[Int](KEY_LEN_WORDS)
-}
-
 // An incremental hasher that can accept any number of writes.
 private[blake3] class HasherImpl (
   val key: Array[Int],
@@ -15,7 +11,7 @@ private[blake3] class HasherImpl (
   val chunkState: ChunkState = new ChunkState(key, 0, flags)
 
   // Space for 54 subtree chaining values
-  val cvStack: Array[Array[Int]] = Array.fill[Array[Int]](MAX_DEPTH)(HasherImpl.emptySubtree)
+  val cvStack: Array[Array[Int]] = new Array[Array[Int]](MAX_DEPTH)
 
   var cvStackLen: Int = 0
 
