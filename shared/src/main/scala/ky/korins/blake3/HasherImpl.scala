@@ -50,7 +50,7 @@ private[blake3] class HasherImpl (
     // chunk state. More input is coming, so this chunk is not ROOT.
     if (len == CHUNK_LEN) {
       val chunkCV = new Array[Int](BLOCK_LEN_WORDS)
-      chunkState.output().chainingValue(chunkCV)
+      chunkState.unsafeOutput().chainingValue(chunkCV)
       val totalChunks = chunkState.reset(key)
       addChunkChainingValue(chunkCV, totalChunks)
       0
@@ -89,7 +89,7 @@ private[blake3] class HasherImpl (
       // Starting with the Output from the current chunk, compute all the
       // parent chaining values along the right edge of the tree, until we
       // have the root Output.
-      var output = chunkState.output()
+      var output = chunkState.unsafeOutput()
       val cv = new Array[Int](BLOCK_LEN_WORDS)
       val blockWords = new Array[Int](BLOCK_LEN_WORDS)
       var parentNodesRemaining = cvStackLen

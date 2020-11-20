@@ -87,17 +87,53 @@ private[blake3] class ChunkState(
     blockLen += 1
   }
 
-  def output(): Output = {
-    var i = blockLen
-    while (i < BLOCK_LEN) {
-      block(i) = 0
+  private def roundBlock(blockWords: Array[Int]): Unit = {
+    var off = 0
+    var i = 0
+    while (off < blockLen) {
+      blockLen - off match {
+        case 1 =>
+          blockWords(i) = block(off) & 0xff
+
+        case 2 =>
+          blockWords(i) = ((block(off + 1) & 0xff) << 8) |
+            (block(off) & 0xff)
+
+        case 3 =>
+          blockWords(i) = ((block(off + 2) & 0xff) << 16) |
+            ((block(off + 1) & 0xff) << 8) |
+            (block(off) & 0xff)
+
+        case _ =>
+          blockWords(i) = ((block(off + 3) & 0xff) << 24) |
+            ((block(off + 2) & 0xff) << 16) |
+            ((block(off + 1) & 0xff) << 8) |
+            (block(off) & 0xff)
+      }
+
+      off += 4
       i += 1
     }
+    while (i < BLOCK_LEN_WORDS) {
+      blockWords(i) = 0
+      i += 1
+    }
+  }
 
+  def unsafeOutput(): Output = {
+    roundBlock(tmpBlockWords)
+    new Output(chainingValue, tmpBlockWords,
+      chunkCounter, blockLen, flags | startFlag() | CHUNK_END)
+  }
+
+  def output(): Output = {
     val safeChainingValue = new Array[Int](KEY_LEN_WORDS)
     System.arraycopy(chainingValue, 0, safeChainingValue, 0, KEY_LEN_WORDS)
 
-    new Output(safeChainingValue, wordsFromLittleEndianBytes(block),
+    val safeBlockWords = new Array[Int](BLOCK_LEN_WORDS)
+    roundBlock(safeBlockWords)
+
+    new Output(safeChainingValue, safeBlockWords,
       chunkCounter, blockLen, flags | startFlag() | CHUNK_END)
   }
 }
