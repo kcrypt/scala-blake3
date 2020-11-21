@@ -2,8 +2,8 @@ package ky.korins.blake3
 
 import CommonFunction._
 
-import java.io.InputStream
-import java.nio.{ByteBuffer, CharBuffer}
+import java.io.{InputStream, OutputStream}
+import java.nio.{ByteBuffer}
 
 // An incremental hasher that can accept any number of writes.
 private[blake3] class HasherImpl (
@@ -153,4 +153,7 @@ private[blake3] class HasherImpl (
   // Finalize the hash and write one byte.
   def done(): Byte =
     getOutput.rootByte()
+
+  def done(out: OutputStream, len: Int): Unit =
+    getOutput.rootBytes(out, len)
 }

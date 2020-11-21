@@ -37,6 +37,7 @@ scala>
 `Hasher.done` supports different output such as:
  - `done(out: Array[Byte])` to fill full provided array;
  - `done(out: Array[Byte], offset: Int, len: Int)` to fill specified part of provided array;
+ - `done(out: OutputStream, len: Int)` to fill specified `OutputStream`;
  - `done()` that returns a single byte hash value;
  - `doneBigInt(bitLength: Int)` that returns positive BigInt with specified length in bits;
  - `doneHex(resultLength: Int)` that returns hex encoded string with specified output length in characters;

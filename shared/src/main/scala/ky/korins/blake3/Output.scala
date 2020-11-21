@@ -2,6 +2,7 @@ package ky.korins.blake3
 
 import CommonFunction._
 
+import java.io.OutputStream
 import scala.language.implicitConversions
 
 private[blake3] class Output (
@@ -82,4 +83,55 @@ private[blake3] class Output (
       blockLen,
       flags | ROOT
     ).toByte
+
+  def rootBytes(out: OutputStream, len: Int): Unit = {
+    var outputBlockCounter = 0
+    var pos = 0
+
+    val blockLenWords = BLOCK_LEN_WORDS
+    val words = new Array[Int](blockLenWords)
+    val flags = this.flags | ROOT
+
+    while (pos < len) {
+      compressInPlace(
+        words,
+        inputChainingValue,
+        blockWords,
+        outputBlockCounter,
+        blockLen,
+        flags
+      )
+
+      var wordIdx = 0
+      while (wordIdx < blockLenWords && pos < len) {
+        val word = words(wordIdx)
+        wordIdx += 1
+        len - pos match {
+          case 1 =>
+            out.write(word)
+            pos += 1
+
+          case 2 =>
+            out.write(word)
+            out.write(word >>> 8)
+            pos += 2
+
+          case 3 =>
+            out.write(word)
+            out.write(word >>> 8)
+            out.write(word >>> 16)
+            pos += 3
+
+          case _ =>
+            out.write(word)
+            out.write(word >>> 8)
+            out.write(word >>> 16)
+            out.write(word >>> 24)
+            pos += 4
+        }
+      }
+
+      outputBlockCounter += 1
+    }
+  }
 }

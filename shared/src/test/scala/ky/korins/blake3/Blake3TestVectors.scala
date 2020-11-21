@@ -5,7 +5,7 @@ import org.scalatest.Assertion
 import org.scalatest.matchers.should
 import org.scalatest.wordspec.AnyWordSpec
 
-import java.io.ByteArrayInputStream
+import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
 import java.nio.ByteBuffer
 import scala.language.implicitConversions
 
@@ -40,6 +40,11 @@ class Blake3TestVectors extends AnyWordSpec with should.Matchers {
     },
     { hasher =>
       hasher.doneHex(2 * OUTPUT_LEN)
+    },
+    { hasher =>
+      val bos = new ByteArrayOutputStream()
+      hasher.done(bos, OUTPUT_LEN)
+      bos.toByteArray.map(b => "%02x" format (b & 0xff)).mkString
     }
   )
 

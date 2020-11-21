@@ -1,6 +1,6 @@
 package ky.korins.blake3
 
-import java.io.InputStream
+import java.io.{InputStream, OutputStream}
 import java.nio.ByteBuffer
 
 trait Hasher {
@@ -59,6 +59,11 @@ trait Hasher {
    * Calculate a hash as single byte
    */
   def done(): Byte
+
+  /**
+   * Calculate a hash into specified OutputStream with specified output length in bytes
+   */
+  def done(out: OutputStream, len: Int): Unit
 
   /**
    * Calculate a hash and return it as positive BigInt with specified length in bits
