@@ -45,7 +45,13 @@ class Blake3TestVectors extends AnyWordSpec with should.Matchers {
       val bos = new ByteArrayOutputStream()
       hasher.done(bos, OUTPUT_LEN)
       bos.toByteArray.map(b => "%02x" format (b & 0xff)).mkString
+    },
+    { hasher =>
+      val bb = ByteBuffer.allocate(OUTPUT_LEN)
+      hasher.done(bb)
+      bb.array().map(b => "%02x" format (b & 0xff)).mkString
     }
+
   )
 
   private def runTestCase(

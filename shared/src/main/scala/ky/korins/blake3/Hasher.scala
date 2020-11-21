@@ -66,6 +66,11 @@ trait Hasher {
   def done(out: OutputStream, len: Int): Unit
 
   /**
+   * Calculate a hash into specified OutputStream with specified output length in bytes
+   */
+  def done(out: ByteBuffer): Unit
+
+  /**
    * Calculate a hash and return it as positive BigInt with specified length in bits
    */
   @throws(classOf[IllegalArgumentException])

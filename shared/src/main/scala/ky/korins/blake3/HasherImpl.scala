@@ -156,4 +156,7 @@ private[blake3] class HasherImpl (
 
   def done(out: OutputStream, len: Int): Unit =
     getOutput.rootBytes(out, len)
+
+  def done(out: ByteBuffer): Unit =
+    getOutput.rootBytes(out)
 }

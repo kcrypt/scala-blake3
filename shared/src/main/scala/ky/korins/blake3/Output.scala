@@ -3,6 +3,7 @@ package ky.korins.blake3
 import CommonFunction._
 
 import java.io.OutputStream
+import java.nio.ByteBuffer
 import scala.language.implicitConversions
 
 private[blake3] class Output (
@@ -127,6 +128,58 @@ private[blake3] class Output (
             out.write(word >>> 8)
             out.write(word >>> 16)
             out.write(word >>> 24)
+            pos += 4
+        }
+      }
+
+      outputBlockCounter += 1
+    }
+  }
+
+  def rootBytes(out: ByteBuffer): Unit = {
+    var outputBlockCounter = 0
+    var pos = 0
+    val len = out.limit()
+
+    val blockLenWords = BLOCK_LEN_WORDS
+    val words = new Array[Int](blockLenWords)
+    val flags = this.flags | ROOT
+
+    while (pos < len) {
+      compressInPlace(
+        words,
+        inputChainingValue,
+        blockWords,
+        outputBlockCounter,
+        blockLen,
+        flags
+      )
+
+      var wordIdx = 0
+      while (wordIdx < blockLenWords && pos < len) {
+        val word = words(wordIdx)
+        wordIdx += 1
+        len - pos match {
+          case 1 =>
+            out.put((word & 0xff).toByte)
+            pos += 1
+
+          case 2 =>
+            out.put((word & 0xff).toByte)
+            out.put(((word >>> 8) & 0xff).toByte)
+            pos += 2
+
+          case 3 =>
+            out.put((word & 0xff).toByte)
+            out.put(((word >>> 8) & 0xff).toByte)
+            out.put(((word >>> 16) & 0xff).toByte)
+            pos += 3
+
+          case _ =>
+            out.put((word & 0xff).toByte)
+            out.put(((word >>> 8) & 0xff).toByte)
+            out.put(((word >>> 16) & 0xff).toByte)
+            out.put(((word >>> 24) & 0xff).toByte)
             pos += 4
         }
       }
