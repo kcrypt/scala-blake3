@@ -3,6 +3,7 @@ package ky.korins.blake3
 import CommonFunction._
 
 import java.io.InputStream
+import java.nio.{ByteBuffer, CharBuffer}
 
 // An incremental hasher that can accept any number of writes.
 private[blake3] class HasherImpl (
@@ -101,6 +102,19 @@ private[blake3] class HasherImpl (
       chunkState.update(bytes, 0, read)
       consume = CHUNK_LEN - len
       read = input.read(bytes, 0, consume)
+    }
+
+    this
+  }
+
+  def update(input: ByteBuffer): Hasher = synchronized {
+    val bytes = new Array[Byte](CHUNK_LEN)
+
+    while (input.hasRemaining) {
+      val len = finalizeWhenCompleted()
+      val consume = Math.min(CHUNK_LEN - len, input.remaining())
+      input.get(bytes, 0, consume)
+      chunkState.update(bytes, 0, consume)
     }
 
     this

@@ -1,6 +1,7 @@
 package ky.korins.blake3
 
 import java.io.InputStream
+import java.nio.ByteBuffer
 
 trait Hasher {
   /**
@@ -29,6 +30,11 @@ trait Hasher {
    * It reads `input` until it returns `-1`
    */
   def update(input: InputStream): Hasher
+
+  /**
+   * Updates a hasher from specified ByteBuffer, returns the same hasher
+   */
+  def update(input: ByteBuffer): Hasher
 
   /**
    * Calculate a hash into specified byte array

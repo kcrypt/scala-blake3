@@ -1,11 +1,11 @@
 package ky.korins.blake3
 
 import ky.korins.blake3
-
 import org.scalatest.matchers.should
 import org.scalatest.wordspec.AnyWordSpec
 
 import java.io.ByteArrayInputStream
+import java.nio.ByteBuffer
 import scala.language.implicitConversions
 
 class Blake3TestVectors extends AnyWordSpec with should.Matchers {
@@ -25,7 +25,7 @@ class Blake3TestVectors extends AnyWordSpec with should.Matchers {
 
       // Update one of test per byte to confirm that is works as expected
       val keyed_hasher = Blake3.newKeyedHasher(TEST_KEY)
-      input.foreach(keyed_hasher.update)
+      keyed_hasher.update(ByteBuffer.wrap(input))
       val keyed_hash = keyed_hasher.doneBase16(OUTPUT_LEN).toLowerCase
 
       val keyed_single_array = keyed_hasher.done(1)

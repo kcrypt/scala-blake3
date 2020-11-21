@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [unreleased]
+- Introduced `update(ByteBuffer)`.
 
 ## [1.9.0] - 2020-11-21
 - Significant performance improvement and reducing memory footprint at `done`.
