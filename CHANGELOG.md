@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [unreleased]
+
+## [1.9.0] - 2020-11-21
 - Significant performance improvement and reducing memory footprint at `done`.
 - Improved synchronization logic.
 - Introduced `update(InputStream)`.
@@ -50,7 +52,8 @@ All notable changes to this project will be documented in this file.
 ## [1.0.0] - 2020-07-15
 - The first public release as dedicated project.
 
-[unreleased]: https://github.com/catap/scala-blake3/compare/v1.8.1...HEAD
+[unreleased]: https://github.com/catap/scala-blake3/compare/v1.9.0...HEAD
+[1.9.0]: https://github.com/catap/scala-blake3/compare/v1.8.1...v1.9.0
 [1.8.1]: https://github.com/catap/scala-blake3/compare/v1.8.0...v1.8.1
 [1.8.0]: https://github.com/catap/scala-blake3/compare/v1.7.1...v1.8.0
 [1.7.1]: https://github.com/catap/scala-blake3/compare/v1.7.0...v1.7.1
