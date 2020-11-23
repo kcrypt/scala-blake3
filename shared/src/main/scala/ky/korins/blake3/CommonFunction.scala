@@ -142,11 +142,7 @@ private[blake3] object CommonFunction {
   ): Unit = {
     // CV 0..7
     System.arraycopy(chainingValue, 0, state, 0, 8)
-
-    state(8) = IV(0)
-    state(9) = IV(1)
-    state(10) = IV(2)
-    state(11) = IV(3)
+    System.arraycopy(IV, 0, state, 8, 4)
 
     state(12) = counter.toInt
     state(13) = (counter >> 32).toInt
