@@ -3,6 +3,7 @@ package ky.korins.blake3
 import CommonFunction._
 
 object Blake3 {
+
   /**
    * A new hasher
    */
@@ -15,7 +16,9 @@ object Blake3 {
   @throws(classOf[IllegalArgumentException])
   def newKeyedHasher(key: Array[Byte]): Hasher = {
     if (key.length != KEY_LEN) {
-      throw new IllegalArgumentException(s"key should be ky.korins.blake3.KEY_LEN: $KEY_LEN bytes")
+      throw new IllegalArgumentException(
+        s"key should be ky.korins.blake3.KEY_LEN: $KEY_LEN bytes"
+      )
     }
     new HasherImpl(wordsFromLittleEndianBytes(key), KEYED_HASH)
   }

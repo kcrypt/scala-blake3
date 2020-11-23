@@ -122,8 +122,13 @@ private[blake3] class ChunkState(
 
   def unsafeOutput(): Output = {
     roundBlock(tmpBlockWords)
-    new Output(chainingValue, tmpBlockWords,
-      chunkCounter, blockLen, flags | startFlag() | CHUNK_END)
+    new Output(
+      chainingValue,
+      tmpBlockWords,
+      chunkCounter,
+      blockLen,
+      flags | startFlag() | CHUNK_END
+    )
   }
 
   def output(): Output = {
@@ -133,7 +138,12 @@ private[blake3] class ChunkState(
     val safeBlockWords = new Array[Int](BLOCK_LEN_WORDS)
     roundBlock(safeBlockWords)
 
-    new Output(safeChainingValue, safeBlockWords,
-      chunkCounter, blockLen, flags | startFlag() | CHUNK_END)
+    new Output(
+      safeChainingValue,
+      safeBlockWords,
+      chunkCounter,
+      blockLen,
+      flags | startFlag() | CHUNK_END
+    )
   }
 }

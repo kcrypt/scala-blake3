@@ -6,7 +6,7 @@ import java.io.OutputStream
 import java.nio.ByteBuffer
 import scala.language.implicitConversions
 
-private[blake3] class Output (
+private[blake3] class Output(
   val inputChainingValue: Array[Int],
   val blockWords: Array[Int],
   val counter: Long,

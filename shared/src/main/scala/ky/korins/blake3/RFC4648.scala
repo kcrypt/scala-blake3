@@ -51,7 +51,9 @@ object RFC4648 {
         )
 
       case s =>
-        throw new IllegalArgumentException(s"base64 group should be from 0 to 3 bytes, but it is $s")
+        throw new IllegalArgumentException(
+          s"base64 group should be from 0 to 3 bytes, but it is $s"
+        )
     }
 
   private def base32_b2c(bytes: Array[Byte], alphabet: Array[Char]): Seq[Char] =
@@ -89,7 +91,7 @@ object RFC4648 {
           alphabet((bytes(1) >>> 1) & 0x1f),
           alphabet(((bytes(1) & 0x1) << 4) | ((bytes(2) >>> 4) & 0xf)),
           alphabet(((bytes(2) & 0xf) << 1) | ((bytes(3) >>> 7) & 0x1)),
-          alphabet((bytes(3) >>> 2 ) & 0x1f),
+          alphabet((bytes(3) >>> 2) & 0x1f),
           alphabet((bytes(3) & 0x3) << 3)
         )
 
@@ -100,15 +102,16 @@ object RFC4648 {
           alphabet((bytes(1) >>> 1) & 0x1f),
           alphabet(((bytes(1) & 0x1) << 4) | ((bytes(2) >>> 4) & 0xf)),
           alphabet(((bytes(2) & 0xf) << 1) | ((bytes(3) >>> 7) & 0x1)),
-          alphabet((bytes(3) >>> 2 ) & 0x1f),
+          alphabet((bytes(3) >>> 2) & 0x1f),
           alphabet(((bytes(3) & 0x3) << 3) | ((bytes(4) >>> 5) & 0x7)),
           alphabet(bytes(4) & 0x1f)
         )
 
       case s =>
-        throw new IllegalArgumentException(s"base32 group should be from 0 to 5 bytes, but it is $s")
+        throw new IllegalArgumentException(
+          s"base32 group should be from 0 to 5 bytes, but it is $s"
+        )
     }
-
 
   private def base16_b2c(byte: Byte, alphabet: Array[Char]): Seq[Char] = Seq(
     alphabet((byte >>> 4) & 0xf),

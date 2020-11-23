@@ -4,6 +4,7 @@ import java.io.{InputStream, OutputStream}
 import java.nio.ByteBuffer
 
 trait Hasher {
+
   /**
    * Updates a hasher by provided bytes, returns the same hasher
    */
@@ -76,7 +77,9 @@ trait Hasher {
   @throws(classOf[IllegalArgumentException])
   def doneBigInt(bitLength: Int): BigInt = {
     if (bitLength % 8 != 0) {
-      throw new IllegalArgumentException(s"bitLength: $bitLength should be a multiple of 8")
+      throw new IllegalArgumentException(
+        s"bitLength: $bitLength should be a multiple of 8"
+      )
     }
     BigInt(1, done(bitLength / 8))
   }
@@ -87,7 +90,9 @@ trait Hasher {
   @throws(classOf[IllegalArgumentException])
   def doneHex(resultLength: Int): String = {
     if (resultLength % 2 != 0) {
-      throw new IllegalArgumentException(s"resultLength: $resultLength should be even")
+      throw new IllegalArgumentException(
+        s"resultLength: $resultLength should be even"
+      )
     }
     RFC4648.base16(done(resultLength / 2)).toLowerCase
   }

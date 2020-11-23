@@ -32,9 +32,12 @@ class OfficialTestVectorsTest extends AnyWordSpec with should.Matchers {{
       testVector.runCase(
         inputLen = {case["input_len"]},
         outputLen = outputLen,
-        hash = "{case["hash"]}",
-        keyedHash = "{case["keyed_hash"]}",
-        deriveKeyHash = "{case["derive_key"]}"
+        hash =
+          "{case["hash"]}",
+        keyedHash =
+          "{case["keyed_hash"]}",
+        deriveKeyHash =
+          "{case["derive_key"]}"
       )
       testVector.runSquareCase({case["input_len"]})
     }}

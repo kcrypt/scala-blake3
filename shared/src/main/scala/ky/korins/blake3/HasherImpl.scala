@@ -6,7 +6,7 @@ import java.io.{InputStream, OutputStream}
 import java.nio.{ByteBuffer}
 
 // An incremental hasher that can accept any number of writes.
-private[blake3] class HasherImpl (
+private[blake3] class HasherImpl(
   val key: Array[Int],
   val flags: Int
 ) extends Hasher {
@@ -133,7 +133,9 @@ private[blake3] class HasherImpl (
       while (parentNodesRemaining > 0) {
         parentNodesRemaining -= 1
         output.chainingValue(cv)
-        output = parentOutput(blockWords, cvStack(parentNodesRemaining),
+        output = parentOutput(
+          blockWords,
+          cvStack(parentNodesRemaining),
           cv,
           key,
           flags

@@ -4,7 +4,15 @@ private[blake3] object CommonFunction {
   // The mixing function, G, which mixes either a column or a diagonal.
   // this function uses mutable of Word
   @inline
-  private def g(state: Array[Int], a: Int, b: Int, c: Int, d: Int, mx: Int, my: Int): Unit = {
+  private def g(
+    state: Array[Int],
+    a: Int,
+    b: Int,
+    c: Int,
+    d: Int,
+    mx: Int,
+    my: Int
+  ): Unit = {
     var state_a = state(a)
     var state_b = state(b)
     var state_c = state(c)
@@ -245,7 +253,14 @@ private[blake3] object CommonFunction {
       ((bytes(61 + bytesOffset) & 0xff) << 8) |
       ((bytes(60 + bytesOffset) & 0xff))
 
-    compressRounds(tmpState, tmpBlockWords, chainingValue, counter, blockLen, flags)
+    compressRounds(
+      tmpState,
+      tmpBlockWords,
+      chainingValue,
+      counter,
+      blockLen,
+      flags
+    )
 
     chainingValue(0) = tmpState(0) ^ tmpState(8)
     chainingValue(1) = tmpState(1) ^ tmpState(9)
@@ -318,7 +333,11 @@ private[blake3] object CommonFunction {
   }
 
   @inline
-  private def mergeChildCV(merged: Array[Int], leftChildCV: Array[Int], rightChildCv: Array[Int]): Unit = {
+  private def mergeChildCV(
+    merged: Array[Int],
+    leftChildCV: Array[Int],
+    rightChildCv: Array[Int]
+  ): Unit = {
     System.arraycopy(rightChildCv, 0, merged, KEY_LEN_WORDS, KEY_LEN_WORDS)
     System.arraycopy(leftChildCV, 0, merged, 0, KEY_LEN_WORDS)
   }

@@ -62,7 +62,6 @@ class TestVector(
       hasher.done(bb)
       byte2hex(bb.array())
     }
-
   )
 
   def runCase(
@@ -78,7 +77,9 @@ class TestVector(
       done <- doneMethods
     } yield {
       val hasher = Blake3.newHasher()
-      val keyedHasher = Blake3.newKeyedHasher(testKey.getBytes(StandardCharsets.US_ASCII).take(blake3.KEY_LEN))
+      val keyedHasher = Blake3.newKeyedHasher(
+        testKey.getBytes(StandardCharsets.US_ASCII).take(blake3.KEY_LEN)
+      )
       val deriveHeyHasher = Blake3.newDeriveKeyHasher(testContext)
 
       update(hasher, input)
@@ -93,31 +94,47 @@ class TestVector(
 
   def runSquareCase(len: Int): Assertion = {
     val input = (0 until len).map(_ % inputLimit).map(_.toByte).toArray
-    val hashers: Seq[((Hasher, Int) => String, (Hasher, Hasher, Hasher))] = for {
-      update <- updateMethods
-      done <- doneMethods
-    } yield {
-      val hasher = Blake3.newHasher()
-      val keyedHasher = Blake3.newKeyedHasher(testKey.getBytes(StandardCharsets.US_ASCII).take(blake3.KEY_LEN))
-      val deriveKeyHasher = Blake3.newDeriveKeyHasher(testContext)
+    val hashers: Seq[((Hasher, Int) => String, (Hasher, Hasher, Hasher))] =
+      for {
+        update <- updateMethods
+        done <- doneMethods
+      } yield {
+        val hasher = Blake3.newHasher()
+        val keyedHasher = Blake3.newKeyedHasher(
+          testKey.getBytes(StandardCharsets.US_ASCII).take(blake3.KEY_LEN)
+        )
+        val deriveKeyHasher = Blake3.newDeriveKeyHasher(testContext)
 
-      update(hasher, input)
-      update(keyedHasher, input)
-      update(deriveKeyHasher, input)
+        update(hasher, input)
+        update(keyedHasher, input)
+        update(deriveKeyHasher, input)
 
-      (done, (hasher, keyedHasher, deriveKeyHasher))
-    }
+        (done, (hasher, keyedHasher, deriveKeyHasher))
+      }
 
     val hashes: Seq[(String, String, String)] = hashers
       .map { case (done, (hasher, keyedHasher, deriveHeyHasher)) =>
         (done(hasher, len), done(keyedHasher, len), done(deriveHeyHasher, len))
       }
 
-    val reducer: (((String, String, String), (String, String, String)) => (String, String, String)) = {
+    val reducer: (
+      (
+        (String, String, String),
+        (String, String, String)
+      ) => (String, String, String)
+    ) = {
       case (
-        (leftHash: String, leftKeyedHash: String, leftDeriveKeyHash: String),
-        (rightHash: String, rightKeyedHash: String, rightDeriveKeyHash: String)) =>
-
+            (
+              leftHash: String,
+              leftKeyedHash: String,
+              leftDeriveKeyHash: String
+            ),
+            (
+              rightHash: String,
+              rightKeyedHash: String,
+              rightDeriveKeyHash: String
+            )
+          ) =>
         leftHash shouldBe rightHash
         leftKeyedHash shouldBe rightKeyedHash
         leftDeriveKeyHash shouldBe rightDeriveKeyHash

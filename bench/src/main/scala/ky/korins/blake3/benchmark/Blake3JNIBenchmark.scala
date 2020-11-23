@@ -55,4 +55,3 @@ class Blake3JNIBenchmark {
     hasher.getOutput(hashLen)
   }
 }
-

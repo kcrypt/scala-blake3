@@ -19,13 +19,7 @@ package object blake3 {
   private[blake3] val DERIVE_KEY_MATERIAL = 1 << 6
 
   private[blake3] val IV = Array(
-    0x6A09E667,
-    0xBB67AE85,
-    0x3C6EF372,
-    0xA54FF53A,
-    0x510E527F,
-    0x9B05688C,
-    0x1F83D9AB,
-    0x5BE0CD19
+    0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 0x510e527f, 0x9b05688c,
+    0x1f83d9ab, 0x5be0cd19
   )
 }
