@@ -2,6 +2,10 @@ package ky.korins.blake3
 
 import CommonFunction._
 
+private[blake3] object ChunkState {
+  val zerosBlockWords = new Array[Int](BLOCK_LEN_WORDS)
+}
+
 private[blake3] class ChunkState(
   val key: Array[Int],
   var chunkCounter: Long,
@@ -114,9 +118,10 @@ private[blake3] class ChunkState(
       off += 4
       i += 1
     }
-    while (i < BLOCK_LEN_WORDS) {
-      blockWords(i) = 0
-      i += 1
+
+    val zeros = BLOCK_LEN_WORDS - i
+    if (zeros > 0) {
+      System.arraycopy(ChunkState.zerosBlockWords, 0, blockWords, i, zeros)
     }
   }
 
