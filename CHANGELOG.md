@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 - Introduced `update(ByteBuffer)`.
 - Introduced `done(out: OutputStream, len: Int)`.
 - Introduced `done(out: ByteBuffer)`.
+- Synchronized license with original blake3 implementation.
 
 ## [1.9.0] - 2020-11-21
 - Significant performance improvement and reducing memory footprint at `done`.

@@ -29,6 +29,7 @@ publishTo in ThisBuild := sonatypePublishToBundle.value
 lazy val blake3 = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .crossType(CrossType.Full)
   .enablePlugins(BuildInfoPlugin)
+  .enablePlugins(AutomateHeaderPlugin)
   .in(file("."))
   .settings(
     skip in publish := false,
@@ -38,6 +39,7 @@ lazy val blake3 = crossProject(JSPlatform, JVMPlatform, NativePlatform)
         scala.sys.process.Process("git rev-parse HEAD").!!.trim
       }
     ),
+    headerLicense := LicenseHeader.template,
     buildInfoPackage := "ky.korins.blake3",
     libraryDependencies ++= Seq(
       "org.scalatest" %%% "scalatest" % scalatestVersion % Test,
@@ -59,6 +61,7 @@ lazy val blake3 = crossProject(JSPlatform, JVMPlatform, NativePlatform)
 
 lazy val bench = project.in(file("bench"))
   .dependsOn(blake3.jvm)
+  .enablePlugins(AutomateHeaderPlugin)
   .settings(
     name := "blake3-bench",
     skip in publish := true,
@@ -68,6 +71,7 @@ lazy val bench = project.in(file("bench"))
     libraryDependencies ++= Seq(
       "io.lktk" % "blake3jni" % blake3jniVersion,
     ),
+    headerLicense := LicenseHeader.template,
     assemblyMergeStrategy in assembly := {
       case PathList("META-INF", "MANIFEST.MF") =>
         MergeStrategy.discard

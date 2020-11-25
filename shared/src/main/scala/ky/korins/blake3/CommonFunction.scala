@@ -1,3 +1,12 @@
+/*
+ * scala-blake3 - highly optimized blake3 implementation for scala, scala-js and scala-native.
+ *
+ * Written in 2020 by Kirill A. Korinsky <kirill@korins.ky>
+ *
+ * This work is released into the public domain with CC0 1.0.
+ * Alternatively, it islicensed under the Apache License 2.0.
+ */
+
 package ky.korins.blake3
 
 private[blake3] object CommonFunction {
