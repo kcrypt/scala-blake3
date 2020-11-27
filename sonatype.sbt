@@ -4,10 +4,7 @@ import xerial.sbt.Sonatype.GitHubHosting
 sonatypeProfileName in ThisBuild := "ky.korins"
 publishMavenStyle in ThisBuild := true
 sonatypeProjectHosting in ThisBuild := Some(GitHubHosting("catap", "scala-blake3", "kirill@korins.ky"))
-licenses in ThisBuild := Seq(
-  "CC0 1.0 Universal" -> url("https://github.com/catap/scala-blake3/blob/master/LICENSE.txt"),
-  "Apache License 2.0" -> url("https://github.com/catap/scala-blake3/blob/master/LICENSE.txt")
-)
+licenses in ThisBuild := LicenseDefinition.licenses
 homepage in ThisBuild := Some(url("https://github.com/catap/scala-blake3"))
 scmInfo in ThisBuild := Some(
   ScmInfo(

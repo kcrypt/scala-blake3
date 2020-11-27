@@ -39,7 +39,7 @@ lazy val blake3 = crossProject(JSPlatform, JVMPlatform, NativePlatform)
         scala.sys.process.Process("git rev-parse HEAD").!!.trim
       }
     ),
-    headerLicense := LicenseHeader.template,
+    headerLicense := LicenseDefinition.template,
     buildInfoPackage := "ky.korins.blake3",
     libraryDependencies ++= Seq(
       "org.scalatest" %%% "scalatest" % scalatestVersion % Test,
@@ -71,7 +71,7 @@ lazy val bench = project.in(file("bench"))
     libraryDependencies ++= Seq(
       "io.lktk" % "blake3jni" % blake3jniVersion,
     ),
-    headerLicense := LicenseHeader.template,
+    headerLicense := LicenseDefinition.template,
     assemblyMergeStrategy in assembly := {
       case PathList("META-INF", "MANIFEST.MF") =>
         MergeStrategy.discard
