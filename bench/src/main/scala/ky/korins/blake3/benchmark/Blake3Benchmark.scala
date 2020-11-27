@@ -36,11 +36,11 @@ class Blake3Benchmark {
   }
 
   @Benchmark
-  def newHasher(): Unit = {
-    Blake3.newHasher()
+  def newHasher(): Unit =
+    Blake3
+      .newHasher()
       .update(data)
       .done(hashBytes)
-  }
 
   @Benchmark
   def reusedHaser(): Unit =
