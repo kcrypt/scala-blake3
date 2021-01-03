@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [unreleased]
+
+## [2.0.1] - 2021-01-03
 - Migrated from scala `3.0.0-M3`.
 
 ## [2.0.0] - 2020-12-03
@@ -59,7 +61,8 @@ All notable changes to this project will be documented in this file.
 ## [1.0.0] - 2020-07-15
 - The first public release as dedicated project.
 
-[unreleased]: https://github.com/catap/scala-blake3/compare/v2.0.0...HEAD
+[unreleased]: https://github.com/catap/scala-blake3/compare/v2.0.1...HEAD
+[2.0.1]: https://github.com/catap/scala-blake3/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/catap/scala-blake3/compare/v1.9.0...v2.0.0
 [1.9.0]: https://github.com/catap/scala-blake3/compare/v1.8.1...v1.9.0
 [1.8.1]: https://github.com/catap/scala-blake3/compare/v1.8.0...v1.8.1
