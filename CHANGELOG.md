@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [unreleased]
+- Migrated from scala `3.0.0-M3`.
 
 ## [2.0.0] - 2020-12-03
 - Introduced `update(ByteBuffer)`.
