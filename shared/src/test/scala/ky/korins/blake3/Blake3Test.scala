@@ -123,6 +123,7 @@ class Blake3Test extends AnyWordSpec with should.Matchers {
     Blake3.base64Url(input, 4) shouldBe "oKHBWQ"
 
     Blake3.bigInt(input, 16).toString() shouldBe "41121"
+    Blake3.bigInt(input, BigInt(41119)).toString() shouldBe "2"
   }
 
   "Zero done" in {

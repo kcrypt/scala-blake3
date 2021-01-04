@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [unreleased]
+- Introduced `doneBigInt(N: BigInt)`.
 
 ## [2.0.1] - 2021-01-03
 - Migrated from scala `3.0.0-M3`.

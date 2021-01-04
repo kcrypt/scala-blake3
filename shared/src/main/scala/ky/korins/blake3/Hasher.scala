@@ -94,6 +94,19 @@ trait Hasher {
   }
 
   /**
+   * Calculate a hash and return it as positive BigInt `(mod N)`
+   */
+  def doneBigInt(N: BigInt): BigInt = {
+    val bytes = N.bitLength match {
+      case bitLength if (bitLength % 8 == 0) =>
+        bitLength / 8
+      case bitLength =>
+        bitLength / 8 + 1
+    }
+    BigInt(1, done(bytes)) mod N
+  }
+
+  /**
    * Calculate a hash and return as hex encoded string with specified output length in characters
    */
   @throws(classOf[IllegalArgumentException])

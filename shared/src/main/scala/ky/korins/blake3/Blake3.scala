@@ -97,6 +97,18 @@ object Blake3 {
     bigInt(source.getBytes, bitLength)
 
   /**
+   * Compute a BigInt representative of hash and return it as positive BigInt `(mod N)`
+   */
+  def bigInt(source: Array[Byte], N: BigInt): BigInt =
+    newHasher().update(source).doneBigInt(N)
+
+  /**
+   * Compute a BigInt representative of hash and return it as positive BigInt `(mod N)`
+   */
+  def bigInt(source: String, N: BigInt): BigInt =
+    bigInt(source.getBytes, N)
+
+  /**
    * Compute a hash of specified len from specified source and returns as base16 encoded string
    */
   def base16(source: Array[Byte], len: Int): String =
