@@ -15,7 +15,7 @@ organization in ThisBuild := "ky.korins"
 
 dynverSeparator in ThisBuild := "-"
 
-scalaVersion in ThisBuild := scala3
+scalaVersion in ThisBuild := scala213
 crossScalaVersions in ThisBuild := Seq()
 
 scalacOptions in ThisBuild ++= Seq(
@@ -46,7 +46,7 @@ lazy val blake3 = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     )
   )
   .jvmSettings(
-    scalaVersion := scala3,
+    scalaVersion := scala213,
     crossScalaVersions := Seq(scala212, scala211, scala213, scala3)
   )
   .jsSettings(
