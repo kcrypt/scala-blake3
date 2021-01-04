@@ -26,6 +26,8 @@ scalacOptions in ThisBuild ++= Seq(
 
 publishTo in ThisBuild := sonatypePublishToBundle.value
 
+headerLicense := LicenseDefinition.template
+
 lazy val blake3 = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .crossType(CrossType.Full)
   .enablePlugins(BuildInfoPlugin)
