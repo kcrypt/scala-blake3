@@ -94,6 +94,33 @@ private[blake3] class Output(
       flags | ROOT
     ).toByte
 
+  def rootShort(): Short =
+    compressSingle(
+      inputChainingValue,
+      blockWords,
+      0,
+      blockLen,
+      flags | ROOT
+    ).toShort
+
+  def rootInt(): Int =
+    compressSingle(
+      inputChainingValue,
+      blockWords,
+      0,
+      blockLen,
+      flags | ROOT
+    )
+
+  def rootLong(): Long =
+    compressSingleLong(
+      inputChainingValue,
+      blockWords,
+      0,
+      blockLen,
+      flags | ROOT
+    )
+
   def rootBytes(out: OutputStream, len: Int): Unit = {
     var outputBlockCounter = 0
     var pos = 0

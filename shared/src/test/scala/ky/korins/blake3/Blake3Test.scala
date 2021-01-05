@@ -113,6 +113,10 @@ class Blake3Test extends AnyWordSpec with should.Matchers {
       0x59.toByte
     )
 
+    Blake3.hashShort(input) shouldBe -24160
+    Blake3.hashInt(input) shouldBe 1505862048
+    Blake3.hashLong(input) shouldBe 6467628250047457941L
+
     Blake3.hex(input, 4) shouldBe "a0a1"
     Blake3.base16(input, 4) shouldBe "A0A1C159"
 

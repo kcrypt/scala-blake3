@@ -38,8 +38,9 @@ scala>
  - `done(out: Array[Byte])` to fill full provided array;
  - `done(out: Array[Byte], offset: Int, len: Int)` to fill specified part of provided array;
  - `done(out: OutputStream, len: Int)` to fill specified `OutputStream`;
- - `def done(out: ByteBuffer)` to fill specified `ByteBuffer`;
+ - `done(out: ByteBuffer)` to fill specified `ByteBuffer`;
  - `done()` that returns a single byte hash value;
+ - `doneShort()`, `doneInt()` and `doneLong()` that returns a single short, int or long hash value;
  - `doneBigInt(bitLength: Int)` that returns positive BigInt with specified length in bits;
  - `doneHex(resultLength: Int)` that returns hex encoded string with specified output length in characters;
  - `doneBaseXXX(len: Int)` that returns string representative of XXX encoded as it defined in [RFC 4648] without padding.

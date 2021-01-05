@@ -81,6 +81,21 @@ trait Hasher {
   def done(out: ByteBuffer): Unit
 
   /**
+   * Calculate a hash as single short
+   */
+  def doneShort(): Short
+
+  /**
+   * Calculate a hash as single int
+   */
+  def doneInt(): Int
+
+  /**
+   * Calculate a hash as single long
+   */
+  def doneLong(): Long
+
+  /**
    * Calculate a hash and return it as positive BigInt with specified length in bits
    */
   @throws(classOf[IllegalArgumentException])

@@ -318,10 +318,24 @@ private[blake3] object CommonFunction {
 
     compressRounds(state, blockWords, chainingValue, counter, blockLen, flags)
 
-    // a fast-track for single byte
+    // a fast-track for single int
     state(0) ^ state(8)
   }
 
+  def compressSingleLong(
+    chainingValue: Array[Int],
+    blockWords: Array[Int],
+    counter: Long,
+    blockLen: Int,
+    flags: Int
+  ): Long = {
+    val state = new Array[Int](BLOCK_LEN_WORDS)
+
+    compressRounds(state, blockWords, chainingValue, counter, blockLen, flags)
+
+    // a fast-track for single long
+    ((state(0) ^ state(8)).toLong << 32) | (state(1) ^ state(9))
+  }
   def wordsFromLittleEndianBytes(bytes: Array[Byte]): Array[Int] = {
     val res = new Array[Int](bytes.length / 4)
     var i = 0

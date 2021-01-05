@@ -73,6 +73,42 @@ object Blake3 {
     hash(source.getBytes)
 
   /**
+   * Compute a hash as single short from specified source
+   */
+  def hashShort(source: Array[Byte]): Short =
+    newHasher().update(source).doneShort()
+
+  /**
+   * Compute a hash as single int from specified source
+   */
+  def hashShort(source: String): Short =
+    hashShort(source.getBytes)
+
+  /**
+   * Compute a hash as single int from specified source
+   */
+  def hashInt(source: Array[Byte]): Int =
+    newHasher().update(source).doneInt()
+
+  /**
+   * Compute a hash as single int from specified source
+   */
+  def hashInt(source: String): Int =
+    hashInt(source.getBytes)
+
+  /**
+   * Compute a hash as single long from specified source
+   */
+  def hashLong(source: Array[Byte]): Long =
+    newHasher().update(source).doneLong()
+
+  /**
+   * Compute a hash as single long from specified source
+   */
+  def hashLong(source: String): Long =
+    hashLong(source.getBytes)
+
+  /**
    * Compute a hex representative of hash of specified output len from specified source
    */
   def hex(source: Array[Byte], resultLength: Int): String =

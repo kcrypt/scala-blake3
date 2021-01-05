@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [unreleased]
+- Introduced `doneShort()`, `doneInt()` and `doneLong()`.
 
 ## [2.1.0] - 2021-01-04
 - Introduced `doneBigInt(N: BigInt)`.
