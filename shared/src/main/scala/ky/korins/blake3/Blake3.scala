@@ -33,14 +33,20 @@ object Blake3 {
   }
 
   /**
-   * A new hasher with derive key that might be any array of bytes
+   * A new hasher with derive key that should be initalized via callback
    */
-  def newDeriveKeyHasher(context: Array[Byte]): Hasher = {
-    val contextKey = new HasherImpl(IV, DERIVE_KEY_CONTEXT)
-      .update(context)
-      .done(KEY_LEN)
+  def newDeriveKeyHasher(cb: Hasher => Unit): Hasher = {
+    val contextKeyHasher = new HasherImpl(IV, DERIVE_KEY_CONTEXT)
+    cb(contextKeyHasher)
+    val contextKey = contextKeyHasher.done(KEY_LEN)
     new HasherImpl(wordsFromLittleEndianBytes(contextKey), DERIVE_KEY_MATERIAL)
   }
+
+  /**
+   * A new hasher with derive key that might be any array of bytes
+   */
+  def newDeriveKeyHasher(context: Array[Byte]): Hasher =
+    newDeriveKeyHasher(_.update(context))
 
   /**
    * A new hasher with derive key that might be any string
