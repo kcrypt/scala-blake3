@@ -95,6 +95,45 @@ private[blake3] class HasherImpl(
     this
   }
 
+  // Simplified version of update(Array[Byte])
+  def update(input: Short): Hasher = synchronized {
+    var v = input
+    var i = 0
+    while (i < 2) {
+      finalizeWhenCompleted()
+      chunkState.update(v.toByte)
+      v = (v >> 8).toShort
+      i += 1
+    }
+    this
+  }
+
+  // Simplified version of update(Array[Byte])
+  def update(input: Int): Hasher = synchronized {
+    var v = input
+    var i = 0
+    while (i < 4) {
+      finalizeWhenCompleted()
+      chunkState.update(v.toByte)
+      v >>= 8
+      i += 1
+    }
+    this
+  }
+
+  // Simplified version of update(Array[Byte])
+  def update(input: Long): Hasher = synchronized {
+    var v = input
+    var i = 0
+    while (i < 8) {
+      finalizeWhenCompleted()
+      chunkState.update(v.toByte)
+      v >>= 8
+      i += 1
+    }
+    this
+  }
+
   def update(input: InputStream): Hasher = synchronized {
     val bytes = new Array[Byte](CHUNK_LEN)
 

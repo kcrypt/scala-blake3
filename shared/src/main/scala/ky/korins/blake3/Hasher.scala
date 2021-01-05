@@ -30,6 +30,21 @@ trait Hasher {
   def update(input: Byte): Hasher
 
   /**
+   * Updates a hasher by specified short, returns the same hasher
+   */
+  def update(input: Short): Hasher
+
+  /**
+   * Updates a hasher by specified short, returns the same hasher
+   */
+  def update(input: Int): Hasher
+
+  /**
+   * Updates a hasher by specified short, returns the same hasher
+   */
+  def update(input: Long): Hasher
+
+  /**
    * Updates a hasher by specified string, returns the same hasher
    */
   def update(input: String): Hasher

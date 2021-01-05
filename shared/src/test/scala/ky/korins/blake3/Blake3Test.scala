@@ -102,6 +102,59 @@ class Blake3Test extends AnyWordSpec with should.Matchers {
     Blake3.hex(key, 42) shouldBe Blake3.hex(key.getBytes, 42)
   }
 
+  "Short works as Byte" in {
+    val shortHash = Blake3
+      .newHasher()
+      .update(0x6af6.toShort)
+      .doneLong()
+
+    val byteHash = Blake3
+      .newHasher()
+      .update(0xf6.toByte)
+      .update(0x6a.toByte)
+      .doneLong()
+
+    shortHash shouldBe byteHash
+  }
+
+  "Int works as Byte" in {
+    val shortHash = Blake3
+      .newHasher()
+      .update(0x7eaa6af6)
+      .doneLong()
+
+    val byteHash = Blake3
+      .newHasher()
+      .update(0xf6.toByte)
+      .update(0x6a.toByte)
+      .update(0xaa.toByte)
+      .update(0x7e.toByte)
+      .doneLong()
+
+    shortHash shouldBe byteHash
+  }
+
+  "Long works as Byte" in {
+    val shortHash = Blake3
+      .newHasher()
+      .update(0x462d22e57eaa6af6L)
+      .doneLong()
+
+    val byteHash = Blake3
+      .newHasher()
+      .update(0xf6.toByte)
+      .update(0x6a.toByte)
+      .update(0xaa.toByte)
+      .update(0x7e.toByte)
+      .update(0xe5.toByte)
+      .update(0x22.toByte)
+      .update(0x2d.toByte)
+      .update(0x46.toByte)
+      .doneLong()
+
+    shortHash shouldBe byteHash
+  }
+
   "Output encoding works" in {
     val input = "some text"
 

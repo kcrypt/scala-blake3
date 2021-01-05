@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [unreleased]
+- Introduced `update(Short)`, `update(Int)` and `update(Long)`.
 
 ## [2.2.0] - 2021-01-05
 - Introduced `doneShort()`, `doneInt()` and `doneLong()`.
