@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [unreleased]
+
+## [2.3.0] - 2021-01-06
 - Introduced `newDeriveKeyHasher(Hasher => Unit)`.
 - Introduced `update(Short)`, `update(Int)` and `update(Long)`.
 
@@ -69,7 +71,8 @@ All notable changes to this project will be documented in this file.
 ## [1.0.0] - 2020-07-15
 - The first public release as dedicated project.
 
-[unreleased]: https://github.com/catap/scala-blake3/compare/v2.2.0...HEAD
+[unreleased]: https://github.com/catap/scala-blake3/compare/v2.3.0...HEAD
+[2.3.0]: https://github.com/catap/scala-blake3/compare/v2.2.0...2.3.0
 [2.2.0]: https://github.com/catap/scala-blake3/compare/v2.1.0...2.2.0
 [2.1.0]: https://github.com/catap/scala-blake3/compare/v2.0.1...2.1.0
 [2.0.1]: https://github.com/catap/scala-blake3/compare/v2.0.0...v2.0.1
