@@ -41,15 +41,8 @@ class TestVector(
     }
   )
 
-  private def byte2hex(bytes: Array[Byte]): String = {
-    val sb = new StringBuilder(bytes.length * 2)
-    var i = 0
-    while (i < bytes.length) {
-      sb.append("%02x".format(bytes(i) & 0xff))
-      i += 1
-    }
-    sb.toString()
-  }
+  private def byte2hex(bytes: Array[Byte]): String =
+    RFC4648.base16(bytes).toLowerCase
 
   final val doneMethods: Seq[(Hasher, Int) => String] = Seq(
     { (hasher, outputLen) =>
