@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [unreleased]
+- Switch to Scala.js-1.5.0.
 
 ## [2.3.0] - 2021-01-06
 - Introduced `newDeriveKeyHasher(Hasher => Unit)`.
