@@ -9,7 +9,7 @@ object LicenseDefinition {
       |Written in 2020, 2021 by Kirill A. Korinsky <kirill@korins.ky>
       |
       |This work is released into the public domain with CC0 1.0.
-      |Alternatively, it islicensed under the Apache License 2.0.
+      |Alternatively, it is licensed under the Apache License 2.0.
       |""".stripMargin
   ))
 
