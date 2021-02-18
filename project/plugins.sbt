@@ -4,11 +4,11 @@ addSbtPlugin("org.portable-scala" % "sbt-scala-native-crossproject" % "1.0.0")
 val scalaJSVersion =
   Option(System.getenv("SCALAJS_VERSION")).getOrElse("1.5.0")
 val scalaNativeJSVersion =
-  Option(System.getenv("SCALANATIVE_VERSION")).getOrElse("0.4.0-M2")
+  Option(System.getenv("SCALANATIVE_VERSION")).getOrElse("0.4.0")
 
 addSbtPlugin("org.scala-js"       % "sbt-scalajs"                   % scalaJSVersion)
 addSbtPlugin("org.scala-native"   % "sbt-scala-native"              % scalaNativeJSVersion)
-addSbtPlugin("ch.epfl.lamp"       % "sbt-dotty"                     % "0.5.1")
+addSbtPlugin("ch.epfl.lamp"       % "sbt-dotty"                     % "0.5.3")
 
 addSbtPlugin("pl.project13.scala" % "sbt-jmh"                       % "0.4.0")
 addSbtPlugin("com.jsuereth"       % "sbt-pgp"                       % "2.1.1")

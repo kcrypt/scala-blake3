@@ -2,11 +2,11 @@ import sbt.Keys.crossScalaVersions
 import sbtcrossproject.CrossPlugin.autoImport.crossProject
 
 lazy val scala211 = "2.11.12"
-lazy val scala212 = "2.12.12"
+lazy val scala212 = "2.12.13"
 lazy val scala213 = "2.13.4"
-lazy val scala3 = "3.0.0-M3"
+lazy val scala3 = "3.0.0-RC1"
 
-lazy val scalatestVersion = "3.2.3"
+lazy val scalatestVersion = "3.2.4"
 
 lazy val blake3jniVersion = "0.2.2"
 
@@ -53,12 +53,13 @@ lazy val blake3 = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   )
   .jsSettings(
     scalaVersion := scala213,
+    // scalatests doesn't support scala3 for scala.js yet
     crossScalaVersions := Seq(scala211, scala212, scala213),
   )
   .nativeSettings(
-    scalaVersion := scala211,
-    crossScalaVersions := Seq(scala211),
-    nativeLinkStubs := true
+    scalaVersion := scala213,
+    crossScalaVersions := Seq(scala211, scala212, scala213),
+    nativeLinkStubs := true,
   )
 
 lazy val bench = project.in(file("bench"))
