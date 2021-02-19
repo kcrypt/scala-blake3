@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [unreleased]
+
+## [2.4.0] - 2021-02-19
 - Improved performance RFC4648 and introduced support user's alphabet.
 
 ## [2.3.1] - 2021-02-18
@@ -77,7 +79,8 @@ All notable changes to this project will be documented in this file.
 ## [1.0.0] - 2020-07-15
 - The first public release as dedicated project.
 
-[unreleased]: https://github.com/catap/scala-blake3/compare/v2.3.1...HEAD
+[unreleased]: https://github.com/catap/scala-blake3/compare/v2.4.0...HEAD
+[2.4.0]: https://github.com/catap/scala-blake3/compare/v2.3.1...2.4.0
 [2.3.1]: https://github.com/catap/scala-blake3/compare/v2.3.0...2.3.1
 [2.3.0]: https://github.com/catap/scala-blake3/compare/v2.2.0...2.3.0
 [2.2.0]: https://github.com/catap/scala-blake3/compare/v2.1.0...2.2.0
