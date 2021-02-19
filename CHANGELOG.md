@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [unreleased]
+- Fixed regression on RFC4648 encoding introduced in 2.4.0.
 
 ## [2.4.0] - 2021-02-19
 - Improved performance RFC4648 and introduced support user's alphabet.

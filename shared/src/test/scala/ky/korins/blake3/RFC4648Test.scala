@@ -64,4 +64,36 @@ class RFC4648Test extends AnyWordSpec with should.Matchers {
     RFC4648.base64_url("fooba".getBytes()) shouldBe "Zm9vYmE"
     RFC4648.base64_url("foobar".getBytes()) shouldBe "Zm9vYmFy"
   }
+
+  "regression in 2.4.0" when {
+    "base32" in {
+      val bytes = Array(
+        0x4e.toByte, 0x53.toByte, 0xec.toByte, 0x55.toByte, 0x6c.toByte,
+        0xd3.toByte, 0x70.toByte, 0x97.toByte, 0xa2.toByte, 0xbe.toByte,
+        0x4e.toByte, 0x53.toByte, 0xec.toByte, 0x55.toByte, 0x6c.toByte
+      )
+
+      val expected = "JZJ6YVLM2NYJPIV6JZJ6YVLM"
+      RFC4648.base32(bytes.take(5)) shouldEqual expected.take(8)
+      RFC4648.base32(bytes.slice(5, 10)) shouldEqual expected.slice(8, 16)
+      RFC4648.base32(bytes.drop(10)) shouldEqual expected.drop(16)
+
+      RFC4648.base32(bytes) shouldEqual expected
+    }
+
+    "base64" in {
+      val bytes = Array(
+        0x4e.toByte, 0x53.toByte, 0xec.toByte,
+        0x55.toByte, 0x6c.toByte, 0xd3.toByte,
+        0x4e.toByte, 0x53.toByte, 0xec.toByte
+      )
+
+      val expected = "TlPsVWzTTlPs"
+      RFC4648.base64(bytes.take(3)) shouldEqual expected.take(4)
+      RFC4648.base64(bytes.slice(3, 6)) shouldEqual expected.slice(4, 8)
+      RFC4648.base64(bytes.drop(3)) shouldEqual expected.drop(4)
+
+      RFC4648.base64(bytes) shouldEqual expected
+    }
+  }
 }
