@@ -80,11 +80,11 @@ All notable changes to this project will be documented in this file.
 - The first public release as dedicated project.
 
 [unreleased]: https://github.com/catap/scala-blake3/compare/v2.4.0...HEAD
-[2.4.0]: https://github.com/catap/scala-blake3/compare/v2.3.1...2.4.0
-[2.3.1]: https://github.com/catap/scala-blake3/compare/v2.3.0...2.3.1
-[2.3.0]: https://github.com/catap/scala-blake3/compare/v2.2.0...2.3.0
-[2.2.0]: https://github.com/catap/scala-blake3/compare/v2.1.0...2.2.0
-[2.1.0]: https://github.com/catap/scala-blake3/compare/v2.0.1...2.1.0
+[2.4.0]: https://github.com/catap/scala-blake3/compare/v2.3.1...v2.4.0
+[2.3.1]: https://github.com/catap/scala-blake3/compare/v2.3.0...v2.3.1
+[2.3.0]: https://github.com/catap/scala-blake3/compare/v2.2.0...v2.3.0
+[2.2.0]: https://github.com/catap/scala-blake3/compare/v2.1.0...v2.2.0
+[2.1.0]: https://github.com/catap/scala-blake3/compare/v2.0.1...v2.1.0
 [2.0.1]: https://github.com/catap/scala-blake3/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/catap/scala-blake3/compare/v1.9.0...v2.0.0
 [1.9.0]: https://github.com/catap/scala-blake3/compare/v1.8.1...v1.9.0
