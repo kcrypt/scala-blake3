@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [unreleased]
+- Improved performance RFC4648 and introduced support user's alphabet.
 
 ## [2.3.1] - 2021-02-18
 - Switched to Scala.js-1.5.0.
