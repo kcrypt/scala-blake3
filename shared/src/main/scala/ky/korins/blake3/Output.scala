@@ -172,10 +172,9 @@ private[blake3] class Output(
     }
   }
 
-  def rootBytes(out: ByteBuffer): Unit = {
+  def rootBytes(out: ByteBuffer, len: Int): Unit = {
     var outputBlockCounter = 0
     var pos = 0
-    val len = out.remaining()
 
     val blockLenWords = BLOCK_LEN_WORDS
     val words = new Array[Int](blockLenWords)

@@ -134,7 +134,7 @@ private[blake3] class HasherImpl(
     this
   }
 
-  def update(input: InputStream): Hasher = synchronized {
+  def update(input: InputStream, len: Int): Hasher = synchronized {
     val bytes = new Array[Byte](CHUNK_LEN)
 
     var consume = chunkState.len() match {
@@ -145,24 +145,28 @@ private[blake3] class HasherImpl(
     }
 
     var read = input.read(bytes, 0, consume)
-    while (read > 0) {
+    var remaining = len - read
+    while (remaining > 0 && read >= 0) {
       val len = finalizeWhenCompleted()
       chunkState.update(bytes, 0, read)
       consume = CHUNK_LEN - len
       read = input.read(bytes, 0, consume)
+      remaining -= read
     }
 
     this
   }
 
-  def update(input: ByteBuffer): Hasher = synchronized {
+  def update(input: ByteBuffer, len: Int): Hasher = synchronized {
     val bytes = new Array[Byte](CHUNK_LEN)
 
-    while (input.hasRemaining) {
-      val len = finalizeWhenCompleted()
-      val consume = Math.min(CHUNK_LEN - len, input.remaining())
+    var remaining = len
+    while (remaining > 0 && input.hasRemaining) {
+      val chunkLen = finalizeWhenCompleted()
+      val consume = Math.min(CHUNK_LEN - chunkLen, remaining)
       input.get(bytes, 0, consume)
       chunkState.update(bytes, 0, consume)
+      remaining -= consume
     }
 
     this
@@ -216,6 +220,6 @@ private[blake3] class HasherImpl(
   def done(out: OutputStream, len: Int): Unit =
     getOutput.rootBytes(out, len)
 
-  def done(out: ByteBuffer): Unit =
-    getOutput.rootBytes(out)
+  def done(out: ByteBuffer, len: Int): Unit =
+    getOutput.rootBytes(out, len)
 }

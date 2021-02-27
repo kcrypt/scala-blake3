@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ## [unreleased]
 - Introduced support direct allocated ByteBuffer.
 - Cross build for scala-2.10.7.
+- Limited read and write to ByteBuffer.
 
 ## [2.4.1] - 2021-02-19
 - Fixed regression on RFC4648 encoding introduced in 2.4.0.

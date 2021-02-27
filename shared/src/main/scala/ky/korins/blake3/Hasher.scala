@@ -52,14 +52,28 @@ trait Hasher {
   /**
    * Updates a hasher from specified InputStream, returns the same hasher
    *
-   * It reads `input` until it returns `-1`
+   * It reads `input` until it returns `-1` or it reads len bytes
    */
-  def update(input: InputStream): Hasher
+  def update(input: InputStream, len: Int): Hasher
 
   /**
-   * Updates a hasher from specified ByteBuffer, returns the same hasher
+   * Updates a hasher from specified InputStream, returns the same hasher
+   *
+   * It reads `input` until it returns `-1`
    */
-  def update(input: ByteBuffer): Hasher
+  def update(input: InputStream): Hasher =
+    update(input, Int.MaxValue)
+
+  /**
+   * Updates a hasher from specified ByteBuffer with no more than len bytes, returns the same hasher
+   */
+  def update(input: ByteBuffer, len: Int): Hasher
+
+  /**
+   * Updates a hasher from specified ByteBuffer until the end, returns the same hasher
+   */
+  def update(input: ByteBuffer): Hasher =
+    update(input, input.remaining())
 
   /**
    * Calculate a hash into specified byte array
@@ -91,9 +105,15 @@ trait Hasher {
   def done(out: OutputStream, len: Int): Unit
 
   /**
-   * Calculate a hash into specified OutputStream with specified output length in bytes
+   * Calculate a hash into specified ByteBuffer with specified output length in bytes
    */
-  def done(out: ByteBuffer): Unit
+  def done(out: ByteBuffer, len: Int): Unit
+
+  /**
+   * Calculate a hash into specified ByteBuffer until the end of ByteBuffer
+   */
+  def done(out: ByteBuffer): Unit =
+    done(out, out.remaining())
 
   /**
    * Calculate a hash as single short
