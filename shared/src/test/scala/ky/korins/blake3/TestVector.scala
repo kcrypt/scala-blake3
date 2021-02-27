@@ -38,6 +38,14 @@ class TestVector(
     { (hasher, input) =>
       val bb = ByteBuffer.wrap(input)
       hasher.update(bb)
+    },
+    { (hasher, input) =>
+      val bb = ByteBuffer.allocateDirect(input.length + 1)
+      bb.put(0.toByte)
+      bb.put(input)
+      bb.flip()
+      bb.get() // skip 0
+      hasher.update(bb)
     }
   )
 
@@ -63,6 +71,16 @@ class TestVector(
       val bb = ByteBuffer.allocate(outputLen)
       hasher.done(bb)
       byte2hex(bb.array())
+    },
+    { (hasher, outputLen) =>
+      val bb = ByteBuffer.allocateDirect(outputLen + 1)
+      bb.put(0.toByte)
+      hasher.done(bb)
+      val bytes = new Array[Byte](outputLen)
+      bb.flip()
+      bb.get() // skip 0
+      bb.get(bytes)
+      byte2hex(bytes)
     }
   )
 

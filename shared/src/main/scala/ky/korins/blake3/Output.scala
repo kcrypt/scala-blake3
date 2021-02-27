@@ -175,7 +175,7 @@ private[blake3] class Output(
   def rootBytes(out: ByteBuffer): Unit = {
     var outputBlockCounter = 0
     var pos = 0
-    val len = out.limit()
+    val len = out.remaining()
 
     val blockLenWords = BLOCK_LEN_WORDS
     val words = new Array[Int](blockLenWords)
