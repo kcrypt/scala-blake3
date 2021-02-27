@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [unreleased]
+
+## [2.5.0] - 2021-02-27
 - Introduced support direct allocated ByteBuffer.
 - Cross build for scala-2.10.7.
 - Limited read and write to ByteBuffer.
@@ -29,7 +31,7 @@ All notable changes to this project will be documented in this file.
 - Introduced `doneBigInt(N: BigInt)`.
 
 ## [2.0.1] - 2021-01-03
-- Migrated from scala `3.0.0-M3`.
+- Migrated to scala `3.0.0-M3`.
 
 ## [2.0.0] - 2020-12-03
 - Introduced `update(ByteBuffer)`.
@@ -85,7 +87,8 @@ All notable changes to this project will be documented in this file.
 ## [1.0.0] - 2020-07-15
 - The first public release as dedicated project.
 
-[unreleased]: https://github.com/catap/scala-blake3/compare/v2.4.1...HEAD
+[unreleased]: https://github.com/catap/scala-blake3/compare/v2.5.0...HEAD
+[2.5.0]: https://github.com/catap/scala-blake3/compare/v2.4.1...v2.5.0
 [2.4.1]: https://github.com/catap/scala-blake3/compare/v2.4.0...v2.4.1
 [2.4.0]: https://github.com/catap/scala-blake3/compare/v2.3.1...v2.4.0
 [2.3.1]: https://github.com/catap/scala-blake3/compare/v2.3.0...v2.3.1
