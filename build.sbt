@@ -12,20 +12,20 @@ lazy val scalatestVersion = "3.2.8"
 lazy val blake3jniVersion = "0.2.2"
 
 name := "blake3"
-organization in ThisBuild := "ky.korins"
+ThisBuild / organization := "ky.korins"
 
-dynverSeparator in ThisBuild := "-"
+ThisBuild / dynverSeparator := "-"
 
-scalaVersion in ThisBuild := scala213
-crossScalaVersions in ThisBuild := Seq()
+ThisBuild / scalaVersion := scala213
+ThisBuild / crossScalaVersions := Seq()
 
-scalacOptions in ThisBuild ++= Seq(
+ThisBuild / scalacOptions ++= Seq(
   "-target:jvm-1.8",
   "-unchecked",
   "-deprecation"
 )
 
-publishTo in ThisBuild := sonatypePublishToBundle.value
+ThisBuild / publishTo := sonatypePublishToBundle.value
 
 headerLicense := LicenseDefinition.template
 
@@ -35,8 +35,8 @@ lazy val blake3 = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .enablePlugins(AutomateHeaderPlugin)
   .in(file("."))
   .settings(
-    skip in publish := false,
-    publishArtifact in Test := false,
+    publish / skip := false,
+    Test / publishArtifact := false,
     buildInfoKeys := Seq(
       BuildInfoKey.action("commit") {
         scala.sys.process.Process("git rev-parse HEAD").!!.trim
@@ -67,20 +67,20 @@ lazy val bench = project.in(file("bench"))
   .enablePlugins(AutomateHeaderPlugin)
   .settings(
     name := "blake3-bench",
-    skip in publish := true,
-    assemblyJarName in assembly := "bench.jar",
-    mainClass in assembly := Some("org.openjdk.jmh.Main"),
-    test in assembly := {},
+    publish / skip := true,
+    assembly / assemblyJarName := "bench.jar",
+    assembly / mainClass := Some("org.openjdk.jmh.Main"),
+    assembly / test := {},
     libraryDependencies ++= Seq(
       "io.lktk" % "blake3jni" % blake3jniVersion,
     ),
     headerLicense := LicenseDefinition.template,
-    assemblyMergeStrategy in assembly := {
+    assembly / assemblyMergeStrategy := {
       case PathList("META-INF", "MANIFEST.MF") =>
         MergeStrategy.discard
       case _ =>
         MergeStrategy.first
     },
-    assembly in Jmh := (assembly in Jmh).dependsOn(Keys.compile in Jmh).value
+    Jmh / assembly := (Jmh / assembly).dependsOn(Jmh / Keys.compile).value
   )
   .enablePlugins(JmhPlugin)
