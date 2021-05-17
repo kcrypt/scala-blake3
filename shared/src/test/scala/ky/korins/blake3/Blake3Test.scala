@@ -13,6 +13,7 @@ import org.scalatest.matchers.should
 import org.scalatest.wordspec.AnyWordSpec
 
 import scala.language.implicitConversions
+import scala.util.Random
 
 class Blake3Test extends AnyWordSpec with should.Matchers {
   "Very naive test" in {
@@ -219,6 +220,38 @@ class Blake3Test extends AnyWordSpec with should.Matchers {
       chunks -= 1
       off += CHUNK_LEN
       len -= CHUNK_LEN
+    }
+  }
+
+  "Chunking data" when {
+    "63 bytes" in {
+      val bytes = new Array[Byte](63)
+      Random.nextBytes(bytes)
+      val hasher1 = Blake3.newHasher()
+      hasher1.update(bytes)
+      val expected = hasher1.doneHex(16)
+
+      val hasher2 = Blake3.newHasher()
+      hasher2.update(bytes, 0, 32)
+      hasher2.update(bytes, 32, 31)
+      val actual = hasher2.doneHex(16)
+
+      expected shouldBe actual
+    }
+
+    "64 bytes" in {
+      val bytes = new Array[Byte](64)
+      Random.nextBytes(bytes)
+      val hasher1 = Blake3.newHasher()
+      hasher1.update(bytes, 0, 64)
+      val expected = hasher1.doneHex(16)
+
+      val hasher2 = Blake3.newHasher()
+      hasher2.update(bytes, 0, 32)
+      hasher2.update(bytes, 32, 32)
+      val actual = hasher2.doneHex(16)
+
+      expected shouldBe actual
     }
   }
 }

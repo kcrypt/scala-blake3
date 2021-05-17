@@ -72,8 +72,9 @@ private[blake3] class ChunkState(
   def update(bytes: Array[Byte], from: Int, to: Int): Unit = {
     var i = from
 
-    var consume = Math.min(BLOCK_LEN - blockLen, to - i)
-    if (consume < BLOCK_LEN) {
+    val available = BLOCK_LEN - blockLen
+    var consume = Math.min(available, to - i)
+    if (consume < available) {
       System.arraycopy(bytes, i, block, blockLen, consume)
       blockLen += consume
       i += consume

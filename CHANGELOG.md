@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [unreleased]
+- Fixed an issue when chunked data by block len produced incorrect block.
 
 ## [2.5.2] - 2021-05-17
 - Switch to scala 3.0.0.
