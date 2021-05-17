@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [unreleased]
+- Switch to Scala.js-1.5.1.
 
 ## [2.5.0] - 2021-02-27
 - Introduced support direct allocated ByteBuffer.
