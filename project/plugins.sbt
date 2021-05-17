@@ -8,7 +8,7 @@ val scalaNativeJSVersion =
 
 addSbtPlugin("org.scala-js"       % "sbt-scalajs"                   % scalaJSVersion)
 addSbtPlugin("org.scala-native"   % "sbt-scala-native"              % scalaNativeJSVersion)
-addSbtPlugin("ch.epfl.lamp"       % "sbt-dotty"                     % "0.5.3")
+addSbtPlugin("ch.epfl.lamp"       % "sbt-dotty"                     % "0.5.5")
 
 addSbtPlugin("pl.project13.scala" % "sbt-jmh"                       % "0.4.2")
 addSbtPlugin("com.jsuereth"       % "sbt-pgp"                       % "2.1.1")
