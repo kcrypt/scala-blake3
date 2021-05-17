@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [unreleased]
+
+## [2.6.0] - 2021-05-17
 - Fixed an issue when chunked data by block len produced incorrect block.
 
 ## [2.5.2] - 2021-05-17
@@ -96,7 +98,8 @@ All notable changes to this project will be documented in this file.
 ## [1.0.0] - 2020-07-15
 - The first public release as dedicated project.
 
-[unreleased]: https://github.com/catap/scala-blake3/compare/v2.5.2...HEAD
+[unreleased]: https://github.com/catap/scala-blake3/compare/v2.6.0...HEAD
+[2.6.0]: https://github.com/catap/scala-blake3/compare/v2.5.2...v2.6.0
 [2.5.2]: https://github.com/catap/scala-blake3/compare/v2.5.1...v2.5.2
 [2.5.1]: https://github.com/catap/scala-blake3/compare/v2.5.0...v2.5.1
 [2.5.0]: https://github.com/catap/scala-blake3/compare/v2.4.1...v2.5.0
