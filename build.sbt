@@ -54,8 +54,7 @@ lazy val blake3 = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   )
   .jsSettings(
     scalaVersion := scala213,
-    // scalatests doesn't support scala3 for scala.js yet
-    crossScalaVersions := Seq(scala211, scala212, scala213),
+    crossScalaVersions := Seq(scala211, scala212, scala213, scala3),
   )
   .nativeSettings(
     scalaVersion := scala213,

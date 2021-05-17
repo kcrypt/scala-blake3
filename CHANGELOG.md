@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [unreleased]
+- Enable scala.js via to Scala.js-3.0.0-RC3.
 
 ## [2.5.1] - 2021-05-17
 - Switch to Scala.js-1.5.1.
