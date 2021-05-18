@@ -23,5 +23,7 @@ jobs:
         distribution: 'adopt'
     - name: Check headers
       run: sbt +headerCheck
+    - name: Check scalafmt
+      run: sbt +scalafmtCheckAll
     - name: Run tests
       run: sbt +test

@@ -68,9 +68,21 @@ class RFC4648Test extends AnyWordSpec with should.Matchers {
   "regression in 2.4.0" when {
     "base32" in {
       val bytes = Array(
-        0x4e.toByte, 0x53.toByte, 0xec.toByte, 0x55.toByte, 0x6c.toByte,
-        0xd3.toByte, 0x70.toByte, 0x97.toByte, 0xa2.toByte, 0xbe.toByte,
-        0x4e.toByte, 0x53.toByte, 0xec.toByte, 0x55.toByte, 0x6c.toByte
+        0x4e.toByte,
+        0x53.toByte,
+        0xec.toByte,
+        0x55.toByte,
+        0x6c.toByte,
+        0xd3.toByte,
+        0x70.toByte,
+        0x97.toByte,
+        0xa2.toByte,
+        0xbe.toByte,
+        0x4e.toByte,
+        0x53.toByte,
+        0xec.toByte,
+        0x55.toByte,
+        0x6c.toByte
       )
 
       val expected = "JZJ6YVLM2NYJPIV6JZJ6YVLM"
@@ -83,9 +95,15 @@ class RFC4648Test extends AnyWordSpec with should.Matchers {
 
     "base64" in {
       val bytes = Array(
-        0x4e.toByte, 0x53.toByte, 0xec.toByte,
-        0x55.toByte, 0x6c.toByte, 0xd3.toByte,
-        0x4e.toByte, 0x53.toByte, 0xec.toByte
+        0x4e.toByte,
+        0x53.toByte,
+        0xec.toByte,
+        0x55.toByte,
+        0x6c.toByte,
+        0xd3.toByte,
+        0x4e.toByte,
+        0x53.toByte,
+        0xec.toByte
       )
 
       val expected = "TlPsVWzTTlPs"
