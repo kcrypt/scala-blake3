@@ -11,6 +11,9 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    env:
+      JAVA_OPTS: "-XX:+UseG1GC -Xmx6g"
+
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 11
