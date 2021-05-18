@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [unreleased]
+- Fixed regression on chunked data that was introduced in 2.6.0.
 
 ## [2.6.0] - 2021-05-17
 - Fixed an issue when chunked data by block len produced incorrect block.

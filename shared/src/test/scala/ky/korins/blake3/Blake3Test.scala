@@ -254,4 +254,15 @@ class Blake3Test extends AnyWordSpec with should.Matchers {
       expected shouldBe actual
     }
   }
+
+  "Regression in 2.6.0" in {
+    val bytes = new Array[Byte](146)
+    Random.nextBytes(bytes)
+    val expected = Blake3.base16(bytes, 32)
+    val hasher = Blake3.newHasher()
+    hasher.update(bytes, 0, 125)
+    hasher.update(bytes, 125, 21)
+    val actual = hasher.doneBase16(32)
+    expected shouldBe actual
+  }
 }

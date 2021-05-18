@@ -74,14 +74,17 @@ private[blake3] class ChunkState(
 
     val available = BLOCK_LEN - blockLen
     var consume = Math.min(available, to - i)
-    if (consume < available) {
+    if (consume > 0) {
       System.arraycopy(bytes, i, block, blockLen, consume)
       blockLen += consume
       i += consume
-      compressIfRequired()
     }
 
     consume = to - i
+    if (consume > 0) {
+      compressIfRequired()
+    }
+
     while (consume > BLOCK_LEN) {
       blockLen = BLOCK_LEN
       compressedWords(bytes, i)
