@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [unreleased]
+
+## [2.6.1] - 2021-05-18
 - Fixed regression on chunked data that was introduced in 2.6.0.
 
 ## [2.6.0] - 2021-05-17
@@ -99,7 +101,8 @@ All notable changes to this project will be documented in this file.
 ## [1.0.0] - 2020-07-15
 - The first public release as dedicated project.
 
-[unreleased]: https://github.com/catap/scala-blake3/compare/v2.6.0...HEAD
+[unreleased]: https://github.com/catap/scala-blake3/compare/v2.6.1...HEAD
+[2.6.1]: https://github.com/catap/scala-blake3/compare/v2.6.0...v2.6.1
 [2.6.0]: https://github.com/catap/scala-blake3/compare/v2.5.2...v2.6.0
 [2.5.2]: https://github.com/catap/scala-blake3/compare/v2.5.1...v2.5.2
 [2.5.1]: https://github.com/catap/scala-blake3/compare/v2.5.0...v2.5.1
