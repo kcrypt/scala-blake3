@@ -10,7 +10,7 @@ addSbtPlugin("org.scala-js"       % "sbt-scalajs"                   % scalaJSVer
 addSbtPlugin("org.scala-native"   % "sbt-scala-native"              % scalaNativeJSVersion)
 
 addSbtPlugin("pl.project13.scala" % "sbt-jmh"                       % "0.4.2")
-addSbtPlugin("com.jsuereth"       % "sbt-pgp"                       % "2.1.1")
+addSbtPlugin("com.github.sbt"       % "sbt-pgp"                       % "2.1.2")
 addSbtPlugin("org.xerial.sbt"     % "sbt-sonatype"                  % "3.9.7")
 addSbtPlugin("com.eed3si9n"       % "sbt-buildinfo"                 % "0.10.0")
 addSbtPlugin("com.eed3si9n"       % "sbt-assembly"                  % "0.15.0")
