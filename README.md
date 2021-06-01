@@ -1,6 +1,6 @@
 # Blake3 for scala
 
-This is highly optimized blake3 implementation for scala, scala-js and scala-native.
+This is highly optimized blake3 implementation for scala, scala-js and scala-native, without any dependencies.
 
 You can use it as
 ```
