@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## [unreleased]
 - Switched to Scala.js-1.6.0.
+- Switched to scala 3.0.1.
 
 ## [2.6.1] - 2021-05-18
 - Fixed regression on chunked data that was introduced in 2.6.0.
