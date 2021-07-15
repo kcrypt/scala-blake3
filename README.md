@@ -2,6 +2,9 @@
 
 This is highly optimized blake3 implementation for scala, scala-js and scala-native, without any dependencies.
 
+If you're looking for the faster possible hash function for scala.js I suggest to use this one,
+instead of [SHA] because this implementation use only 32 bits number which nativly supported by JS.
+
 You can use it as
 ```
 libraryDependencies += "ky.korins" %%% "blake3" % "x.x.x"
@@ -66,6 +69,7 @@ Full version of results are available as
  - for [Intel® Core™ i7-8700B] at [jmh-result.intel.json] or via [Intel @ JMH Visualizer].
  - for [Apple M1] at [jmh-result.m1.json] or via [M1 @ JMH Visualizer].
 
+[SHA]: https://github.com/catap/scala-sha
 [maven-central]: https://img.shields.io/maven-central/v/ky.korins/blake3_2.13?style=flat-square
 [RFC 4648]: https://tools.ietf.org/html/rfc4648
 [BLAKE3jni]: https://github.com/sken77/BLAKE3jni
