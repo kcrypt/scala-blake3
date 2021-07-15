@@ -50,94 +50,34 @@ private[blake3] object CommonFunction {
   }
 
   @inline
-  private def round_1(state: Array[Int], m: Array[Int]): Unit = {
-    g(state, 0, 4, 8, 12, m(0), m(1))
-    g(state, 1, 5, 9, 13, m(2), m(3))
-    g(state, 2, 6, 10, 14, m(4), m(5))
-    g(state, 3, 7, 11, 15, m(6), m(7))
+  private def round(
+    state: Array[Int],
+    m_0: Int,
+    m_1: Int,
+    m_2: Int,
+    m_3: Int,
+    m_4: Int,
+    m_5: Int,
+    m_6: Int,
+    m_7: Int,
+    m_8: Int,
+    m_9: Int,
+    m_10: Int,
+    m_11: Int,
+    m_12: Int,
+    m_13: Int,
+    m_14: Int,
+    m_15: Int
+  ): Unit = {
+    g(state, 0, 4, 8, 12, m_0, m_1)
+    g(state, 1, 5, 9, 13, m_2, m_3)
+    g(state, 2, 6, 10, 14, m_4, m_5)
+    g(state, 3, 7, 11, 15, m_6, m_7)
 
-    g(state, 0, 5, 10, 15, m(8), m(9))
-    g(state, 1, 6, 11, 12, m(10), m(11))
-    g(state, 2, 7, 8, 13, m(12), m(13))
-    g(state, 3, 4, 9, 14, m(14), m(15))
-  }
-
-  @inline
-  private def round_2(state: Array[Int], m: Array[Int]): Unit = {
-    g(state, 0, 4, 8, 12, m(2), m(6))
-    g(state, 1, 5, 9, 13, m(3), m(10))
-    g(state, 2, 6, 10, 14, m(7), m(0))
-    g(state, 3, 7, 11, 15, m(4), m(13))
-
-    g(state, 0, 5, 10, 15, m(1), m(11))
-    g(state, 1, 6, 11, 12, m(12), m(5))
-    g(state, 2, 7, 8, 13, m(9), m(14))
-    g(state, 3, 4, 9, 14, m(15), m(8))
-  }
-
-  @inline
-  private def round_3(state: Array[Int], m: Array[Int]): Unit = {
-    g(state, 0, 4, 8, 12, m(3), m(4))
-    g(state, 1, 5, 9, 13, m(10), m(12))
-    g(state, 2, 6, 10, 14, m(13), m(2))
-    g(state, 3, 7, 11, 15, m(7), m(14))
-
-    g(state, 0, 5, 10, 15, m(6), m(5))
-    g(state, 1, 6, 11, 12, m(9), m(0))
-    g(state, 2, 7, 8, 13, m(11), m(15))
-    g(state, 3, 4, 9, 14, m(8), m(1))
-  }
-
-  @inline
-  private def round_4(state: Array[Int], m: Array[Int]): Unit = {
-    g(state, 0, 4, 8, 12, m(10), m(7))
-    g(state, 1, 5, 9, 13, m(12), m(9))
-    g(state, 2, 6, 10, 14, m(14), m(3))
-    g(state, 3, 7, 11, 15, m(13), m(15))
-
-    g(state, 0, 5, 10, 15, m(4), m(0))
-    g(state, 1, 6, 11, 12, m(11), m(2))
-    g(state, 2, 7, 8, 13, m(5), m(8))
-    g(state, 3, 4, 9, 14, m(1), m(6))
-  }
-
-  @inline
-  private def round_5(state: Array[Int], m: Array[Int]): Unit = {
-    g(state, 0, 4, 8, 12, m(12), m(13))
-    g(state, 1, 5, 9, 13, m(9), m(11))
-    g(state, 2, 6, 10, 14, m(15), m(10))
-    g(state, 3, 7, 11, 15, m(14), m(8))
-
-    g(state, 0, 5, 10, 15, m(7), m(2))
-    g(state, 1, 6, 11, 12, m(5), m(3))
-    g(state, 2, 7, 8, 13, m(0), m(1))
-    g(state, 3, 4, 9, 14, m(6), m(4))
-  }
-
-  @inline
-  private def round_6(state: Array[Int], m: Array[Int]): Unit = {
-    g(state, 0, 4, 8, 12, m(9), m(14))
-    g(state, 1, 5, 9, 13, m(11), m(5))
-    g(state, 2, 6, 10, 14, m(8), m(12))
-    g(state, 3, 7, 11, 15, m(15), m(1))
-
-    g(state, 0, 5, 10, 15, m(13), m(3))
-    g(state, 1, 6, 11, 12, m(0), m(10))
-    g(state, 2, 7, 8, 13, m(2), m(6))
-    g(state, 3, 4, 9, 14, m(4), m(7))
-  }
-
-  @inline
-  private def round_7(state: Array[Int], m: Array[Int]): Unit = {
-    g(state, 0, 4, 8, 12, m(11), m(15))
-    g(state, 1, 5, 9, 13, m(5), m(0))
-    g(state, 2, 6, 10, 14, m(1), m(9))
-    g(state, 3, 7, 11, 15, m(8), m(6))
-
-    g(state, 0, 5, 10, 15, m(14), m(10))
-    g(state, 1, 6, 11, 12, m(2), m(12))
-    g(state, 2, 7, 8, 13, m(3), m(4))
-    g(state, 3, 4, 9, 14, m(7), m(13))
+    g(state, 0, 5, 10, 15, m_8, m_9)
+    g(state, 1, 6, 11, 12, m_10, m_11)
+    g(state, 2, 7, 8, 13, m_12, m_13)
+    g(state, 3, 4, 9, 14, m_14, m_15)
   }
 
   @inline
@@ -158,13 +98,169 @@ private[blake3] object CommonFunction {
     state(14) = blockLen
     state(15) = flags
 
-    round_1(state, blockWords)
-    round_2(state, blockWords)
-    round_3(state, blockWords)
-    round_4(state, blockWords)
-    round_5(state, blockWords)
-    round_6(state, blockWords)
-    round_7(state, blockWords)
+    val m_0 = blockWords(0)
+    val m_1 = blockWords(1)
+    val m_2 = blockWords(2)
+    val m_3 = blockWords(3)
+    val m_4 = blockWords(4)
+    val m_5 = blockWords(5)
+    val m_6 = blockWords(6)
+    val m_7 = blockWords(7)
+    val m_8 = blockWords(8)
+    val m_9 = blockWords(9)
+    val m_10 = blockWords(10)
+    val m_11 = blockWords(11)
+    val m_12 = blockWords(12)
+    val m_13 = blockWords(13)
+    val m_14 = blockWords(14)
+    val m_15 = blockWords(15)
+
+    // round 1
+    round(
+      state,
+      m_0,
+      m_1,
+      m_2,
+      m_3,
+      m_4,
+      m_5,
+      m_6,
+      m_7,
+      m_8,
+      m_9,
+      m_10,
+      m_11,
+      m_12,
+      m_13,
+      m_14,
+      m_15
+    )
+
+    // round 2
+    round(
+      state,
+      m_2,
+      m_6,
+      m_3,
+      m_10,
+      m_7,
+      m_0,
+      m_4,
+      m_13,
+      m_1,
+      m_11,
+      m_12,
+      m_5,
+      m_9,
+      m_14,
+      m_15,
+      m_8
+    )
+
+    // round 3
+    round(
+      state,
+      m_3,
+      m_4,
+      m_10,
+      m_12,
+      m_13,
+      m_2,
+      m_7,
+      m_14,
+      m_6,
+      m_5,
+      m_9,
+      m_0,
+      m_11,
+      m_15,
+      m_8,
+      m_1
+    )
+
+    // round 4
+    round(
+      state,
+      m_10,
+      m_7,
+      m_12,
+      m_9,
+      m_14,
+      m_3,
+      m_13,
+      m_15,
+      m_4,
+      m_0,
+      m_11,
+      m_2,
+      m_5,
+      m_8,
+      m_1,
+      m_6
+    )
+
+    // round 5
+    round(
+      state,
+      m_12,
+      m_13,
+      m_9,
+      m_11,
+      m_15,
+      m_10,
+      m_14,
+      m_8,
+      m_7,
+      m_2,
+      m_5,
+      m_3,
+      m_0,
+      m_1,
+      m_6,
+      m_4
+    )
+
+    // round 6
+    round(
+      state,
+      m_9,
+      m_14,
+      m_11,
+      m_5,
+      m_8,
+      m_12,
+      m_15,
+      m_1,
+      m_13,
+      m_3,
+      m_0,
+      m_10,
+      m_2,
+      m_6,
+      m_4,
+      m_7
+    )
+
+    // round 7
+    round(
+      state,
+      m_11,
+      m_15,
+      m_5,
+      m_0,
+      m_1,
+      m_9,
+      m_8,
+      m_6,
+      m_14,
+      m_10,
+      m_2,
+      m_12,
+      m_3,
+      m_4,
+      m_7,
+      m_13
+    )
   }
 
   def compressInPlace(
