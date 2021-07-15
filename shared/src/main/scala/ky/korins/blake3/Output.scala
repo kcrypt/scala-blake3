@@ -11,7 +11,7 @@ package ky.korins.blake3
 
 import CommonFunction._
 
-import java.io.OutputStream
+import java.io._
 import java.nio.ByteBuffer
 import scala.language.implicitConversions
 
@@ -63,21 +63,102 @@ private[blake3] class Output(
 
           case 2 =>
             out(pos) = (word & 0xff).toByte
-            out(pos + 1) = ((word >>> 8) & 0xff).toByte
-            pos += 2
+            pos += 1
+            out(pos) = ((word >>> 8) & 0xff).toByte
+            pos += 1
 
           case 3 =>
             out(pos) = (word & 0xff).toByte
-            out(pos + 1) = ((word >>> 8) & 0xff).toByte
-            out(pos + 2) = ((word >>> 16) & 0xff).toByte
-            pos += 3
+            pos += 1
+            out(pos) = ((word >>> 8) & 0xff).toByte
+            pos += 1
+            out(pos) = ((word >>> 16) & 0xff).toByte
+            pos += 1
 
           case _ =>
             out(pos) = (word & 0xff).toByte
-            out(pos + 1) = ((word >>> 8) & 0xff).toByte
-            out(pos + 2) = ((word >>> 16) & 0xff).toByte
-            out(pos + 3) = ((word >>> 24) & 0xff).toByte
-            pos += 4
+            pos += 1
+            out(pos) = ((word >>> 8) & 0xff).toByte
+            pos += 1
+            out(pos) = ((word >>> 16) & 0xff).toByte
+            pos += 1
+            out(pos) = ((word >>> 24) & 0xff).toByte
+            pos += 1
+        }
+      }
+
+      outputBlockCounter += 1
+    }
+  }
+
+  def rootBytesXor(
+    in: Array[Byte],
+    inOff: Int,
+    out: Array[Byte],
+    outOff: Int,
+    len: Int
+  ): Unit = {
+    var outputBlockCounter = 0
+    var inPos = inOff
+    var outPos = outOff
+    val outLim = outOff + len
+
+    val blockLenWords = BLOCK_LEN_WORDS
+    val words = new Array[Int](blockLenWords)
+    val flags = this.flags | ROOT
+
+    while (outPos < outLim) {
+      compressInPlace(
+        words,
+        inputChainingValue,
+        blockWords,
+        outputBlockCounter,
+        blockLen,
+        flags
+      )
+
+      var wordIdx = 0
+      while (wordIdx < blockLenWords && outPos < outLim) {
+        val word = words(wordIdx)
+        wordIdx += 1
+        outLim - outPos match {
+          case 1 =>
+            out(outPos) = (in(inPos) ^ (word & 0xff)).toByte
+            inPos += 1
+            outPos += 1
+
+          case 2 =>
+            out(outPos) = (in(inPos) ^ (word & 0xff)).toByte
+            inPos += 1
+            outPos += 1
+            out(outPos) = (in(inPos) ^ ((word >>> 8) & 0xff)).toByte
+            inPos += 1
+            outPos += 1
+
+          case 3 =>
+            out(outPos) = (in(inPos) ^ (word & 0xff)).toByte
+            inPos += 1
+            outPos += 1
+            out(outPos) = (in(inPos) ^ ((word >>> 8) & 0xff)).toByte
+            inPos += 1
+            outPos += 1
+            out(outPos) = (in(inPos) ^ ((word >>> 16) & 0xff)).toByte
+            inPos += 1
+            outPos += 1
+
+          case _ =>
+            out(outPos) = (in(inPos) ^ (word & 0xff)).toByte
+            inPos += 1
+            outPos += 1
+            out(outPos) = (in(inPos) ^ ((word >>> 8) & 0xff)).toByte
+            inPos += 1
+            outPos += 1
+            out(outPos) = (in(inPos) ^ ((word >>> 16) & 0xff)).toByte
+            inPos += 1
+            outPos += 1
+            out(outPos) = (in(inPos) ^ ((word >>> 24) & 0xff)).toByte
+            inPos += 1
+            outPos += 1
         }
       }
 
@@ -172,6 +253,57 @@ private[blake3] class Output(
     }
   }
 
+  def rootBytesXor(in: InputStream, out: OutputStream, len: Int): Unit = {
+    var outputBlockCounter = 0
+    var pos = 0
+
+    val blockLenWords = BLOCK_LEN_WORDS
+    val words = new Array[Int](blockLenWords)
+    val flags = this.flags | ROOT
+
+    while (pos < len) {
+      compressInPlace(
+        words,
+        inputChainingValue,
+        blockWords,
+        outputBlockCounter,
+        blockLen,
+        flags
+      )
+
+      var wordIdx = 0
+      while (wordIdx < blockLenWords && pos < len) {
+        val word = words(wordIdx)
+        wordIdx += 1
+        len - pos match {
+          case 1 =>
+            out.write(in.read() ^ word)
+            pos += 1
+
+          case 2 =>
+            out.write(in.read() ^ word)
+            out.write(in.read() ^ (word >>> 8))
+            pos += 2
+
+          case 3 =>
+            out.write(in.read() ^ word)
+            out.write(in.read() ^ (word >>> 8))
+            out.write(in.read() ^ (word >>> 16))
+            pos += 3
+
+          case _ =>
+            out.write(in.read() ^ word)
+            out.write(in.read() ^ (word >>> 8))
+            out.write(in.read() ^ (word >>> 16))
+            out.write(in.read() ^ (word >>> 24))
+            pos += 4
+        }
+      }
+
+      outputBlockCounter += 1
+    }
+  }
+
   def rootBytes(out: ByteBuffer, len: Int): Unit = {
     var outputBlockCounter = 0
     var pos = 0
@@ -196,25 +328,76 @@ private[blake3] class Output(
         wordIdx += 1
         len - pos match {
           case 1 =>
-            out.put((word & 0xff).toByte)
+            out put (word & 0xff).toByte
             pos += 1
 
           case 2 =>
-            out.put((word & 0xff).toByte)
-            out.put(((word >>> 8) & 0xff).toByte)
+            out put (word & 0xff).toByte
+            out put ((word >>> 8) & 0xff).toByte
             pos += 2
 
           case 3 =>
-            out.put((word & 0xff).toByte)
-            out.put(((word >>> 8) & 0xff).toByte)
-            out.put(((word >>> 16) & 0xff).toByte)
+            out put (word & 0xff).toByte
+            out put ((word >>> 8) & 0xff).toByte
+            out put ((word >>> 16) & 0xff).toByte
             pos += 3
 
           case _ =>
-            out.put((word & 0xff).toByte)
-            out.put(((word >>> 8) & 0xff).toByte)
-            out.put(((word >>> 16) & 0xff).toByte)
-            out.put(((word >>> 24) & 0xff).toByte)
+            out put (word & 0xff).toByte
+            out put ((word >>> 8) & 0xff).toByte
+            out put ((word >>> 16) & 0xff).toByte
+            out put ((word >>> 24) & 0xff).toByte
+            pos += 4
+        }
+      }
+
+      outputBlockCounter += 1
+    }
+  }
+
+  def rootBytesXor(in: ByteBuffer, out: ByteBuffer, len: Int): Unit = {
+    var outputBlockCounter = 0
+    var pos = 0
+
+    val blockLenWords = BLOCK_LEN_WORDS
+    val words = new Array[Int](blockLenWords)
+    val flags = this.flags | ROOT
+
+    while (pos < len) {
+      compressInPlace(
+        words,
+        inputChainingValue,
+        blockWords,
+        outputBlockCounter,
+        blockLen,
+        flags
+      )
+
+      var wordIdx = 0
+      while (wordIdx < blockLenWords && pos < len) {
+        val word = words(wordIdx)
+        wordIdx += 1
+        len - pos match {
+          case 1 =>
+            out put (in.get() ^ (word & 0xff)).toByte
+            pos += 1
+
+          case 2 =>
+            out put (in.get() ^ (word & 0xff)).toByte
+            out put (in.get() ^ ((word >>> 8) & 0xff)).toByte
+            pos += 2
+
+          case 3 =>
+            out put (in.get() ^ (word & 0xff)).toByte
+            out put (in.get() ^ ((word >>> 8) & 0xff)).toByte
+            out put (in.get() ^ ((word >>> 16) & 0xff)).toByte
+            pos += 3
+
+          case _ =>
+            out put (in.get() ^ (word & 0xff)).toByte
+            out put (in.get() ^ ((word >>> 8) & 0xff)).toByte
+            out put (in.get() ^ ((word >>> 16) & 0xff)).toByte
+            out put (in.get() ^ ((word >>> 24) & 0xff)).toByte
             pos += 4
         }
       }

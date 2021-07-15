@@ -131,6 +131,32 @@ trait Hasher {
   def doneLong(): Long
 
   /**
+   * Calculate a hash into specified byte array and apply it as XOR to existed value
+   */
+  def doneXor(out: Array[Byte]): Unit
+
+  /**
+   * Calculate a hash into specified part of array and apply it as XOR with specified part of existed values
+   */
+  def doneXor(
+    in: Array[Byte],
+    inOff: Int,
+    out: Array[Byte],
+    outOff: Int,
+    len: Int
+  ): Unit
+
+  /**
+   * Calculate a hash into specified OutputStream with specified output length in bytes and and apply it as XOR with specified part of existed values
+   */
+  def doneXor(in: InputStream, out: OutputStream, len: Int): Unit
+
+  /**
+   * Calculate a hash into specified ByteBuffer with specified output length in bytes and and apply it as XOR with specified part of existed values
+   */
+  def doneXor(in: ByteBuffer, out: ByteBuffer, len: Int): Unit
+
+  /**
    * Calculate a hash and return it as positive BigInt with specified length in bits
    */
   @throws(classOf[IllegalArgumentException])

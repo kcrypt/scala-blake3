@@ -184,6 +184,20 @@ class Blake3Test extends AnyWordSpec with should.Matchers {
     Blake3.bigInt(input, BigInt(41119)).toString() shouldBe "2"
   }
 
+  "XORed output" in {
+    val hashed = Blake3
+      .newHasher()
+      .update("XXX")
+      .done(32)
+
+    val hashedXor = hashed.indices.map(_.toByte).toArray
+    Blake3.newHasher().update("XXX").doneXor(hashedXor)
+
+    hashed.indices.foreach { i =>
+      hashedXor(i) shouldBe (hashed(i) ^ i).toByte
+    }
+  }
+
   "Zero done" in {
     Blake3.hash("Some string", 0) shouldBe Array[Byte]()
   }

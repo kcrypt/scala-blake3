@@ -57,6 +57,14 @@ class TestVector(
       byte2hex(hasher.done(outputLen))
     },
     { (hasher, outputLen) =>
+      val out = (0 until outputLen).map(_.toByte).toArray
+      hasher.doneXor(out)
+      out.indices.foreach { i =>
+        out(i) = (out(i) ^ i.toByte).toByte
+      }
+      byte2hex(out)
+    },
+    { (hasher, outputLen) =>
       hasher.doneBase16(outputLen).toLowerCase
     },
     { (hasher, outputLen) =>
@@ -66,6 +74,17 @@ class TestVector(
       val bos = new ByteArrayOutputStream()
       hasher.done(bos, outputLen)
       byte2hex(bos.toByteArray)
+    },
+    { (hasher, outputLen) =>
+      val mask = (0 until outputLen).map(_.toByte).toArray
+      val bis = new ByteArrayInputStream(mask)
+      val bos = new ByteArrayOutputStream()
+      hasher.doneXor(bis, bos, outputLen)
+      val out = bos.toByteArray
+      mask.indices.foreach { i =>
+        out(i) = (out(i) ^ i.toByte).toByte
+      }
+      byte2hex(out)
     },
     { (hasher, outputLen) =>
       val bb = ByteBuffer.allocate(outputLen)
@@ -81,6 +100,19 @@ class TestVector(
       bb.get() // skip 0
       bb.get(bytes)
       byte2hex(bytes)
+    },
+    { (hasher, outputLen) =>
+      val mask = (0 until outputLen).map(_.toByte).toArray
+      val in = ByteBuffer.wrap(mask)
+      val bb = ByteBuffer.allocateDirect(outputLen)
+      hasher.doneXor(in, bb, outputLen)
+      val out = new Array[Byte](outputLen)
+      bb.flip()
+      bb.get(out)
+      mask.indices.foreach { i =>
+        out(i) = (out(i) ^ i.toByte).toByte
+      }
+      byte2hex(out)
     }
   )
 

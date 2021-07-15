@@ -222,4 +222,22 @@ private[blake3] class HasherImpl(
 
   def done(out: ByteBuffer, len: Int): Unit =
     getOutput.rootBytes(out, len)
+
+  def doneXor(
+    in: Array[Byte],
+    inOff: Int,
+    out: Array[Byte],
+    outOff: Int,
+    len: Int
+  ): Unit =
+    getOutput.rootBytesXor(in, inOff, out, outOff, len)
+
+  def doneXor(out: Array[Byte]): Unit =
+    doneXor(out, 0, out, 0, out.length)
+
+  def doneXor(in: InputStream, out: OutputStream, len: Int): Unit =
+    getOutput.rootBytesXor(in, out, len)
+
+  def doneXor(in: ByteBuffer, out: ByteBuffer, len: Int): Unit =
+    getOutput.rootBytesXor(in, out, len)
 }
