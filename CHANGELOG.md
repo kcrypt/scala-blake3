@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [unreleased]
+
+## [2.7.0] - 2021-07-15
 - Switched to Scala.js-1.6.0.
 - Switched to scala 3.0.1.
 - Performance improved for near of 3%.
@@ -104,7 +106,8 @@ All notable changes to this project will be documented in this file.
 ## [1.0.0] - 2020-07-15
 - The first public release as dedicated project.
 
-[unreleased]: https://github.com/catap/scala-blake3/compare/v2.6.1...HEAD
+[unreleased]: https://github.com/catap/scala-blake3/compare/v2.7.0...HEAD
+[2.7.0]: https://github.com/catap/scala-blake3/compare/v2.6.1...v2.7.0
 [2.6.1]: https://github.com/catap/scala-blake3/compare/v2.6.0...v2.6.1
 [2.6.0]: https://github.com/catap/scala-blake3/compare/v2.5.2...v2.6.0
 [2.5.2]: https://github.com/catap/scala-blake3/compare/v2.5.1...v2.5.2
