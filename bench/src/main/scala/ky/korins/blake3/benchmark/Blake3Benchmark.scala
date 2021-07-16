@@ -43,7 +43,7 @@ class Blake3Benchmark {
       .done(hashBytes)
 
   @Benchmark
-  def reusedHaser(): Unit =
+  def reusedHasher(): Unit =
     hasher
       .update(data)
       .done(hashBytes)

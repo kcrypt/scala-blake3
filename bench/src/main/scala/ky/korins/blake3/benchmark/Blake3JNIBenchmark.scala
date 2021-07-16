@@ -49,7 +49,7 @@ class Blake3JNIBenchmark {
   }
 
   @Benchmark
-  def reusedHaser(): Unit = {
+  def reusedHasher(): Unit = {
     Blake3JNI.update(hasher, data, dataLen)
     Blake3JNI.done(hasher, hashBytes, hashLen)
   }
