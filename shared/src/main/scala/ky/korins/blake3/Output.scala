@@ -58,31 +58,31 @@ private[blake3] class Output(
         wordIdx += 1
         lim - pos match {
           case 1 =>
-            out(pos) = (word & 0xff).toByte
+            out(pos) = word.toByte
             pos += 1
 
           case 2 =>
-            out(pos) = (word & 0xff).toByte
+            out(pos) = word.toByte
             pos += 1
-            out(pos) = ((word >>> 8) & 0xff).toByte
+            out(pos) = (word >>> 8).toByte
             pos += 1
 
           case 3 =>
-            out(pos) = (word & 0xff).toByte
+            out(pos) = word.toByte
             pos += 1
-            out(pos) = ((word >>> 8) & 0xff).toByte
+            out(pos) = (word >>> 8).toByte
             pos += 1
-            out(pos) = ((word >>> 16) & 0xff).toByte
+            out(pos) = (word >>> 16).toByte
             pos += 1
 
           case _ =>
-            out(pos) = (word & 0xff).toByte
+            out(pos) = word.toByte
             pos += 1
-            out(pos) = ((word >>> 8) & 0xff).toByte
+            out(pos) = (word >>> 8).toByte
             pos += 1
-            out(pos) = ((word >>> 16) & 0xff).toByte
+            out(pos) = (word >>> 16).toByte
             pos += 1
-            out(pos) = ((word >>> 24) & 0xff).toByte
+            out(pos) = (word >>> 24).toByte
             pos += 1
         }
       }
@@ -123,40 +123,40 @@ private[blake3] class Output(
         wordIdx += 1
         outLim - outPos match {
           case 1 =>
-            out(outPos) = (in(inPos) ^ (word & 0xff)).toByte
+            out(outPos) = (in(inPos) ^ word).toByte
             inPos += 1
             outPos += 1
 
           case 2 =>
-            out(outPos) = (in(inPos) ^ (word & 0xff)).toByte
+            out(outPos) = (in(inPos) ^ word).toByte
             inPos += 1
             outPos += 1
-            out(outPos) = (in(inPos) ^ ((word >>> 8) & 0xff)).toByte
+            out(outPos) = (in(inPos) ^ word >>> 8).toByte
             inPos += 1
             outPos += 1
 
           case 3 =>
-            out(outPos) = (in(inPos) ^ (word & 0xff)).toByte
+            out(outPos) = (in(inPos) ^ word).toByte
             inPos += 1
             outPos += 1
-            out(outPos) = (in(inPos) ^ ((word >>> 8) & 0xff)).toByte
+            out(outPos) = (in(inPos) ^ word >>> 8).toByte
             inPos += 1
             outPos += 1
-            out(outPos) = (in(inPos) ^ ((word >>> 16) & 0xff)).toByte
+            out(outPos) = (in(inPos) ^ word >>> 16).toByte
             inPos += 1
             outPos += 1
 
           case _ =>
-            out(outPos) = (in(inPos) ^ (word & 0xff)).toByte
+            out(outPos) = (in(inPos) ^ word).toByte
             inPos += 1
             outPos += 1
-            out(outPos) = (in(inPos) ^ ((word >>> 8) & 0xff)).toByte
+            out(outPos) = (in(inPos) ^ word >>> 8).toByte
             inPos += 1
             outPos += 1
-            out(outPos) = (in(inPos) ^ ((word >>> 16) & 0xff)).toByte
+            out(outPos) = (in(inPos) ^ word >>> 16).toByte
             inPos += 1
             outPos += 1
-            out(outPos) = (in(inPos) ^ ((word >>> 24) & 0xff)).toByte
+            out(outPos) = (in(inPos) ^ word >>> 24).toByte
             inPos += 1
             outPos += 1
         }
@@ -328,25 +328,25 @@ private[blake3] class Output(
         wordIdx += 1
         len - pos match {
           case 1 =>
-            out put (word & 0xff).toByte
+            out put word.toByte
             pos += 1
 
           case 2 =>
-            out put (word & 0xff).toByte
-            out put ((word >>> 8) & 0xff).toByte
+            out put word.toByte
+            out put (word >>> 8).toByte
             pos += 2
 
           case 3 =>
-            out put (word & 0xff).toByte
-            out put ((word >>> 8) & 0xff).toByte
-            out put ((word >>> 16) & 0xff).toByte
+            out put word.toByte
+            out put (word >>> 8).toByte
+            out put (word >>> 16).toByte
             pos += 3
 
           case _ =>
-            out put (word & 0xff).toByte
-            out put ((word >>> 8) & 0xff).toByte
-            out put ((word >>> 16) & 0xff).toByte
-            out put ((word >>> 24) & 0xff).toByte
+            out put word.toByte
+            out put (word >>> 8).toByte
+            out put (word >>> 16).toByte
+            out put (word >>> 24).toByte
             pos += 4
         }
       }
@@ -379,25 +379,25 @@ private[blake3] class Output(
         wordIdx += 1
         len - pos match {
           case 1 =>
-            out put (in.get() ^ (word & 0xff)).toByte
+            out put (in.get() ^ word).toByte
             pos += 1
 
           case 2 =>
-            out put (in.get() ^ (word & 0xff)).toByte
-            out put (in.get() ^ ((word >>> 8) & 0xff)).toByte
+            out put (in.get() ^ word).toByte
+            out put (in.get() ^ word >>> 8).toByte
             pos += 2
 
           case 3 =>
-            out put (in.get() ^ (word & 0xff)).toByte
-            out put (in.get() ^ ((word >>> 8) & 0xff)).toByte
-            out put (in.get() ^ ((word >>> 16) & 0xff)).toByte
+            out put (in.get() ^ word).toByte
+            out put (in.get() ^ word >>> 8).toByte
+            out put (in.get() ^ word >>> 16).toByte
             pos += 3
 
           case _ =>
-            out put (in.get() ^ (word & 0xff)).toByte
-            out put (in.get() ^ ((word >>> 8) & 0xff)).toByte
-            out put (in.get() ^ ((word >>> 16) & 0xff)).toByte
-            out put (in.get() ^ ((word >>> 24) & 0xff)).toByte
+            out put (in.get() ^ word).toByte
+            out put (in.get() ^ word >>> 8).toByte
+            out put (in.get() ^ word >>> 16).toByte
+            out put (in.get() ^ word >>> 24).toByte
             pos += 4
         }
       }
