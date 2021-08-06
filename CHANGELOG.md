@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [unreleased]
+- Switched to Scala.js-1.7.0.
 
 ## [2.8.0] - 2021-07-16
 - Introduced `doneXor`.
