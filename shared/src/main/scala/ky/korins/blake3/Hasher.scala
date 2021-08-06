@@ -12,7 +12,7 @@ package ky.korins.blake3
 import java.io.{InputStream, OutputStream}
 import java.nio.ByteBuffer
 
-trait Hasher {
+trait Hasher extends OutputStream {
 
   /**
    * Updates a hasher by provided bytes, returns the same hasher
@@ -224,4 +224,22 @@ trait Hasher {
    */
   def doneBase64Url(len: Int): String =
     RFC4648.base64_url(done(len))
+
+  /**
+   * Update hash as [[OutputStream]].
+   */
+  override def write(b: Int): Unit =
+    update(b.toByte)
+
+  /**
+   * Update hash as [[OutputStream]].
+   */
+  override def write(b: Array[Byte]): Unit =
+    update(b)
+
+  /**
+   * Update hash as [[OutputStream]].
+   */
+  override def write(b: Array[Byte], off: Int, len: Int): Unit =
+    update(b, off, len)
 }
