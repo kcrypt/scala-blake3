@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## [unreleased]
 
-## [2.9.0] - 2021-07-16
+## [2.9.0] - 2021-08-06
 - Switched to Scala.js-1.7.0.
 - `hasher` can be used now as `OutputStream`.
 
