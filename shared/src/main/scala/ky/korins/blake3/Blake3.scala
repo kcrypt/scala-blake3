@@ -115,97 +115,113 @@ object Blake3 {
     hashLong(source.getBytes)
 
   /**
-   * Compute a hex representative of hash of specified output len from specified source
+   * Compute a hex representative of hash of specified output len from specified
+   * source
    */
   def hex(source: Array[Byte], resultLength: Int): String =
     newHasher().update(source).doneHex(resultLength)
 
   /**
-   * Compute a hex representative of hash of specified output len from specified source
+   * Compute a hex representative of hash of specified output len from specified
+   * source
    */
   def hex(source: String, resultLength: Int): String =
     hex(source.getBytes, resultLength)
 
   /**
-   * Compute a BigInt representative of hash of specified len from specified source
+   * Compute a BigInt representative of hash of specified len from specified
+   * source
    */
   def bigInt(source: Array[Byte], bitLength: Int): BigInt =
     newHasher().update(source).doneBigInt(bitLength)
 
   /**
-   * Compute a BigInt representative of hash of specified len from specified source
+   * Compute a BigInt representative of hash of specified len from specified
+   * source
    */
   def bigInt(source: String, bitLength: Int): BigInt =
     bigInt(source.getBytes, bitLength)
 
   /**
-   * Compute a BigInt representative of hash and return it as positive BigInt `(mod N)`
+   * Compute a BigInt representative of hash and return it as positive BigInt
+   * `(mod N)`
    */
   def bigInt(source: Array[Byte], N: BigInt): BigInt =
     newHasher().update(source).doneBigInt(N)
 
   /**
-   * Compute a BigInt representative of hash and return it as positive BigInt `(mod N)`
+   * Compute a BigInt representative of hash and return it as positive BigInt
+   * `(mod N)`
    */
   def bigInt(source: String, N: BigInt): BigInt =
     bigInt(source.getBytes, N)
 
   /**
-   * Compute a hash of specified len from specified source and returns as base16 encoded string
+   * Compute a hash of specified len from specified source and returns as base16
+   * encoded string
    */
   def base16(source: Array[Byte], len: Int): String =
     newHasher().update(source).doneBase16(len)
 
   /**
-   * Compute a hash of specified len from specified source and returns as base16 encoded string
+   * Compute a hash of specified len from specified source and returns as base16
+   * encoded string
    */
   def base16(source: String, len: Int): String =
     base16(source.getBytes, len)
 
   /**
-   * Compute a hash of specified len from specified source and returns as base32 encoded string
+   * Compute a hash of specified len from specified source and returns as base32
+   * encoded string
    */
   def base32(source: Array[Byte], len: Int): String =
     newHasher().update(source).doneBase32(len)
 
   /**
-   * Compute a hash of specified len from specified source and returns as base32 encoded string
+   * Compute a hash of specified len from specified source and returns as base32
+   * encoded string
    */
   def base32(source: String, len: Int): String =
     base32(source.getBytes, len)
 
   /**
-   * Compute a hash of specified len from specified source and returns as base32 hex-compatibly encoded string
+   * Compute a hash of specified len from specified source and returns as base32
+   * hex-compatibly encoded string
    */
   def base32Hex(source: Array[Byte], len: Int): String =
     newHasher().update(source).doneBase32Hex(len)
 
   /**
-   * Compute a hash of specified len from specified source and returns as base32 hex-compatibly encoded string
+   * Compute a hash of specified len from specified source and returns as base32
+   * hex-compatibly encoded string
    */
   def base32Hex(source: String, len: Int): String =
     base32Hex(source.getBytes, len)
 
   /**
-   * Compute a hash of specified len from specified source and returns as base64 encoded string
+   * Compute a hash of specified len from specified source and returns as base64
+   * encoded string
    */
   def base64(source: Array[Byte], len: Int): String =
     newHasher().update(source).doneBase64(len)
 
   /**
-   * Compute a hash of specified len from specified source and returns as base64 encoded string
+   * Compute a hash of specified len from specified source and returns as base64
+   * encoded string
    */
   def base64(source: String, len: Int): String =
     base64(source.getBytes, len)
 
   /**
-   * Compute a hash of specified len from specified source and returns as base64 URL-safe encoded string
+   * Compute a hash of specified len from specified source and returns as base64
+   * URL-safe encoded string
    */
   def base64Url(source: Array[Byte], len: Int): String =
     newHasher().update(source).doneBase64Url(len)
 
   /**
-   * Compute a hash of specified len from specified source and returns as base64 URL-safe encoded string
+   * Compute a hash of specified len from specified source and returns as base64
+   * URL-safe encoded string
    */
   def base64Url(source: String, len: Int): String =
     base64Url(source.getBytes, len)

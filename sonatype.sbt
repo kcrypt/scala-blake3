@@ -3,7 +3,9 @@ import xerial.sbt.Sonatype.GitHubHosting
 
 ThisBuild / sonatypeProfileName := "ky.korins"
 ThisBuild / publishMavenStyle := true
-ThisBuild / sonatypeProjectHosting := Some(GitHubHosting("catap", "scala-blake3", "kirill@korins.ky"))
+ThisBuild / sonatypeProjectHosting := Some(
+  GitHubHosting("catap", "scala-blake3", "kirill@korins.ky")
+)
 ThisBuild / licenses := LicenseDefinition.licenses
 ThisBuild / homepage := Some(url("https://github.com/catap/scala-blake3"))
 ThisBuild / scmInfo := Some(
@@ -13,5 +15,10 @@ ThisBuild / scmInfo := Some(
   )
 )
 ThisBuild / developers := List(
-  Developer(id="catap", name="Kirill A. Korinsky", email="kirill@korins.ky", url=url("https://github.com/catap"))
+  Developer(
+    id = "catap",
+    name = "Kirill A. Korinsky",
+    email = "kirill@korins.ky",
+    url = url("https://github.com/catap")
+  )
 )

@@ -20,7 +20,8 @@ trait Hasher extends OutputStream {
   def update(input: Array[Byte]): Hasher
 
   /**
-   * Updates a hasher by specified part of provided bytes, returns the same hasher
+   * Updates a hasher by specified part of provided bytes, returns the same
+   * hasher
    */
   def update(input: Array[Byte], offset: Int, len: Int): Hasher
 
@@ -65,12 +66,14 @@ trait Hasher extends OutputStream {
     update(input, Int.MaxValue)
 
   /**
-   * Updates a hasher from specified ByteBuffer with no more than len bytes, returns the same hasher
+   * Updates a hasher from specified ByteBuffer with no more than len bytes,
+   * returns the same hasher
    */
   def update(input: ByteBuffer, len: Int): Hasher
 
   /**
-   * Updates a hasher from specified ByteBuffer until the end, returns the same hasher
+   * Updates a hasher from specified ByteBuffer until the end, returns the same
+   * hasher
    */
   def update(input: ByteBuffer): Hasher =
     update(input, input.remaining())
@@ -86,7 +89,8 @@ trait Hasher extends OutputStream {
   def done(out: Array[Byte], offset: Int, len: Int): Unit
 
   /**
-   * Create a new byte array of specified length and calculate a hash into this array
+   * Create a new byte array of specified length and calculate a hash into this
+   * array
    */
   def done(len: Int): Array[Byte] = {
     val bytes = new Array[Byte](len)
@@ -100,12 +104,14 @@ trait Hasher extends OutputStream {
   def done(): Byte
 
   /**
-   * Calculate a hash into specified OutputStream with specified output length in bytes
+   * Calculate a hash into specified OutputStream with specified output length
+   * in bytes
    */
   def done(out: OutputStream, len: Int): Unit
 
   /**
-   * Calculate a hash into specified ByteBuffer with specified output length in bytes
+   * Calculate a hash into specified ByteBuffer with specified output length in
+   * bytes
    */
   def done(out: ByteBuffer, len: Int): Unit
 
@@ -131,12 +137,14 @@ trait Hasher extends OutputStream {
   def doneLong(): Long
 
   /**
-   * Calculate a hash into specified byte array and apply it as XOR to existed value
+   * Calculate a hash into specified byte array and apply it as XOR to existed
+   * value
    */
   def doneXor(out: Array[Byte]): Unit
 
   /**
-   * Calculate a hash into specified part of array and apply it as XOR with specified part of existed values
+   * Calculate a hash into specified part of array and apply it as XOR with
+   * specified part of existed values
    */
   def doneXor(
     in: Array[Byte],
@@ -147,17 +155,20 @@ trait Hasher extends OutputStream {
   ): Unit
 
   /**
-   * Calculate a hash into specified OutputStream with specified output length in bytes and and apply it as XOR with specified part of existed values
+   * Calculate a hash into specified OutputStream with specified output length
+   * in bytes and and apply it as XOR with specified part of existed values
    */
   def doneXor(in: InputStream, out: OutputStream, len: Int): Unit
 
   /**
-   * Calculate a hash into specified ByteBuffer with specified output length in bytes and and apply it as XOR with specified part of existed values
+   * Calculate a hash into specified ByteBuffer with specified output length in
+   * bytes and and apply it as XOR with specified part of existed values
    */
   def doneXor(in: ByteBuffer, out: ByteBuffer, len: Int): Unit
 
   /**
-   * Calculate a hash and return it as positive BigInt with specified length in bits
+   * Calculate a hash and return it as positive BigInt with specified length in
+   * bits
    */
   @throws(classOf[IllegalArgumentException])
   def doneBigInt(bitLength: Int): BigInt = {
@@ -183,7 +194,8 @@ trait Hasher extends OutputStream {
   }
 
   /**
-   * Calculate a hash and return as hex encoded string with specified output length in characters
+   * Calculate a hash and return as hex encoded string with specified output
+   * length in characters
    */
   @throws(classOf[IllegalArgumentException])
   def doneHex(resultLength: Int): String = {
@@ -208,7 +220,8 @@ trait Hasher extends OutputStream {
     RFC4648.base32(done(len))
 
   /**
-   * Create a base32 hex-compatibly representative of calculated hash for specified length
+   * Create a base32 hex-compatibly representative of calculated hash for
+   * specified length
    */
   def doneBase32Hex(len: Int): String =
     RFC4648.base32_hex(done(len))
@@ -220,7 +233,8 @@ trait Hasher extends OutputStream {
     RFC4648.base64(done(len))
 
   /**
-   * Create a base64 URL-safe representative of calculated hash for specified length
+   * Create a base64 URL-safe representative of calculated hash for specified
+   * length
    */
   def doneBase64Url(len: Int): String =
     RFC4648.base64_url(done(len))

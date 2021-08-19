@@ -56,9 +56,11 @@ class Blake3JNIBenchmark {
 }
 
 /**
- * [[io.lktk.NativeBLAKE3]] contains a lot of allocation that make results unfair.
+ * [[io.lktk.NativeBLAKE3]] contains a lot of allocation that make results
+ * unfair.
  *
- * Because C implementation of blake3 is single thread `update` and `done` contains JVM level synchronized
+ * Because C implementation of blake3 is single thread `update` and `done`
+ * contains JVM level synchronized
  *
  * This object implement limited version for this benchmark via io.lktk.JNI
  *

@@ -45,7 +45,7 @@ lazy val blake3 = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     headerLicense := LicenseDefinition.template,
     buildInfoPackage := "ky.korins.blake3",
     libraryDependencies ++= Seq(
-      "org.scalatest" %%% "scalatest" % scalatestVersion % Test,
+      "org.scalatest" %%% "scalatest" % scalatestVersion % Test
     )
   )
   .jvmSettings(
@@ -54,15 +54,16 @@ lazy val blake3 = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   )
   .jsSettings(
     scalaVersion := scala213,
-    crossScalaVersions := Seq(scala211, scala212, scala213, scala3),
+    crossScalaVersions := Seq(scala211, scala212, scala213, scala3)
   )
   .nativeSettings(
     scalaVersion := scala213,
     crossScalaVersions := Seq(scala211, scala212, scala213),
-    nativeLinkStubs := true,
+    nativeLinkStubs := true
   )
 
-lazy val bench = project.in(file("bench"))
+lazy val bench = project
+  .in(file("bench"))
   .dependsOn(blake3.jvm)
   .enablePlugins(AutomateHeaderPlugin)
   .settings(
@@ -72,7 +73,7 @@ lazy val bench = project.in(file("bench"))
     assembly / mainClass := Some("org.openjdk.jmh.Main"),
     assembly / test := {},
     libraryDependencies ++= Seq(
-      "io.lktk" % "blake3jni" % blake3jniVersion,
+      "io.lktk" % "blake3jni" % blake3jniVersion
     ),
     headerLicense := LicenseDefinition.template,
     assembly / assemblyMergeStrategy := {
