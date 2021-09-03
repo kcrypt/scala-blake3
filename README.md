@@ -79,6 +79,6 @@ Full version of results are available as
 [Intel® Core™ i7-8700B]: https://ark.intel.com/content/www/us/en/ark/products/134905/intel-core-i7-8700b-processor-12m-cache-up-to-4-60-ghz.html
 [Apple M1]: https://www.apple.com/mac/m1/
 [jmh-result.intel.json]: jmh-result.intel.json
-[jmh-result.m1.json]: jmh-result.m1.json.json
+[jmh-result.m1.json]: jmh-result.m1.json
 [Intel @ JMH Visualizer]: https://jmh.morethan.io/?source=https://raw.githubusercontent.com/catap/scala-blake3/master/jmh-result.intel.json
 [M1 @ JMH Visualizer]: https://jmh.morethan.io/?source=https://raw.githubusercontent.com/catap/scala-blake3/master/jmh-result.m1.json
