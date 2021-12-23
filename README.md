@@ -7,13 +7,13 @@ instead of [SHA] because this implementation use only 32 bits number which nativ
 
 You can use it as
 ```
-libraryDependencies += "ky.korins" %%% "blake3" % "x.x.x"
+libraryDependencies += "pt.kcry" %%% "blake3" % "x.x.x"
 ```
 The latest version is ![maven-central]
 
 API is pretty simple:
 ```
-scala> import ky.korins.blake3.Blake3
+scala> import pt.kcry.blake3.Blake3
 
 scala> Blake3.newHasher().update("Some string").doneHex(64)
 val res1: String = 2e5524f3481046587080604ae4b4ceb44b721f3964ce0764627dee2c171de4c2
@@ -71,7 +71,7 @@ Full version of results are available as
  - for [Apple M1] at [jmh-result.m1.json] or via [M1 @ JMH Visualizer].
 
 [SHA]: https://github.com/catap/scala-sha
-[maven-central]: https://img.shields.io/maven-central/v/ky.korins/blake3_2.13?style=flat-square
+[maven-central]: https://img.shields.io/maven-central/v/pt.kcry/blake3_2.13?style=flat-square
 [RFC 4648]: https://tools.ietf.org/html/rfc4648
 [BLAKE3jni]: https://github.com/sken77/BLAKE3jni
 [AVX2 assembly]: https://github.com/BLAKE3-team/BLAKE3/blob/master/c/blake3_avx2_x86-64_unix.S
@@ -80,5 +80,5 @@ Full version of results are available as
 [Apple M1]: https://www.apple.com/mac/m1/
 [jmh-result.intel.json]: jmh-result.intel.json
 [jmh-result.m1.json]: jmh-result.m1.json
-[Intel @ JMH Visualizer]: https://jmh.morethan.io/?source=https://raw.githubusercontent.com/catap/scala-blake3/master/jmh-result.intel.json
-[M1 @ JMH Visualizer]: https://jmh.morethan.io/?source=https://raw.githubusercontent.com/catap/scala-blake3/master/jmh-result.m1.json
+[Intel @ JMH Visualizer]: https://jmh.morethan.io/?source=https://raw.githubusercontent.com/kcrypt/scala-blake3/master/jmh-result.intel.json
+[M1 @ JMH Visualizer]: https://jmh.morethan.io/?source=https://raw.githubusercontent.com/kcrypt/scala-blake3/master/jmh-result.m1.json

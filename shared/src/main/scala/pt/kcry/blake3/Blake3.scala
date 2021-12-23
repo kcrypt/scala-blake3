@@ -3,11 +3,13 @@
  *
  * Written in 2020, 2021 by Kirill A. Korinsky <kirill@korins.ky>
  *
+ * Supported since 2022 by Kcrypt Lab UG <support@kcry.pt>
+ *
  * This work is released into the public domain with CC0 1.0.
  * Alternatively, it is licensed under the Apache License 2.0.
  */
 
-package ky.korins.blake3
+package pt.kcry.blake3
 
 import CommonFunction._
 
@@ -26,7 +28,7 @@ object Blake3 {
   def newKeyedHasher(key: Array[Byte]): Hasher = {
     if (key.length != KEY_LEN) {
       throw new IllegalArgumentException(
-        s"key should be ky.korins.blake3.KEY_LEN: $KEY_LEN bytes"
+        s"key should be pt.kcry.blake3.KEY_LEN: $KEY_LEN bytes"
       )
     }
     new HasherImpl(wordsFromLittleEndianBytes(key), KEYED_HASH)

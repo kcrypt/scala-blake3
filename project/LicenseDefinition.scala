@@ -9,6 +9,8 @@ object LicenseDefinition {
       |
       |Written in 2020, 2021 by Kirill A. Korinsky <kirill@korins.ky>
       |
+      |Supported since 2022 by Kcrypt Lab UG <support@kcry.pt>
+      |
       |This work is released into the public domain with CC0 1.0.
       |Alternatively, it is licensed under the Apache License 2.0.
       |""".stripMargin
@@ -17,10 +19,10 @@ object LicenseDefinition {
 
   val licenses = Seq(
     "CC0 1.0 Universal" -> url(
-      "https://github.com/catap/scala-blake3/blob/master/LICENSE.txt"
+      "https://github.com/kcrypt/scala-blake3/blob/master/LICENSE.txt"
     ),
     "Apache License 2.0" -> url(
-      "https://github.com/catap/scala-blake3/blob/master/LICENSE.txt"
+      "https://github.com/kcrypt/scala-blake3/blob/master/LICENSE.txt"
     )
   )
 }

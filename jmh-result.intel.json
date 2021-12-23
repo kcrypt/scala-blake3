@@ -1,7 +1,7 @@
 [
     {
         "jmhVersion" : "1.25",
-        "benchmark" : "ky.korins.blake3.benchmark.Blake3Benchmark.newHasher",
+        "benchmark" : "pt.kcry.blake3.benchmark.Blake3Benchmark.newHasher",
         "mode" : "sample",
         "threads" : 1,
         "forks" : 1,
@@ -3405,7 +3405,7 @@
     },
     {
         "jmhVersion" : "1.25",
-        "benchmark" : "ky.korins.blake3.benchmark.Blake3Benchmark.newHasher",
+        "benchmark" : "pt.kcry.blake3.benchmark.Blake3Benchmark.newHasher",
         "mode" : "sample",
         "threads" : 1,
         "forks" : 1,
@@ -5922,7 +5922,7 @@
     },
     {
         "jmhVersion" : "1.25",
-        "benchmark" : "ky.korins.blake3.benchmark.Blake3Benchmark.newHasher",
+        "benchmark" : "pt.kcry.blake3.benchmark.Blake3Benchmark.newHasher",
         "mode" : "sample",
         "threads" : 1,
         "forks" : 1,
@@ -6487,7 +6487,7 @@
     },
     {
         "jmhVersion" : "1.25",
-        "benchmark" : "ky.korins.blake3.benchmark.Blake3Benchmark.newHasher",
+        "benchmark" : "pt.kcry.blake3.benchmark.Blake3Benchmark.newHasher",
         "mode" : "sample",
         "threads" : 1,
         "forks" : 1,
@@ -7167,7 +7167,7 @@
     },
     {
         "jmhVersion" : "1.25",
-        "benchmark" : "ky.korins.blake3.benchmark.Blake3Benchmark.newHasher",
+        "benchmark" : "pt.kcry.blake3.benchmark.Blake3Benchmark.newHasher",
         "mode" : "sample",
         "threads" : 1,
         "forks" : 1,
@@ -7896,7 +7896,7 @@
     },
     {
         "jmhVersion" : "1.25",
-        "benchmark" : "ky.korins.blake3.benchmark.Blake3Benchmark.newHasher",
+        "benchmark" : "pt.kcry.blake3.benchmark.Blake3Benchmark.newHasher",
         "mode" : "sample",
         "threads" : 1,
         "forks" : 1,
@@ -8500,7 +8500,7 @@
     },
     {
         "jmhVersion" : "1.25",
-        "benchmark" : "ky.korins.blake3.benchmark.Blake3Benchmark.reusedHaser",
+        "benchmark" : "pt.kcry.blake3.benchmark.Blake3Benchmark.reusedHaser",
         "mode" : "sample",
         "threads" : 1,
         "forks" : 1,
@@ -11211,7 +11211,7 @@
     },
     {
         "jmhVersion" : "1.25",
-        "benchmark" : "ky.korins.blake3.benchmark.Blake3Benchmark.reusedHaser",
+        "benchmark" : "pt.kcry.blake3.benchmark.Blake3Benchmark.reusedHaser",
         "mode" : "sample",
         "threads" : 1,
         "forks" : 1,
@@ -13750,7 +13750,7 @@
     },
     {
         "jmhVersion" : "1.25",
-        "benchmark" : "ky.korins.blake3.benchmark.Blake3Benchmark.reusedHaser",
+        "benchmark" : "pt.kcry.blake3.benchmark.Blake3Benchmark.reusedHaser",
         "mode" : "sample",
         "threads" : 1,
         "forks" : 1,
@@ -14371,7 +14371,7 @@
     },
     {
         "jmhVersion" : "1.25",
-        "benchmark" : "ky.korins.blake3.benchmark.Blake3Benchmark.reusedHaser",
+        "benchmark" : "pt.kcry.blake3.benchmark.Blake3Benchmark.reusedHaser",
         "mode" : "sample",
         "threads" : 1,
         "forks" : 1,
@@ -14999,7 +14999,7 @@
     },
     {
         "jmhVersion" : "1.25",
-        "benchmark" : "ky.korins.blake3.benchmark.Blake3Benchmark.reusedHaser",
+        "benchmark" : "pt.kcry.blake3.benchmark.Blake3Benchmark.reusedHaser",
         "mode" : "sample",
         "threads" : 1,
         "forks" : 1,
@@ -15607,7 +15607,7 @@
     },
     {
         "jmhVersion" : "1.25",
-        "benchmark" : "ky.korins.blake3.benchmark.Blake3Benchmark.reusedHaser",
+        "benchmark" : "pt.kcry.blake3.benchmark.Blake3Benchmark.reusedHaser",
         "mode" : "sample",
         "threads" : 1,
         "forks" : 1,
@@ -16221,7 +16221,7 @@
     },
     {
         "jmhVersion" : "1.25",
-        "benchmark" : "ky.korins.blake3.benchmark.Blake3JNIBenchmark.newHasher",
+        "benchmark" : "pt.kcry.blake3.benchmark.Blake3JNIBenchmark.newHasher",
         "mode" : "sample",
         "threads" : 1,
         "forks" : 1,
@@ -18820,7 +18820,7 @@
     },
     {
         "jmhVersion" : "1.25",
-        "benchmark" : "ky.korins.blake3.benchmark.Blake3JNIBenchmark.newHasher",
+        "benchmark" : "pt.kcry.blake3.benchmark.Blake3JNIBenchmark.newHasher",
         "mode" : "sample",
         "threads" : 1,
         "forks" : 1,
@@ -21738,7 +21738,7 @@
     },
     {
         "jmhVersion" : "1.25",
-        "benchmark" : "ky.korins.blake3.benchmark.Blake3JNIBenchmark.newHasher",
+        "benchmark" : "pt.kcry.blake3.benchmark.Blake3JNIBenchmark.newHasher",
         "mode" : "sample",
         "threads" : 1,
         "forks" : 1,
@@ -22360,7 +22360,7 @@
     },
     {
         "jmhVersion" : "1.25",
-        "benchmark" : "ky.korins.blake3.benchmark.Blake3JNIBenchmark.newHasher",
+        "benchmark" : "pt.kcry.blake3.benchmark.Blake3JNIBenchmark.newHasher",
         "mode" : "sample",
         "threads" : 1,
         "forks" : 1,
@@ -23071,7 +23071,7 @@
     },
     {
         "jmhVersion" : "1.25",
-        "benchmark" : "ky.korins.blake3.benchmark.Blake3JNIBenchmark.newHasher",
+        "benchmark" : "pt.kcry.blake3.benchmark.Blake3JNIBenchmark.newHasher",
         "mode" : "sample",
         "threads" : 1,
         "forks" : 1,
@@ -23802,7 +23802,7 @@
     },
     {
         "jmhVersion" : "1.25",
-        "benchmark" : "ky.korins.blake3.benchmark.Blake3JNIBenchmark.newHasher",
+        "benchmark" : "pt.kcry.blake3.benchmark.Blake3JNIBenchmark.newHasher",
         "mode" : "sample",
         "threads" : 1,
         "forks" : 1,
@@ -24381,7 +24381,7 @@
     },
     {
         "jmhVersion" : "1.25",
-        "benchmark" : "ky.korins.blake3.benchmark.Blake3JNIBenchmark.reusedHaser",
+        "benchmark" : "pt.kcry.blake3.benchmark.Blake3JNIBenchmark.reusedHaser",
         "mode" : "sample",
         "threads" : 1,
         "forks" : 1,
@@ -27828,7 +27828,7 @@
     },
     {
         "jmhVersion" : "1.25",
-        "benchmark" : "ky.korins.blake3.benchmark.Blake3JNIBenchmark.reusedHaser",
+        "benchmark" : "pt.kcry.blake3.benchmark.Blake3JNIBenchmark.reusedHaser",
         "mode" : "sample",
         "threads" : 1,
         "forks" : 1,
@@ -30916,7 +30916,7 @@
     },
     {
         "jmhVersion" : "1.25",
-        "benchmark" : "ky.korins.blake3.benchmark.Blake3JNIBenchmark.reusedHaser",
+        "benchmark" : "pt.kcry.blake3.benchmark.Blake3JNIBenchmark.reusedHaser",
         "mode" : "sample",
         "threads" : 1,
         "forks" : 1,
@@ -31526,7 +31526,7 @@
     },
     {
         "jmhVersion" : "1.25",
-        "benchmark" : "ky.korins.blake3.benchmark.Blake3JNIBenchmark.reusedHaser",
+        "benchmark" : "pt.kcry.blake3.benchmark.Blake3JNIBenchmark.reusedHaser",
         "mode" : "sample",
         "threads" : 1,
         "forks" : 1,
@@ -32218,7 +32218,7 @@
     },
     {
         "jmhVersion" : "1.25",
-        "benchmark" : "ky.korins.blake3.benchmark.Blake3JNIBenchmark.reusedHaser",
+        "benchmark" : "pt.kcry.blake3.benchmark.Blake3JNIBenchmark.reusedHaser",
         "mode" : "sample",
         "threads" : 1,
         "forks" : 1,
@@ -32915,7 +32915,7 @@
     },
     {
         "jmhVersion" : "1.25",
-        "benchmark" : "ky.korins.blake3.benchmark.Blake3JNIBenchmark.reusedHaser",
+        "benchmark" : "pt.kcry.blake3.benchmark.Blake3JNIBenchmark.reusedHaser",
         "mode" : "sample",
         "threads" : 1,
         "forks" : 1,

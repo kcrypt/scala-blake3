@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [unreleased]
+- Migrated to package `pt.kcry.blake3`
 - Switched to scalajs-1.8.0
 - Switched to scala-native-0.4.2
 - Switched to scala-2.13.7
@@ -85,7 +86,7 @@ All notable changes to this project will be documented in this file.
 
 ## [1.7.0] - 2020-11-18
 - Significant performance improvement and reducing memory footprint.
-- Fixed `BuildInfo` by moving it to `ky.korins.blake3` package.
+- Fixed `BuildInfo` by moving it to `pt.kcry.blake3` package.
 
 ## [1.6.2] - 2020-11-16
 - Migrated from dotty `0.27.0-RC1` to scala `3.0.0-M1`.
@@ -116,34 +117,34 @@ All notable changes to this project will be documented in this file.
 ## [1.0.0] - 2020-07-15
 - The first public release as dedicated project.
 
-[unreleased]: https://github.com/catap/scala-blake3/compare/v2.9.0...HEAD
-[2.9.0]: https://github.com/catap/scala-blake3/compare/v2.8.0...v2.9.0
-[2.8.0]: https://github.com/catap/scala-blake3/compare/v2.7.0...v2.8.0
-[2.7.0]: https://github.com/catap/scala-blake3/compare/v2.6.1...v2.7.0
-[2.6.1]: https://github.com/catap/scala-blake3/compare/v2.6.0...v2.6.1
-[2.6.0]: https://github.com/catap/scala-blake3/compare/v2.5.2...v2.6.0
-[2.5.2]: https://github.com/catap/scala-blake3/compare/v2.5.1...v2.5.2
-[2.5.1]: https://github.com/catap/scala-blake3/compare/v2.5.0...v2.5.1
-[2.5.0]: https://github.com/catap/scala-blake3/compare/v2.4.1...v2.5.0
-[2.4.1]: https://github.com/catap/scala-blake3/compare/v2.4.0...v2.4.1
-[2.4.0]: https://github.com/catap/scala-blake3/compare/v2.3.1...v2.4.0
-[2.3.1]: https://github.com/catap/scala-blake3/compare/v2.3.0...v2.3.1
-[2.3.0]: https://github.com/catap/scala-blake3/compare/v2.2.0...v2.3.0
-[2.2.0]: https://github.com/catap/scala-blake3/compare/v2.1.0...v2.2.0
-[2.1.0]: https://github.com/catap/scala-blake3/compare/v2.0.1...v2.1.0
-[2.0.1]: https://github.com/catap/scala-blake3/compare/v2.0.0...v2.0.1
-[2.0.0]: https://github.com/catap/scala-blake3/compare/v1.9.0...v2.0.0
-[1.9.0]: https://github.com/catap/scala-blake3/compare/v1.8.1...v1.9.0
-[1.8.1]: https://github.com/catap/scala-blake3/compare/v1.8.0...v1.8.1
-[1.8.0]: https://github.com/catap/scala-blake3/compare/v1.7.1...v1.8.0
-[1.7.1]: https://github.com/catap/scala-blake3/compare/v1.7.0...v1.7.1
-[1.7.0]: https://github.com/catap/scala-blake3/compare/v1.6.2...v1.7.0
-[1.6.2]: https://github.com/catap/scala-blake3/compare/v1.6.1...v1.6.2
-[1.6.1]: https://github.com/catap/scala-blake3/compare/v1.6.0...v1.6.1
-[1.6.0]: https://github.com/catap/scala-blake3/compare/v1.5.0...v1.6.0
-[1.5.0]: https://github.com/catap/scala-blake3/compare/v1.4.0...v1.5.0
-[1.4.0]: https://github.com/catap/scala-blake3/compare/v1.3.0...v1.4.0
-[1.3.0]: https://github.com/catap/scala-blake3/compare/v1.2.0...v1.3.0
-[1.2.0]: https://github.com/catap/scala-blake3/compare/v1.1.0...v1.2.0
-[1.1.0]: https://github.com/catap/scala-blake3/compare/v1.0.0...v1.1.0
-[1.0.0]: https://github.com/catap/scala-blake3/releases/tag/v1.0.0
+[unreleased]: https://github.com/kcrypt/scala-blake3/compare/v2.9.0...HEAD
+[2.9.0]: https://github.com/kcrypt/scala-blake3/compare/v2.8.0...v2.9.0
+[2.8.0]: https://github.com/kcrypt/scala-blake3/compare/v2.7.0...v2.8.0
+[2.7.0]: https://github.com/kcrypt/scala-blake3/compare/v2.6.1...v2.7.0
+[2.6.1]: https://github.com/kcrypt/scala-blake3/compare/v2.6.0...v2.6.1
+[2.6.0]: https://github.com/kcrypt/scala-blake3/compare/v2.5.2...v2.6.0
+[2.5.2]: https://github.com/kcrypt/scala-blake3/compare/v2.5.1...v2.5.2
+[2.5.1]: https://github.com/kcrypt/scala-blake3/compare/v2.5.0...v2.5.1
+[2.5.0]: https://github.com/kcrypt/scala-blake3/compare/v2.4.1...v2.5.0
+[2.4.1]: https://github.com/kcrypt/scala-blake3/compare/v2.4.0...v2.4.1
+[2.4.0]: https://github.com/kcrypt/scala-blake3/compare/v2.3.1...v2.4.0
+[2.3.1]: https://github.com/kcrypt/scala-blake3/compare/v2.3.0...v2.3.1
+[2.3.0]: https://github.com/kcrypt/scala-blake3/compare/v2.2.0...v2.3.0
+[2.2.0]: https://github.com/kcrypt/scala-blake3/compare/v2.1.0...v2.2.0
+[2.1.0]: https://github.com/kcrypt/scala-blake3/compare/v2.0.1...v2.1.0
+[2.0.1]: https://github.com/kcrypt/scala-blake3/compare/v2.0.0...v2.0.1
+[2.0.0]: https://github.com/kcrypt/scala-blake3/compare/v1.9.0...v2.0.0
+[1.9.0]: https://github.com/kcrypt/scala-blake3/compare/v1.8.1...v1.9.0
+[1.8.1]: https://github.com/kcrypt/scala-blake3/compare/v1.8.0...v1.8.1
+[1.8.0]: https://github.com/kcrypt/scala-blake3/compare/v1.7.1...v1.8.0
+[1.7.1]: https://github.com/kcrypt/scala-blake3/compare/v1.7.0...v1.7.1
+[1.7.0]: https://github.com/kcrypt/scala-blake3/compare/v1.6.2...v1.7.0
+[1.6.2]: https://github.com/kcrypt/scala-blake3/compare/v1.6.1...v1.6.2
+[1.6.1]: https://github.com/kcrypt/scala-blake3/compare/v1.6.0...v1.6.1
+[1.6.0]: https://github.com/kcrypt/scala-blake3/compare/v1.5.0...v1.6.0
+[1.5.0]: https://github.com/kcrypt/scala-blake3/compare/v1.4.0...v1.5.0
+[1.4.0]: https://github.com/kcrypt/scala-blake3/compare/v1.3.0...v1.4.0
+[1.3.0]: https://github.com/kcrypt/scala-blake3/compare/v1.2.0...v1.3.0
+[1.2.0]: https://github.com/kcrypt/scala-blake3/compare/v1.1.0...v1.2.0
+[1.1.0]: https://github.com/kcrypt/scala-blake3/compare/v1.0.0...v1.1.0
+[1.0.0]: https://github.com/kcrypt/scala-blake3/releases/tag/v1.0.0

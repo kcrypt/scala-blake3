@@ -12,8 +12,8 @@ lazy val scalatestVersion = "3.2.10"
 
 lazy val blake3jniVersion = "0.2.2"
 
-name := "blake3"
-ThisBuild / organization := "ky.korins"
+name := "scala-blake3"
+ThisBuild / organization := "pt.kcry"
 
 ThisBuild / dynverSeparator := "-"
 
@@ -48,7 +48,7 @@ lazy val blake3 = crossProject(JSPlatform, JVMPlatform, NativePlatform)
       }
     ),
     headerLicense := LicenseDefinition.template,
-    buildInfoPackage := "ky.korins.blake3",
+    buildInfoPackage := "pt.kcry.blake3",
     libraryDependencies ++= Seq(
       "org.scalatest" %%% "scalatest" % scalatestVersion % Test
     )
