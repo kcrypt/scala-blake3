@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [unreleased]
+
+## [3.0.0] - 2021-12-23
 - Migrated to package `pt.kcry.blake3`
 - Switched to scalajs-1.8.0
 - Switched to scala-native-0.4.2
@@ -117,7 +119,8 @@ All notable changes to this project will be documented in this file.
 ## [1.0.0] - 2020-07-15
 - The first public release as dedicated project.
 
-[unreleased]: https://github.com/kcrypt/scala-blake3/compare/v2.9.0...HEAD
+[unreleased]: https://github.com/kcrypt/scala-blake3/compare/v3.0.0...HEAD
+[3.0.0]: https://github.com/kcrypt/scala-blake3/compare/v2.9.0...v3.0.0
 [2.9.0]: https://github.com/kcrypt/scala-blake3/compare/v2.8.0...v2.9.0
 [2.8.0]: https://github.com/kcrypt/scala-blake3/compare/v2.7.0...v2.8.0
 [2.7.0]: https://github.com/kcrypt/scala-blake3/compare/v2.6.1...v2.7.0
