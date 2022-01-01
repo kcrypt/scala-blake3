@@ -64,8 +64,7 @@ trait Hasher extends OutputStream {
    *
    * It reads `input` until it returns `-1`
    */
-  def update(input: InputStream): Hasher =
-    update(input, Int.MaxValue)
+  def update(input: InputStream): Hasher = update(input, Int.MaxValue)
 
   /**
    * Updates a hasher from specified ByteBuffer with no more than len bytes,
@@ -77,8 +76,7 @@ trait Hasher extends OutputStream {
    * Updates a hasher from specified ByteBuffer until the end, returns the same
    * hasher
    */
-  def update(input: ByteBuffer): Hasher =
-    update(input, input.remaining())
+  def update(input: ByteBuffer): Hasher = update(input, input.remaining())
 
   /**
    * Calculate a hash into specified byte array
@@ -120,8 +118,7 @@ trait Hasher extends OutputStream {
   /**
    * Calculate a hash into specified ByteBuffer until the end of ByteBuffer
    */
-  def done(out: ByteBuffer): Unit =
-    done(out, out.remaining())
+  def done(out: ByteBuffer): Unit = done(out, out.remaining())
 
   /**
    * Calculate a hash as single short
@@ -149,11 +146,7 @@ trait Hasher extends OutputStream {
    * specified part of existed values
    */
   def doneXor(
-    in: Array[Byte],
-    inOff: Int,
-    out: Array[Byte],
-    outOff: Int,
-    len: Int
+    in: Array[Byte], inOff: Int, out: Array[Byte], outOff: Int, len: Int
   ): Unit
 
   /**
@@ -174,11 +167,9 @@ trait Hasher extends OutputStream {
    */
   @throws(classOf[IllegalArgumentException])
   def doneBigInt(bitLength: Int): BigInt = {
-    if (bitLength % 8 != 0) {
-      throw new IllegalArgumentException(
-        s"bitLength: $bitLength should be a multiple of 8"
-      )
-    }
+    if (bitLength % 8 != 0) throw new IllegalArgumentException(
+      s"bitLength: $bitLength should be a multiple of 8"
+    )
     BigInt(1, done(bitLength / 8))
   }
 
@@ -187,10 +178,8 @@ trait Hasher extends OutputStream {
    */
   def doneBigInt(N: BigInt): BigInt = {
     val bytes = N.bitLength match {
-      case bitLength if (bitLength % 8 == 0) =>
-        bitLength / 8
-      case bitLength =>
-        bitLength / 8 + 1
+      case bitLength if (bitLength % 8 == 0) => bitLength / 8
+      case bitLength                         => bitLength / 8 + 1
     }
     BigInt(1, done(bytes)) mod N
   }
@@ -201,57 +190,48 @@ trait Hasher extends OutputStream {
    */
   @throws(classOf[IllegalArgumentException])
   def doneHex(resultLength: Int): String = {
-    if (resultLength % 2 != 0) {
-      throw new IllegalArgumentException(
-        s"resultLength: $resultLength should be even"
-      )
-    }
+    if (resultLength % 2 != 0) throw new IllegalArgumentException(
+      s"resultLength: $resultLength should be even"
+    )
     RFC4648.base16(done(resultLength / 2)).toLowerCase
   }
 
   /**
    * Create a base16 representative of calculated hash for specified length
    */
-  def doneBase16(len: Int): String =
-    RFC4648.base16(done(len))
+  def doneBase16(len: Int): String = RFC4648.base16(done(len))
 
   /**
    * Create a base32 representative of calculated hash for specified length
    */
-  def doneBase32(len: Int): String =
-    RFC4648.base32(done(len))
+  def doneBase32(len: Int): String = RFC4648.base32(done(len))
 
   /**
    * Create a base32 hex-compatibly representative of calculated hash for
    * specified length
    */
-  def doneBase32Hex(len: Int): String =
-    RFC4648.base32_hex(done(len))
+  def doneBase32Hex(len: Int): String = RFC4648.base32_hex(done(len))
 
   /**
    * Create a base64 representative of calculated hash for specified length
    */
-  def doneBase64(len: Int): String =
-    RFC4648.base64(done(len))
+  def doneBase64(len: Int): String = RFC4648.base64(done(len))
 
   /**
    * Create a base64 URL-safe representative of calculated hash for specified
    * length
    */
-  def doneBase64Url(len: Int): String =
-    RFC4648.base64_url(done(len))
+  def doneBase64Url(len: Int): String = RFC4648.base64_url(done(len))
 
   /**
    * Update hash as [[OutputStream]].
    */
-  override def write(b: Int): Unit =
-    update(b.toByte)
+  override def write(b: Int): Unit = update(b.toByte)
 
   /**
    * Update hash as [[OutputStream]].
    */
-  override def write(b: Array[Byte]): Unit =
-    update(b)
+  override def write(b: Array[Byte]): Unit = update(b)
 
   /**
    * Update hash as [[OutputStream]].

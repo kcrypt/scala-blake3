@@ -20,13 +20,15 @@ object RFC4648 {
    * RFC 4648 Section 4
    */
   val base64_alphabet: Array[Char] =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".toCharArray
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+      .toCharArray
 
   /**
    * RFC 4648 Section 5
    */
   val base64_url_alphabet: Array[Char] =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_".toCharArray
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"
+      .toCharArray
 
   /**
    * RFC 4648 Section 6
@@ -43,114 +45,90 @@ object RFC4648 {
   /**
    * RFC 4648 Section 8
    */
-  val base16_alphabet: Array[Char] =
-    "0123456789ABCDEF".toCharArray
+  val base16_alphabet: Array[Char] = "0123456789ABCDEF".toCharArray
 
   def base64_b2c(
-    bytes: Array[Byte],
-    offset: Int,
-    len: Int,
-    alphabet: Array[Char],
+    bytes: Array[Byte], offset: Int, len: Int, alphabet: Array[Char],
     sb: StringBuilder
-  ): Unit =
-    len match {
-      case 0 =>
-      // do nothing
+  ): Unit = len match {
+    case 0 =>
+    // do nothing
 
-      case 1 =>
-        sb append alphabet((bytes(offset) >>> 2) & 0x3f)
-        sb append alphabet((bytes(offset) & 0x3) << 4)
+    case 1 =>
+      sb append alphabet((bytes(offset) >>> 2) & 0x3f)
+      sb append alphabet((bytes(offset) & 0x3) << 4)
 
-      case 2 =>
-        sb append alphabet((bytes(offset) >>> 2) & 0x3f)
-        sb append alphabet(
-          ((bytes(offset) & 0x3) << 4) | ((bytes(offset + 1) >>> 4) & 0xf)
-        )
-        sb append alphabet((bytes(offset + 1) & 0xf) << 2)
+    case 2 =>
+      sb append alphabet((bytes(offset) >>> 2) & 0x3f)
+      sb append
+        alphabet(((bytes(offset) & 0x3) << 4) | ((bytes(offset + 1) >>> 4) & 0xf))
+      sb append alphabet((bytes(offset + 1) & 0xf) << 2)
 
-      case _ => // 3 or more
-        sb append alphabet((bytes(offset) >>> 2) & 0x3f)
-        sb append alphabet(
-          ((bytes(offset) & 0x3) << 4) | ((bytes(offset + 1) >>> 4) & 0xf)
-        )
-        sb append alphabet(
-          ((bytes(offset + 1) & 0xf) << 2) | ((bytes(offset + 2) >>> 6) & 0x3)
-        )
-        sb append alphabet(bytes(offset + 2) & 0x3f)
-    }
+    case _ => // 3 or more
+      sb append alphabet((bytes(offset) >>> 2) & 0x3f)
+      sb append
+        alphabet(((bytes(offset) & 0x3) << 4) | ((bytes(offset + 1) >>> 4) & 0xf))
+      sb append alphabet(((bytes(offset + 1) & 0xf) << 2) |
+          ((bytes(offset + 2) >>> 6) & 0x3))
+      sb append alphabet(bytes(offset + 2) & 0x3f)
+  }
 
   private def base32_b2c(
-    bytes: Array[Byte],
-    offset: Int,
-    len: Int,
-    alphabet: Array[Char],
+    bytes: Array[Byte], offset: Int, len: Int, alphabet: Array[Char],
     sb: StringBuilder
-  ): Unit =
-    len match {
-      case 0 =>
-      // do nothing
+  ): Unit = len match {
+    case 0 =>
+    // do nothing
 
-      case 1 =>
-        sb append alphabet((bytes(offset) >>> 3) & 0x1f)
-        sb append alphabet((bytes(offset) & 0x7) << 2)
+    case 1 =>
+      sb append alphabet((bytes(offset) >>> 3) & 0x1f)
+      sb append alphabet((bytes(offset) & 0x7) << 2)
 
-      case 2 =>
-        sb append alphabet((bytes(offset) >>> 3) & 0x1f)
-        sb append alphabet(
-          ((bytes(offset) & 0x7) << 2) | ((bytes(offset + 1) >>> 6) & 0x3)
-        )
-        sb append alphabet((bytes(offset + 1) >>> 1) & 0x1f)
-        sb append alphabet((bytes(offset + 1) & 0x1) << 4)
+    case 2 =>
+      sb append alphabet((bytes(offset) >>> 3) & 0x1f)
+      sb append
+        alphabet(((bytes(offset) & 0x7) << 2) | ((bytes(offset + 1) >>> 6) & 0x3))
+      sb append alphabet((bytes(offset + 1) >>> 1) & 0x1f)
+      sb append alphabet((bytes(offset + 1) & 0x1) << 4)
 
-      case 3 =>
-        sb append alphabet((bytes(offset) >>> 3) & 0x1f)
-        sb append alphabet(
-          ((bytes(offset) & 0x7) << 2) | ((bytes(offset + 1) >>> 6) & 0x3)
-        )
-        sb append alphabet((bytes(offset + 1) >>> 1) & 0x1f)
-        sb append alphabet(
-          ((bytes(offset + 1) & 0x1) << 4) | ((bytes(offset + 2) >>> 4) & 0xf)
-        )
-        sb append alphabet((bytes(offset + 2) & 0xf) << 1)
+    case 3 =>
+      sb append alphabet((bytes(offset) >>> 3) & 0x1f)
+      sb append
+        alphabet(((bytes(offset) & 0x7) << 2) | ((bytes(offset + 1) >>> 6) & 0x3))
+      sb append alphabet((bytes(offset + 1) >>> 1) & 0x1f)
+      sb append alphabet(((bytes(offset + 1) & 0x1) << 4) |
+          ((bytes(offset + 2) >>> 4) & 0xf))
+      sb append alphabet((bytes(offset + 2) & 0xf) << 1)
 
-      case 4 =>
-        sb append alphabet((bytes(offset) >>> 3) & 0x1f)
-        sb append alphabet(
-          ((bytes(offset) & 0x7) << 2) | ((bytes(offset + 1) >>> 6) & 0x3)
-        )
-        sb append alphabet((bytes(offset + 1) >>> 1) & 0x1f)
-        sb append alphabet(
-          ((bytes(offset + 1) & 0x1) << 4) | ((bytes(offset + 2) >>> 4) & 0xf)
-        )
-        sb append alphabet(
-          ((bytes(offset + 2) & 0xf) << 1) | ((bytes(offset + 3) >>> 7) & 0x1)
-        )
-        sb append alphabet((bytes(offset + 3) >>> 2) & 0x1f)
-        sb append alphabet((bytes(offset + 3) & 0x3) << 3)
+    case 4 =>
+      sb append alphabet((bytes(offset) >>> 3) & 0x1f)
+      sb append
+        alphabet(((bytes(offset) & 0x7) << 2) | ((bytes(offset + 1) >>> 6) & 0x3))
+      sb append alphabet((bytes(offset + 1) >>> 1) & 0x1f)
+      sb append alphabet(((bytes(offset + 1) & 0x1) << 4) |
+          ((bytes(offset + 2) >>> 4) & 0xf))
+      sb append alphabet(((bytes(offset + 2) & 0xf) << 1) |
+          ((bytes(offset + 3) >>> 7) & 0x1))
+      sb append alphabet((bytes(offset + 3) >>> 2) & 0x1f)
+      sb append alphabet((bytes(offset + 3) & 0x3) << 3)
 
-      case _ => // 5 or more
-        sb append alphabet((bytes(offset) >>> 3) & 0x1f)
-        sb append alphabet(
-          ((bytes(offset) & 0x7) << 2) | ((bytes(offset + 1) >>> 6) & 0x3)
-        )
-        sb append alphabet((bytes(offset + 1) >>> 1) & 0x1f)
-        sb append alphabet(
-          ((bytes(offset + 1) & 0x1) << 4) | ((bytes(offset + 2) >>> 4) & 0xf)
-        )
-        sb append alphabet(
-          ((bytes(offset + 2) & 0xf) << 1) | ((bytes(offset + 3) >>> 7) & 0x1)
-        )
-        sb append alphabet((bytes(offset + 3) >>> 2) & 0x1f)
-        sb append alphabet(
-          ((bytes(offset + 3) & 0x3) << 3) | ((bytes(offset + 4) >>> 5) & 0x7)
-        )
-        sb append alphabet(bytes(offset + 4) & 0x1f)
-    }
+    case _ => // 5 or more
+      sb append alphabet((bytes(offset) >>> 3) & 0x1f)
+      sb append
+        alphabet(((bytes(offset) & 0x7) << 2) | ((bytes(offset + 1) >>> 6) & 0x3))
+      sb append alphabet((bytes(offset + 1) >>> 1) & 0x1f)
+      sb append alphabet(((bytes(offset + 1) & 0x1) << 4) |
+          ((bytes(offset + 2) >>> 4) & 0xf))
+      sb append alphabet(((bytes(offset + 2) & 0xf) << 1) |
+          ((bytes(offset + 3) >>> 7) & 0x1))
+      sb append alphabet((bytes(offset + 3) >>> 2) & 0x1f)
+      sb append alphabet(((bytes(offset + 3) & 0x3) << 3) |
+          ((bytes(offset + 4) >>> 5) & 0x7))
+      sb append alphabet(bytes(offset + 4) & 0x1f)
+  }
 
   private def base16_b2c(
-    byte: Byte,
-    alphabet: Array[Char],
-    sb: StringBuilder
+    byte: Byte, alphabet: Array[Char], sb: StringBuilder
   ): Unit = {
     sb append alphabet((byte >>> 4) & 0xf)
     sb append alphabet(byte & 0xf)
@@ -160,10 +138,7 @@ object RFC4648 {
    * Encode specified part of array as base64 with specified alphabet
    */
   def base64(
-    data: Array[Byte],
-    offset: Int,
-    len: Int,
-    alphabet: Array[Char]
+    data: Array[Byte], offset: Int, len: Int, alphabet: Array[Char]
   ): String = {
     val sb = new StringBuilder(4 * (len / 3))
     var i = offset
@@ -209,10 +184,7 @@ object RFC4648 {
    * Encode specified part of array as base32 with specified alphabet
    */
   def base32(
-    data: Array[Byte],
-    offset: Int,
-    len: Int,
-    alphabet: Array[Char]
+    data: Array[Byte], offset: Int, len: Int, alphabet: Array[Char]
   ): String = {
     val sb = new StringBuilder(8 * (len / 5))
     var i = offset
@@ -258,10 +230,7 @@ object RFC4648 {
    * Encode specified part of array as base16 with specified alphabet
    */
   def base16(
-    data: Array[Byte],
-    offset: Int,
-    len: Int,
-    alphabet: Array[Char]
+    data: Array[Byte], offset: Int, len: Int, alphabet: Array[Char]
   ): String = {
     val sb = new StringBuilder(len * 2)
     var i = offset
