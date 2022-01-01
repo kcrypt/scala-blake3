@@ -96,17 +96,8 @@ class RFC4648Test extends AnyWordSpec with should.Matchers {
     }
 
     "base64" in {
-      val bytes = Array(
-        0x4e.toByte,
-        0x53.toByte,
-        0xec.toByte,
-        0x55.toByte,
-        0x6c.toByte,
-        0xd3.toByte,
-        0x4e.toByte,
-        0x53.toByte,
-        0xec.toByte
-      )
+      val bytes = Array(0x4e.toByte, 0x53.toByte, 0xec.toByte, 0x55.toByte,
+        0x6c.toByte, 0xd3.toByte, 0x4e.toByte, 0x53.toByte, 0xec.toByte)
 
       val expected = "TlPsVWzTTlPs"
       RFC4648.base64(bytes.take(3)) shouldEqual expected.take(4)

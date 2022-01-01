@@ -18,19 +18,16 @@ object Blake3 {
   /**
    * A new hasher
    */
-  def newHasher(): Hasher =
-    new HasherImpl(IV, 0)
+  def newHasher(): Hasher = new HasherImpl(IV, 0)
 
   /**
    * A new keyed hasher where key is 32 byte
    */
   @throws(classOf[IllegalArgumentException])
   def newKeyedHasher(key: Array[Byte]): Hasher = {
-    if (key.length != KEY_LEN) {
-      throw new IllegalArgumentException(
-        s"key should be pt.kcry.blake3.KEY_LEN: $KEY_LEN bytes"
-      )
-    }
+    if (key.length != KEY_LEN) throw new IllegalArgumentException(
+      s"key should be pt.kcry.blake3.KEY_LEN: $KEY_LEN bytes"
+    )
     new HasherImpl(wordsFromLittleEndianBytes(key), KEYED_HASH)
   }
 
@@ -59,69 +56,61 @@ object Blake3 {
   /**
    * Compute a hash of specified len from specified source
    */
-  def hash(source: Array[Byte], len: Int): Array[Byte] =
-    newHasher().update(source).done(len)
+  def hash(source: Array[Byte], len: Int): Array[Byte] = newHasher()
+    .update(source).done(len)
 
   /**
    * Compute a hash of specified len from specified source
    */
-  def hash(source: String, len: Int): Array[Byte] =
-    hash(source.getBytes, len)
+  def hash(source: String, len: Int): Array[Byte] = hash(source.getBytes, len)
 
   /**
    * Compute a hash as single byte from specified source
    */
-  def hash(source: Array[Byte]): Byte =
-    newHasher().update(source).done()
+  def hash(source: Array[Byte]): Byte = newHasher().update(source).done()
 
   /**
    * Compute a hash as single byte from specified source
    */
-  def hash(source: String): Byte =
-    hash(source.getBytes)
+  def hash(source: String): Byte = hash(source.getBytes)
 
   /**
    * Compute a hash as single short from specified source
    */
-  def hashShort(source: Array[Byte]): Short =
-    newHasher().update(source).doneShort()
+  def hashShort(source: Array[Byte]): Short = newHasher().update(source)
+    .doneShort()
 
   /**
    * Compute a hash as single int from specified source
    */
-  def hashShort(source: String): Short =
-    hashShort(source.getBytes)
+  def hashShort(source: String): Short = hashShort(source.getBytes)
 
   /**
    * Compute a hash as single int from specified source
    */
-  def hashInt(source: Array[Byte]): Int =
-    newHasher().update(source).doneInt()
+  def hashInt(source: Array[Byte]): Int = newHasher().update(source).doneInt()
 
   /**
    * Compute a hash as single int from specified source
    */
-  def hashInt(source: String): Int =
-    hashInt(source.getBytes)
+  def hashInt(source: String): Int = hashInt(source.getBytes)
 
   /**
    * Compute a hash as single long from specified source
    */
-  def hashLong(source: Array[Byte]): Long =
-    newHasher().update(source).doneLong()
+  def hashLong(source: Array[Byte]): Long = newHasher().update(source).doneLong()
 
   /**
    * Compute a hash as single long from specified source
    */
-  def hashLong(source: String): Long =
-    hashLong(source.getBytes)
+  def hashLong(source: String): Long = hashLong(source.getBytes)
 
   /**
    * Compute a hex representative of hash of specified output len from specified
    * source
    */
-  def hex(source: Array[Byte], resultLength: Int): String =
-    newHasher().update(source).doneHex(resultLength)
+  def hex(source: Array[Byte], resultLength: Int): String = newHasher()
+    .update(source).doneHex(resultLength)
 
   /**
    * Compute a hex representative of hash of specified output len from specified
@@ -134,8 +123,8 @@ object Blake3 {
    * Compute a BigInt representative of hash of specified len from specified
    * source
    */
-  def bigInt(source: Array[Byte], bitLength: Int): BigInt =
-    newHasher().update(source).doneBigInt(bitLength)
+  def bigInt(source: Array[Byte], bitLength: Int): BigInt = newHasher()
+    .update(source).doneBigInt(bitLength)
 
   /**
    * Compute a BigInt representative of hash of specified len from specified
@@ -148,50 +137,47 @@ object Blake3 {
    * Compute a BigInt representative of hash and return it as positive BigInt
    * `(mod N)`
    */
-  def bigInt(source: Array[Byte], N: BigInt): BigInt =
-    newHasher().update(source).doneBigInt(N)
+  def bigInt(source: Array[Byte], N: BigInt): BigInt = newHasher()
+    .update(source).doneBigInt(N)
 
   /**
    * Compute a BigInt representative of hash and return it as positive BigInt
    * `(mod N)`
    */
-  def bigInt(source: String, N: BigInt): BigInt =
-    bigInt(source.getBytes, N)
+  def bigInt(source: String, N: BigInt): BigInt = bigInt(source.getBytes, N)
 
   /**
    * Compute a hash of specified len from specified source and returns as base16
    * encoded string
    */
-  def base16(source: Array[Byte], len: Int): String =
-    newHasher().update(source).doneBase16(len)
+  def base16(source: Array[Byte], len: Int): String = newHasher().update(source)
+    .doneBase16(len)
 
   /**
    * Compute a hash of specified len from specified source and returns as base16
    * encoded string
    */
-  def base16(source: String, len: Int): String =
-    base16(source.getBytes, len)
+  def base16(source: String, len: Int): String = base16(source.getBytes, len)
 
   /**
    * Compute a hash of specified len from specified source and returns as base32
    * encoded string
    */
-  def base32(source: Array[Byte], len: Int): String =
-    newHasher().update(source).doneBase32(len)
+  def base32(source: Array[Byte], len: Int): String = newHasher().update(source)
+    .doneBase32(len)
 
   /**
    * Compute a hash of specified len from specified source and returns as base32
    * encoded string
    */
-  def base32(source: String, len: Int): String =
-    base32(source.getBytes, len)
+  def base32(source: String, len: Int): String = base32(source.getBytes, len)
 
   /**
    * Compute a hash of specified len from specified source and returns as base32
    * hex-compatibly encoded string
    */
-  def base32Hex(source: Array[Byte], len: Int): String =
-    newHasher().update(source).doneBase32Hex(len)
+  def base32Hex(source: Array[Byte], len: Int): String = newHasher()
+    .update(source).doneBase32Hex(len)
 
   /**
    * Compute a hash of specified len from specified source and returns as base32
@@ -204,22 +190,21 @@ object Blake3 {
    * Compute a hash of specified len from specified source and returns as base64
    * encoded string
    */
-  def base64(source: Array[Byte], len: Int): String =
-    newHasher().update(source).doneBase64(len)
+  def base64(source: Array[Byte], len: Int): String = newHasher().update(source)
+    .doneBase64(len)
 
   /**
    * Compute a hash of specified len from specified source and returns as base64
    * encoded string
    */
-  def base64(source: String, len: Int): String =
-    base64(source.getBytes, len)
+  def base64(source: String, len: Int): String = base64(source.getBytes, len)
 
   /**
    * Compute a hash of specified len from specified source and returns as base64
    * URL-safe encoded string
    */
-  def base64Url(source: Array[Byte], len: Int): String =
-    newHasher().update(source).doneBase64Url(len)
+  def base64Url(source: Array[Byte], len: Int): String = newHasher()
+    .update(source).doneBase64Url(len)
 
   /**
    * Compute a hash of specified len from specified source and returns as base64

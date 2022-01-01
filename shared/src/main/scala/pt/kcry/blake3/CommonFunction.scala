@@ -16,13 +16,7 @@ private[blake3] object CommonFunction {
   // this function uses mutable of Word
   @inline
   private def g(
-    state: Array[Int],
-    a: Int,
-    b: Int,
-    c: Int,
-    d: Int,
-    mx: Int,
-    my: Int
+    state: Array[Int], a: Int, b: Int, c: Int, d: Int, mx: Int, my: Int
   ): Unit = {
     var state_a = state(a)
     var state_b = state(b)
@@ -53,23 +47,9 @@ private[blake3] object CommonFunction {
 
   @inline
   private def round(
-    state: Array[Int],
-    m_0: Int,
-    m_1: Int,
-    m_2: Int,
-    m_3: Int,
-    m_4: Int,
-    m_5: Int,
-    m_6: Int,
-    m_7: Int,
-    m_8: Int,
-    m_9: Int,
-    m_10: Int,
-    m_11: Int,
-    m_12: Int,
-    m_13: Int,
-    m_14: Int,
-    m_15: Int
+    state: Array[Int], m_0: Int, m_1: Int, m_2: Int, m_3: Int, m_4: Int,
+    m_5: Int, m_6: Int, m_7: Int, m_8: Int, m_9: Int, m_10: Int, m_11: Int,
+    m_12: Int, m_13: Int, m_14: Int, m_15: Int
   ): Unit = {
     g(state, 0, 4, 8, 12, m_0, m_1)
     g(state, 1, 5, 9, 13, m_2, m_3)
@@ -84,12 +64,8 @@ private[blake3] object CommonFunction {
 
   @inline
   private def compressRounds(
-    state: Array[Int],
-    blockWords: Array[Int],
-    chainingValue: Array[Int],
-    counter: Long,
-    blockLen: Int,
-    flags: Int
+    state: Array[Int], blockWords: Array[Int], chainingValue: Array[Int],
+    counter: Long, blockLen: Int, flags: Int
   ): Unit = {
     // CV 0..7
     System.arraycopy(chainingValue, 0, state, 0, 8)
@@ -118,178 +94,51 @@ private[blake3] object CommonFunction {
     val m_15 = blockWords(15)
 
     // round 1
-    round(
-      state,
-      m_0,
-      m_1,
-      m_2,
-      m_3,
-      m_4,
-      m_5,
-      m_6,
-      m_7,
-      m_8,
-      m_9,
-      m_10,
-      m_11,
-      m_12,
-      m_13,
-      m_14,
-      m_15
-    )
+    round(state, m_0, m_1, m_2, m_3, m_4, m_5, m_6, m_7, m_8, m_9, m_10, m_11,
+      m_12, m_13, m_14, m_15)
 
     // round 2
-    round(
-      state,
-      m_2,
-      m_6,
-      m_3,
-      m_10,
-      m_7,
-      m_0,
-      m_4,
-      m_13,
-      m_1,
-      m_11,
-      m_12,
-      m_5,
-      m_9,
-      m_14,
-      m_15,
-      m_8
-    )
+    round(state, m_2, m_6, m_3, m_10, m_7, m_0, m_4, m_13, m_1, m_11, m_12, m_5,
+      m_9, m_14, m_15, m_8)
 
     // round 3
-    round(
-      state,
-      m_3,
-      m_4,
-      m_10,
-      m_12,
-      m_13,
-      m_2,
-      m_7,
-      m_14,
-      m_6,
-      m_5,
-      m_9,
-      m_0,
-      m_11,
-      m_15,
-      m_8,
-      m_1
-    )
+    round(state, m_3, m_4, m_10, m_12, m_13, m_2, m_7, m_14, m_6, m_5, m_9, m_0,
+      m_11, m_15, m_8, m_1)
 
     // round 4
-    round(
-      state,
-      m_10,
-      m_7,
-      m_12,
-      m_9,
-      m_14,
-      m_3,
-      m_13,
-      m_15,
-      m_4,
-      m_0,
-      m_11,
-      m_2,
-      m_5,
-      m_8,
-      m_1,
-      m_6
-    )
+    round(state, m_10, m_7, m_12, m_9, m_14, m_3, m_13, m_15, m_4, m_0, m_11,
+      m_2, m_5, m_8, m_1, m_6)
 
     // round 5
-    round(
-      state,
-      m_12,
-      m_13,
-      m_9,
-      m_11,
-      m_15,
-      m_10,
-      m_14,
-      m_8,
-      m_7,
-      m_2,
-      m_5,
-      m_3,
-      m_0,
-      m_1,
-      m_6,
-      m_4
-    )
+    round(state, m_12, m_13, m_9, m_11, m_15, m_10, m_14, m_8, m_7, m_2, m_5,
+      m_3, m_0, m_1, m_6, m_4)
 
     // round 6
-    round(
-      state,
-      m_9,
-      m_14,
-      m_11,
-      m_5,
-      m_8,
-      m_12,
-      m_15,
-      m_1,
-      m_13,
-      m_3,
-      m_0,
-      m_10,
-      m_2,
-      m_6,
-      m_4,
-      m_7
-    )
+    round(state, m_9, m_14, m_11, m_5, m_8, m_12, m_15, m_1, m_13, m_3, m_0,
+      m_10, m_2, m_6, m_4, m_7)
 
     // round 7
-    round(
-      state,
-      m_11,
-      m_15,
-      m_5,
-      m_0,
-      m_1,
-      m_9,
-      m_8,
-      m_6,
-      m_14,
-      m_10,
-      m_2,
-      m_12,
-      m_3,
-      m_4,
-      m_7,
-      m_13
-    )
+    round(state, m_11, m_15, m_5, m_0, m_1, m_9, m_8, m_6, m_14, m_10, m_2,
+      m_12, m_3, m_4, m_7, m_13)
   }
 
   def compressInPlace(
-    chainingValue: Array[Int],
-    bytes: Array[Byte],
-    bytesOffset: Int,
-    counter: Long,
-    blockLen: Int,
-    flags: Int,
-    tmpState: Array[Int],
+    chainingValue: Array[Int], bytes: Array[Byte], bytesOffset: Int,
+    counter: Long, blockLen: Int, flags: Int, tmpState: Array[Int],
     tmpBlockWords: Array[Int]
   ): Unit = {
 
     tmpBlockWords(0) = ((bytes(3 + bytesOffset) & 0xff) << 24) |
       ((bytes(2 + bytesOffset) & 0xff) << 16) |
-      ((bytes(1 + bytesOffset) & 0xff) << 8) |
-      ((bytes(0 + bytesOffset) & 0xff))
+      ((bytes(1 + bytesOffset) & 0xff) << 8) | ((bytes(0 + bytesOffset) & 0xff))
 
     tmpBlockWords(1) = ((bytes(7 + bytesOffset) & 0xff) << 24) |
       ((bytes(6 + bytesOffset) & 0xff) << 16) |
-      ((bytes(5 + bytesOffset) & 0xff) << 8) |
-      ((bytes(4 + bytesOffset) & 0xff))
+      ((bytes(5 + bytesOffset) & 0xff) << 8) | ((bytes(4 + bytesOffset) & 0xff))
 
     tmpBlockWords(2) = ((bytes(11 + bytesOffset) & 0xff) << 24) |
       ((bytes(10 + bytesOffset) & 0xff) << 16) |
-      ((bytes(9 + bytesOffset) & 0xff) << 8) |
-      ((bytes(8 + bytesOffset) & 0xff))
+      ((bytes(9 + bytesOffset) & 0xff) << 8) | ((bytes(8 + bytesOffset) & 0xff))
 
     tmpBlockWords(3) = ((bytes(15 + bytesOffset) & 0xff) << 24) |
       ((bytes(14 + bytesOffset) & 0xff) << 16) |
@@ -356,14 +205,8 @@ private[blake3] object CommonFunction {
       ((bytes(61 + bytesOffset) & 0xff) << 8) |
       ((bytes(60 + bytesOffset) & 0xff))
 
-    compressRounds(
-      tmpState,
-      tmpBlockWords,
-      chainingValue,
-      counter,
-      blockLen,
-      flags
-    )
+    compressRounds(tmpState, tmpBlockWords, chainingValue, counter, blockLen,
+      flags)
 
     chainingValue(0) = tmpState(0) ^ tmpState(8)
     chainingValue(1) = tmpState(1) ^ tmpState(9)
@@ -377,12 +220,8 @@ private[blake3] object CommonFunction {
   }
 
   def compressInPlace(
-    state: Array[Int],
-    chainingValue: Array[Int],
-    blockWords: Array[Int],
-    counter: Long,
-    blockLen: Int,
-    flags: Int
+    state: Array[Int], chainingValue: Array[Int], blockWords: Array[Int],
+    counter: Long, blockLen: Int, flags: Int
   ): Unit = {
     compressRounds(state, blockWords, chainingValue, counter, blockLen, flags)
 
@@ -406,11 +245,8 @@ private[blake3] object CommonFunction {
   }
 
   def compressSingle(
-    chainingValue: Array[Int],
-    blockWords: Array[Int],
-    counter: Long,
-    blockLen: Int,
-    flags: Int
+    chainingValue: Array[Int], blockWords: Array[Int], counter: Long,
+    blockLen: Int, flags: Int
   ): Int = {
     val state = new Array[Int](BLOCK_LEN_WORDS)
 
@@ -421,11 +257,8 @@ private[blake3] object CommonFunction {
   }
 
   def compressSingleLong(
-    chainingValue: Array[Int],
-    blockWords: Array[Int],
-    counter: Long,
-    blockLen: Int,
-    flags: Int
+    chainingValue: Array[Int], blockWords: Array[Int], counter: Long,
+    blockLen: Int, flags: Int
   ): Long = {
     val state = new Array[Int](BLOCK_LEN_WORDS)
 
@@ -440,8 +273,7 @@ private[blake3] object CommonFunction {
     var off = 0
     while (i < res.length) {
       res(i) = ((bytes(3 + off) & 0xff) << 24) |
-        ((bytes(2 + off) & 0xff) << 16) |
-        ((bytes(1 + off) & 0xff) << 8) |
+        ((bytes(2 + off) & 0xff) << 16) | ((bytes(1 + off) & 0xff) << 8) |
         ((bytes(off) & 0xff))
       i += 1
       off += 4
@@ -451,42 +283,26 @@ private[blake3] object CommonFunction {
 
   @inline
   private def mergeChildCV(
-    merged: Array[Int],
-    leftChildCV: Array[Int],
-    rightChildCv: Array[Int]
+    merged: Array[Int], leftChildCV: Array[Int], rightChildCv: Array[Int]
   ): Unit = {
     System.arraycopy(rightChildCv, 0, merged, KEY_LEN_WORDS, KEY_LEN_WORDS)
     System.arraycopy(leftChildCV, 0, merged, 0, KEY_LEN_WORDS)
   }
 
   def parentOutput(
-    blockWords: Array[Int],
-    leftChildCV: Array[Int],
-    rightChildCv: Array[Int],
-    key: Array[Int],
-    flags: Int
+    blockWords: Array[Int], leftChildCV: Array[Int], rightChildCv: Array[Int],
+    key: Array[Int], flags: Int
   ): Output = {
     mergeChildCV(blockWords, leftChildCV, rightChildCv)
     new Output(key, blockWords, 0, BLOCK_LEN, flags | PARENT)
   }
 
   def parentCV(
-    parentCV: Array[Int],
-    leftChildCV: Array[Int],
-    rightChildCv: Array[Int],
-    key: Array[Int],
-    flags: Int,
-    tmpBlockWords: Array[Int]
+    parentCV: Array[Int], leftChildCV: Array[Int], rightChildCv: Array[Int],
+    key: Array[Int], flags: Int, tmpBlockWords: Array[Int]
   ): Unit = {
     mergeChildCV(tmpBlockWords, leftChildCV, rightChildCv)
-    compressInPlace(
-      parentCV,
-      key,
-      tmpBlockWords,
-      0,
-      BLOCK_LEN,
-      flags | PARENT
-    )
+    compressInPlace(parentCV, key, tmpBlockWords, 0, BLOCK_LEN, flags | PARENT)
   }
 
 }

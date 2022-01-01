@@ -18,22 +18,14 @@ import java.nio.ByteBuffer
 import scala.language.implicitConversions
 
 private[blake3] class Output(
-  val inputChainingValue: Array[Int],
-  val blockWords: Array[Int],
-  val counter: Long,
-  val blockLen: Int,
-  val flags: Int
+  val inputChainingValue: Array[Int], val blockWords: Array[Int],
+  val counter: Long, val blockLen: Int, val flags: Int
 ) {
 
-  def chainingValue(chainingValue: Array[Int]): Unit =
-    compressInPlace(
-      chainingValue,
-      inputChainingValue,
-      blockWords,
-      counter,
-      blockLen,
-      flags
-    )
+  def chainingValue(
+    chainingValue: Array[Int]
+  ): Unit = compressInPlace(chainingValue, inputChainingValue, blockWords,
+    counter, blockLen, flags)
 
   def rootBytes(out: Array[Byte], off: Int, len: Int): Unit = {
     var outputBlockCounter = 0
@@ -45,14 +37,8 @@ private[blake3] class Output(
     val flags = this.flags | ROOT
 
     while (pos < lim) {
-      compressInPlace(
-        words,
-        inputChainingValue,
-        blockWords,
-        outputBlockCounter,
-        blockLen,
-        flags
-      )
+      compressInPlace(words, inputChainingValue, blockWords, outputBlockCounter,
+        blockLen, flags)
 
       var wordIdx = 0
       while (wordIdx < blockLenWords && pos < lim) {
@@ -94,11 +80,7 @@ private[blake3] class Output(
   }
 
   def rootBytesXor(
-    in: Array[Byte],
-    inOff: Int,
-    out: Array[Byte],
-    outOff: Int,
-    len: Int
+    in: Array[Byte], inOff: Int, out: Array[Byte], outOff: Int, len: Int
   ): Unit = {
     var outputBlockCounter = 0
     var inPos = inOff
@@ -110,14 +92,8 @@ private[blake3] class Output(
     val flags = this.flags | ROOT
 
     while (outPos < outLim) {
-      compressInPlace(
-        words,
-        inputChainingValue,
-        blockWords,
-        outputBlockCounter,
-        blockLen,
-        flags
-      )
+      compressInPlace(words, inputChainingValue, blockWords, outputBlockCounter,
+        blockLen, flags)
 
       var wordIdx = 0
       while (wordIdx < blockLenWords && outPos < outLim) {
@@ -169,40 +145,18 @@ private[blake3] class Output(
   }
 
   def rootByte(): Byte =
-    compressSingle(
-      inputChainingValue,
-      blockWords,
-      0,
-      blockLen,
-      flags | ROOT
-    ).toByte
+    compressSingle(inputChainingValue, blockWords, 0, blockLen, flags | ROOT)
+      .toByte
 
   def rootShort(): Short =
-    compressSingle(
-      inputChainingValue,
-      blockWords,
-      0,
-      blockLen,
-      flags | ROOT
-    ).toShort
+    compressSingle(inputChainingValue, blockWords, 0, blockLen, flags | ROOT)
+      .toShort
 
   def rootInt(): Int =
-    compressSingle(
-      inputChainingValue,
-      blockWords,
-      0,
-      blockLen,
-      flags | ROOT
-    )
+    compressSingle(inputChainingValue, blockWords, 0, blockLen, flags | ROOT)
 
   def rootLong(): Long =
-    compressSingleLong(
-      inputChainingValue,
-      blockWords,
-      0,
-      blockLen,
-      flags | ROOT
-    )
+    compressSingleLong(inputChainingValue, blockWords, 0, blockLen, flags | ROOT)
 
   def rootBytes(out: OutputStream, len: Int): Unit = {
     var outputBlockCounter = 0
@@ -213,14 +167,8 @@ private[blake3] class Output(
     val flags = this.flags | ROOT
 
     while (pos < len) {
-      compressInPlace(
-        words,
-        inputChainingValue,
-        blockWords,
-        outputBlockCounter,
-        blockLen,
-        flags
-      )
+      compressInPlace(words, inputChainingValue, blockWords, outputBlockCounter,
+        blockLen, flags)
 
       var wordIdx = 0
       while (wordIdx < blockLenWords && pos < len) {
@@ -264,14 +212,8 @@ private[blake3] class Output(
     val flags = this.flags | ROOT
 
     while (pos < len) {
-      compressInPlace(
-        words,
-        inputChainingValue,
-        blockWords,
-        outputBlockCounter,
-        blockLen,
-        flags
-      )
+      compressInPlace(words, inputChainingValue, blockWords, outputBlockCounter,
+        blockLen, flags)
 
       var wordIdx = 0
       while (wordIdx < blockLenWords && pos < len) {
@@ -315,14 +257,8 @@ private[blake3] class Output(
     val flags = this.flags | ROOT
 
     while (pos < len) {
-      compressInPlace(
-        words,
-        inputChainingValue,
-        blockWords,
-        outputBlockCounter,
-        blockLen,
-        flags
-      )
+      compressInPlace(words, inputChainingValue, blockWords, outputBlockCounter,
+        blockLen, flags)
 
       var wordIdx = 0
       while (wordIdx < blockLenWords && pos < len) {
@@ -366,14 +302,8 @@ private[blake3] class Output(
     val flags = this.flags | ROOT
 
     while (pos < len) {
-      compressInPlace(
-        words,
-        inputChainingValue,
-        blockWords,
-        outputBlockCounter,
-        blockLen,
-        flags
-      )
+      compressInPlace(words, inputChainingValue, blockWords, outputBlockCounter,
+        blockLen, flags)
 
       var wordIdx = 0
       while (wordIdx < blockLenWords && pos < len) {

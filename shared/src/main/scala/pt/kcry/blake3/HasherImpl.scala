@@ -14,13 +14,11 @@ package pt.kcry.blake3
 import CommonFunction._
 
 import java.io.{InputStream, OutputStream}
-import java.nio.{ByteBuffer}
+import java.nio.ByteBuffer
 
 // An incremental hasher that can accept any number of writes.
-private[blake3] class HasherImpl(
-  val key: Array[Int],
-  val flags: Int
-) extends Hasher {
+private[blake3] class HasherImpl(val key: Array[Int], val flags: Int)
+    extends Hasher {
 
   val chunkState: ChunkState = new ChunkState(key, 0, flags)
 
@@ -84,11 +82,9 @@ private[blake3] class HasherImpl(
     this
   }
 
-  def update(input: Array[Byte]): Hasher =
-    update(input, 0, input.length)
+  def update(input: Array[Byte]): Hasher = update(input, 0, input.length)
 
-  def update(input: String): Hasher =
-    update(input.getBytes)
+  def update(input: String): Hasher = update(input.getBytes)
 
   // Simplified version of update(Array[Byte])
   def update(input: Byte): Hasher = synchronized {
@@ -140,10 +136,8 @@ private[blake3] class HasherImpl(
     val bytes = new Array[Byte](CHUNK_LEN)
 
     var consume = chunkState.len() match {
-      case 0 | CHUNK_LEN =>
-        CHUNK_LEN
-      case len =>
-        CHUNK_LEN - len
+      case 0 | CHUNK_LEN => CHUNK_LEN
+      case len           => CHUNK_LEN - len
     }
 
     var read = input.read(bytes, 0, consume)
@@ -187,59 +181,41 @@ private[blake3] class HasherImpl(
       while (parentNodesRemaining > 0) {
         parentNodesRemaining -= 1
         output.chainingValue(cv)
-        output = parentOutput(
-          blockWords,
-          cvStack(parentNodesRemaining),
-          cv,
-          key,
-          flags
-        )
+        output =
+          parentOutput(blockWords, cvStack(parentNodesRemaining), cv, key, flags)
       }
       output
     }
   }
 
   // Finalize the hash and write any number of output bytes.
-  def done(out: Array[Byte], offset: Int, len: Int): Unit =
-    getOutput.rootBytes(out, offset, len)
+  def done(out: Array[Byte], offset: Int, len: Int): Unit = getOutput
+    .rootBytes(out, offset, len)
 
-  def done(out: Array[Byte]): Unit =
-    done(out, 0, out.length)
+  def done(out: Array[Byte]): Unit = done(out, 0, out.length)
 
   // Finalize the hash and write one byte.
-  def done(): Byte =
-    getOutput.rootByte()
+  def done(): Byte = getOutput.rootByte()
 
-  def doneShort(): Short =
-    getOutput.rootShort()
+  def doneShort(): Short = getOutput.rootShort()
 
-  def doneInt(): Int =
-    getOutput.rootInt()
+  def doneInt(): Int = getOutput.rootInt()
 
-  def doneLong(): Long =
-    getOutput.rootLong()
+  def doneLong(): Long = getOutput.rootLong()
 
-  def done(out: OutputStream, len: Int): Unit =
-    getOutput.rootBytes(out, len)
+  def done(out: OutputStream, len: Int): Unit = getOutput.rootBytes(out, len)
 
-  def done(out: ByteBuffer, len: Int): Unit =
-    getOutput.rootBytes(out, len)
+  def done(out: ByteBuffer, len: Int): Unit = getOutput.rootBytes(out, len)
 
   def doneXor(
-    in: Array[Byte],
-    inOff: Int,
-    out: Array[Byte],
-    outOff: Int,
-    len: Int
-  ): Unit =
-    getOutput.rootBytesXor(in, inOff, out, outOff, len)
+    in: Array[Byte], inOff: Int, out: Array[Byte], outOff: Int, len: Int
+  ): Unit = getOutput.rootBytesXor(in, inOff, out, outOff, len)
 
-  def doneXor(out: Array[Byte]): Unit =
-    doneXor(out, 0, out, 0, out.length)
+  def doneXor(out: Array[Byte]): Unit = doneXor(out, 0, out, 0, out.length)
 
-  def doneXor(in: InputStream, out: OutputStream, len: Int): Unit =
-    getOutput.rootBytesXor(in, out, len)
+  def doneXor(in: InputStream, out: OutputStream, len: Int): Unit = getOutput
+    .rootBytesXor(in, out, len)
 
-  def doneXor(in: ByteBuffer, out: ByteBuffer, len: Int): Unit =
-    getOutput.rootBytesXor(in, out, len)
+  def doneXor(in: ByteBuffer, out: ByteBuffer, len: Int): Unit = getOutput
+    .rootBytesXor(in, out, len)
 }

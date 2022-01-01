@@ -17,8 +17,7 @@ import org.scalatest.wordspec.AnyWordSpec
 class AdditionalTestVectorsTest extends AnyWordSpec with should.Matchers {
   "All possibly bytes where inputLen" when {
     val testVector = new TestVector(
-      testKey =
-        "Ao largo Ainda arde a barca da fantasia o meu sonho acaba tarde deixa a alma de vigia",
+      testKey = "Ao largo Ainda arde a barca da fantasia o meu sonho acaba tarde deixa a alma de vigia",
       testContext =
         "Scala-BLAKE3 2020-11-21 17:34:42 additional test vectors context",
       inputLimit = 255

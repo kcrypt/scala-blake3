@@ -19,24 +19,14 @@ import scala.util.Random
 
 class Blake3Test extends AnyWordSpec with should.Matchers {
   "Very naive test" in {
-    val hash = Blake3
-      .newHasher()
-      .doneHex(4)
+    val hash = Blake3.newHasher().doneHex(4)
     "af13" should be(hash)
   }
 
   "A bit more complicated test" in {
-    val hash = Blake3
-      .newHasher()
-      .update("a")
-      .update("b")
-      .update("c")
-      .doneHex(4)
+    val hash = Blake3.newHasher().update("a").update("b").update("c").doneHex(4)
 
-    val oneShop = Blake3
-      .newHasher()
-      .update("abc")
-      .doneHex(4)
+    val oneShop = Blake3.newHasher().update("abc").doneHex(4)
 
     oneShop should be(hash)
   }
@@ -45,20 +35,13 @@ class Blake3Test extends AnyWordSpec with should.Matchers {
     val pattern = "some test"
     val extended = s"xxx${pattern}xxx"
 
-    val hashedPattern = Blake3
-      .newHasher()
-      .update(pattern)
-      .done(13)
+    val hashedPattern = Blake3.newHasher().update(pattern).done(13)
 
-    val hashedExtended = Blake3
-      .newHasher()
-      .update(extended.getBytes, 3, pattern.length)
-      .done(13)
+    val hashedExtended = Blake3.newHasher()
+      .update(extended.getBytes, 3, pattern.length).done(13)
 
-    val hashedIncorrect = Blake3
-      .newHasher()
-      .update(extended.getBytes, 2, pattern.length)
-      .done(13)
+    val hashedIncorrect = Blake3.newHasher()
+      .update(extended.getBytes, 2, pattern.length).done(13)
 
     hashedExtended should be(hashedPattern)
     hashedIncorrect shouldNot be(hashedPattern)
@@ -67,17 +50,13 @@ class Blake3Test extends AnyWordSpec with should.Matchers {
   "Done to specified position" in {
     val pattern = "some test"
 
-    val hash = Blake3
-      .newHasher()
-      .update(pattern)
+    val hash = Blake3.newHasher().update(pattern)
 
     val result = new Array[Byte](13)
     val extendedResult = new Array[Byte](19)
 
     hash.done(result)
-    for (i <- extendedResult.indices) {
-      extendedResult(i) = i.toByte
-    }
+    for (i <- extendedResult.indices) extendedResult(i) = i.toByte
     hash.done(extendedResult, 3, 13)
 
     val expected = Array[Byte](0, 1, 2) ++ result ++ Array[Byte](16, 17, 18)
@@ -89,15 +68,10 @@ class Blake3Test extends AnyWordSpec with should.Matchers {
     val key = "Some key"
     val nextValue = "Some next value"
 
-    val stringHash = Blake3
-      .newDeriveKeyHasher(key)
-      .update(nextValue)
-      .done(42)
+    val stringHash = Blake3.newDeriveKeyHasher(key).update(nextValue).done(42)
 
-    val bytesHash = Blake3
-      .newDeriveKeyHasher(key.getBytes)
-      .update(nextValue.getBytes)
-      .done(42)
+    val bytesHash = Blake3.newDeriveKeyHasher(key.getBytes)
+      .update(nextValue.getBytes).done(42)
 
     stringHash shouldBe bytesHash
 
@@ -106,54 +80,29 @@ class Blake3Test extends AnyWordSpec with should.Matchers {
   }
 
   "Short works as Byte" in {
-    val shortHash = Blake3
-      .newHasher()
-      .update(0x6af6.toShort)
-      .doneLong()
+    val shortHash = Blake3.newHasher().update(0x6af6.toShort).doneLong()
 
-    val byteHash = Blake3
-      .newHasher()
-      .update(0xf6.toByte)
-      .update(0x6a.toByte)
+    val byteHash = Blake3.newHasher().update(0xf6.toByte).update(0x6a.toByte)
       .doneLong()
 
     shortHash shouldBe byteHash
   }
 
   "Int works as Byte" in {
-    val shortHash = Blake3
-      .newHasher()
-      .update(0x7eaa6af6)
-      .doneLong()
+    val shortHash = Blake3.newHasher().update(0x7eaa6af6).doneLong()
 
-    val byteHash = Blake3
-      .newHasher()
-      .update(0xf6.toByte)
-      .update(0x6a.toByte)
-      .update(0xaa.toByte)
-      .update(0x7e.toByte)
-      .doneLong()
+    val byteHash = Blake3.newHasher().update(0xf6.toByte).update(0x6a.toByte)
+      .update(0xaa.toByte).update(0x7e.toByte).doneLong()
 
     shortHash shouldBe byteHash
   }
 
   "Long works as Byte" in {
-    val shortHash = Blake3
-      .newHasher()
-      .update(0x462d22e57eaa6af6L)
-      .doneLong()
+    val shortHash = Blake3.newHasher().update(0x462d22e57eaa6af6L).doneLong()
 
-    val byteHash = Blake3
-      .newHasher()
-      .update(0xf6.toByte)
-      .update(0x6a.toByte)
-      .update(0xaa.toByte)
-      .update(0x7e.toByte)
-      .update(0xe5.toByte)
-      .update(0x22.toByte)
-      .update(0x2d.toByte)
-      .update(0x46.toByte)
-      .doneLong()
+    val byteHash = Blake3.newHasher().update(0xf6.toByte).update(0x6a.toByte)
+      .update(0xaa.toByte).update(0x7e.toByte).update(0xe5.toByte)
+      .update(0x22.toByte).update(0x2d.toByte).update(0x46.toByte).doneLong()
 
     shortHash shouldBe byteHash
   }
@@ -162,12 +111,8 @@ class Blake3Test extends AnyWordSpec with should.Matchers {
     val input = "some text"
 
     Blake3.hash(input) shouldBe 0xa0.toByte
-    Blake3.hash(input, 4) shouldBe Array(
-      0xa0.toByte,
-      0xa1.toByte,
-      0xc1.toByte,
-      0x59.toByte
-    )
+    Blake3.hash(input, 4) shouldBe
+      Array(0xa0.toByte, 0xa1.toByte, 0xc1.toByte, 0x59.toByte)
 
     Blake3.hashShort(input) shouldBe -24160
     Blake3.hashInt(input) shouldBe 1505862048
@@ -187,40 +132,31 @@ class Blake3Test extends AnyWordSpec with should.Matchers {
   }
 
   "XORed output" in {
-    val hashed = Blake3
-      .newHasher()
-      .update("XXX")
-      .done(32)
+    val hashed = Blake3.newHasher().update("XXX").done(32)
 
     val hashedXor = hashed.indices.map(_.toByte).toArray
     Blake3.newHasher().update("XXX").doneXor(hashedXor)
 
-    hashed.indices.foreach { i =>
-      hashedXor(i) shouldBe (hashed(i) ^ i).toByte
-    }
+    hashed.indices.foreach(i => hashedXor(i) shouldBe (hashed(i) ^ i).toByte)
   }
 
-  "Zero done" in {
-    Blake3.hash("Some string", 0) shouldBe Array[Byte]()
-  }
+  "Zero done" in { Blake3.hash("Some string", 0) shouldBe Array[Byte]() }
 
   "Incorrect input reported" when {
     "wrong key length on Blake3.newKeyedHasher" in {
-      the[IllegalArgumentException] thrownBy {
-        Blake3.newKeyedHasher("42".getBytes())
-      } should have message "key should be pt.kcry.blake3.KEY_LEN: 32 bytes"
+      the[IllegalArgumentException] thrownBy
+        Blake3.newKeyedHasher("42".getBytes()) should have message
+        "key should be pt.kcry.blake3.KEY_LEN: 32 bytes"
     }
 
     "wrong key length on Hasher#doneBigInt" in {
-      the[IllegalArgumentException] thrownBy {
-        Blake3.bigInt("42", 37)
-      } should have message "bitLength: 37 should be a multiple of 8"
+      the[IllegalArgumentException] thrownBy Blake3.bigInt("42", 37) should
+        have message "bitLength: 37 should be a multiple of 8"
     }
 
     "wrong key length on Hasher#doneHex" in {
-      the[IllegalArgumentException] thrownBy {
-        Blake3.hex("42", 37)
-      } should have message "resultLength: 37 should be even"
+      the[IllegalArgumentException] thrownBy Blake3.hex("42", 37) should
+        have message "resultLength: 37 should be even"
     }
   }
 
