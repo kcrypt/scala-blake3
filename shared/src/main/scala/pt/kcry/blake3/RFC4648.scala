@@ -69,7 +69,7 @@ object RFC4648 {
       sb append
         alphabet(((bytes(offset) & 0x3) << 4) | ((bytes(offset + 1) >>> 4) & 0xf))
       sb append alphabet(((bytes(offset + 1) & 0xf) << 2) |
-          ((bytes(offset + 2) >>> 6) & 0x3))
+        ((bytes(offset + 2) >>> 6) & 0x3))
       sb append alphabet(bytes(offset + 2) & 0x3f)
   }
 
@@ -97,7 +97,7 @@ object RFC4648 {
         alphabet(((bytes(offset) & 0x7) << 2) | ((bytes(offset + 1) >>> 6) & 0x3))
       sb append alphabet((bytes(offset + 1) >>> 1) & 0x1f)
       sb append alphabet(((bytes(offset + 1) & 0x1) << 4) |
-          ((bytes(offset + 2) >>> 4) & 0xf))
+        ((bytes(offset + 2) >>> 4) & 0xf))
       sb append alphabet((bytes(offset + 2) & 0xf) << 1)
 
     case 4 =>
@@ -106,9 +106,9 @@ object RFC4648 {
         alphabet(((bytes(offset) & 0x7) << 2) | ((bytes(offset + 1) >>> 6) & 0x3))
       sb append alphabet((bytes(offset + 1) >>> 1) & 0x1f)
       sb append alphabet(((bytes(offset + 1) & 0x1) << 4) |
-          ((bytes(offset + 2) >>> 4) & 0xf))
+        ((bytes(offset + 2) >>> 4) & 0xf))
       sb append alphabet(((bytes(offset + 2) & 0xf) << 1) |
-          ((bytes(offset + 3) >>> 7) & 0x1))
+        ((bytes(offset + 3) >>> 7) & 0x1))
       sb append alphabet((bytes(offset + 3) >>> 2) & 0x1f)
       sb append alphabet((bytes(offset + 3) & 0x3) << 3)
 
@@ -118,12 +118,12 @@ object RFC4648 {
         alphabet(((bytes(offset) & 0x7) << 2) | ((bytes(offset + 1) >>> 6) & 0x3))
       sb append alphabet((bytes(offset + 1) >>> 1) & 0x1f)
       sb append alphabet(((bytes(offset + 1) & 0x1) << 4) |
-          ((bytes(offset + 2) >>> 4) & 0xf))
+        ((bytes(offset + 2) >>> 4) & 0xf))
       sb append alphabet(((bytes(offset + 2) & 0xf) << 1) |
-          ((bytes(offset + 3) >>> 7) & 0x1))
+        ((bytes(offset + 3) >>> 7) & 0x1))
       sb append alphabet((bytes(offset + 3) >>> 2) & 0x1f)
       sb append alphabet(((bytes(offset + 3) & 0x3) << 3) |
-          ((bytes(offset + 4) >>> 5) & 0x7))
+        ((bytes(offset + 4) >>> 5) & 0x7))
       sb append alphabet(bytes(offset + 4) & 0x1f)
   }
 
