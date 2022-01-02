@@ -82,28 +82,22 @@ object Blake3JNI {
   private val createHasherMethod = jniCls.getDeclaredMethod("create_hasher");
   createHasherMethod.setAccessible(true)
 
-  private val destroyHasherMethod =
-    jniCls.getDeclaredMethod("destroy_hasher", classOf[Long]);
+  private val destroyHasherMethod = jniCls
+    .getDeclaredMethod("destroy_hasher", classOf[Long]);
   destroyHasherMethod.setAccessible(true)
 
-  private val blake3HasherInitMethod =
-    jniCls.getDeclaredMethod("blake3_hasher_init", classOf[Long]);
+  private val blake3HasherInitMethod = jniCls
+    .getDeclaredMethod("blake3_hasher_init", classOf[Long]);
   blake3HasherInitMethod.setAccessible(true)
 
-  private val blake3HasherUpdateMethod = jniCls.getDeclaredMethod(
-    "blake3_hasher_update",
-    classOf[Long],
-    classOf[ByteBuffer],
-    classOf[Int]
-  );
+  private val blake3HasherUpdateMethod = jniCls
+    .getDeclaredMethod("blake3_hasher_update", classOf[Long],
+      classOf[ByteBuffer], classOf[Int]);
   blake3HasherUpdateMethod.setAccessible(true)
 
-  private val blake3HasherFinalize = jniCls.getDeclaredMethod(
-    "blake3_hasher_finalize",
-    classOf[Long],
-    classOf[ByteBuffer],
-    classOf[Int]
-  );
+  private val blake3HasherFinalize = jniCls
+    .getDeclaredMethod("blake3_hasher_finalize", classOf[Long],
+      classOf[ByteBuffer], classOf[Int]);
   blake3HasherFinalize.setAccessible(true)
 
   def create(): Long = {
@@ -112,17 +106,13 @@ object Blake3JNI {
     hasher
   }
 
-  def destroy(hasher: Long): Unit =
-    destroyHasherMethod.invoke(null, hasher)
+  def destroy(hasher: Long): Unit = destroyHasherMethod.invoke(null, hasher)
 
-  def init(hasher: Long): Unit =
-    blake3HasherInitMethod.invoke(null, hasher)
+  def init(hasher: Long): Unit = blake3HasherInitMethod.invoke(null, hasher)
 
-  def update(hasher: Long, data: ByteBuffer, len: Int): Unit = synchronized {
-    blake3HasherUpdateMethod.invoke(null, hasher, data, len)
-  }
+  def update(hasher: Long, data: ByteBuffer, len: Int): Unit =
+    synchronized(blake3HasherUpdateMethod.invoke(null, hasher, data, len))
 
-  def done(hasher: Long, output: ByteBuffer, len: Int): Unit = synchronized {
-    blake3HasherFinalize.invoke(null, hasher, output, len)
-  }
+  def done(hasher: Long, output: ByteBuffer, len: Int): Unit =
+    synchronized(blake3HasherFinalize.invoke(null, hasher, output, len))
 }
