@@ -22,10 +22,9 @@ private[blake3] class Output(
   val counter: Long, val blockLen: Int, val flags: Int
 ) {
 
-  def chainingValue(
-    chainingValue: Array[Int]
-  ): Unit = compressInPlace(chainingValue, inputChainingValue, blockWords,
-    counter, blockLen, flags)
+  def chainingValue(chainingValue: Array[Int]): Unit =
+    compressInPlace(chainingValue, inputChainingValue, blockWords, counter,
+      blockLen, flags)
 
   def rootBytes(out: Array[Byte], off: Int, len: Int): Unit = {
     var outputBlockCounter = 0
