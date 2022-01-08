@@ -24,5 +24,7 @@ jobs:
       run: sbt +headerCheck
     - name: Check scalafmt
       run: sbt +scalafmtCheckAll scalafmtSbtCheck
+    - name: Compile everything
+      run: sbt +compile +test:compile
     - name: Run tests
       run: sbt +test
