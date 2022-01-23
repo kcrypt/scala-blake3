@@ -111,8 +111,8 @@ private[blake3] class ChunkState(
     }
 
     val zeros = BLOCK_LEN_WORDS - i
-    if (zeros > 0) System
-      .arraycopy(ChunkState.zerosBlockWords, 0, blockWords, i, zeros)
+    if (zeros > 0) System.arraycopy(ChunkState.zerosBlockWords, 0, blockWords,
+      i, zeros)
   }
 
   def unsafeOutput(): Output = {
