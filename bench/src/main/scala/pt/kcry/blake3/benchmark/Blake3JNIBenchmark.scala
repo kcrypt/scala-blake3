@@ -82,8 +82,8 @@ object Blake3JNI {
   private val createHasherMethod = jniCls.getDeclaredMethod("create_hasher");
   createHasherMethod.setAccessible(true)
 
-  private val destroyHasherMethod = jniCls
-    .getDeclaredMethod("destroy_hasher", classOf[Long]);
+  private val destroyHasherMethod = jniCls.getDeclaredMethod("destroy_hasher",
+    classOf[Long]);
   destroyHasherMethod.setAccessible(true)
 
   private val blake3HasherInitMethod = jniCls
