@@ -37,11 +37,11 @@ class Blake3Test extends AnyWordSpec with should.Matchers {
 
     val hashedPattern = Blake3.newHasher().update(pattern).done(13)
 
-    val hashedExtended = Blake3.newHasher()
-      .update(extended.getBytes, 3, pattern.length).done(13)
+    val hashedExtended = Blake3.newHasher().update(extended.getBytes, 3,
+      pattern.length).done(13)
 
-    val hashedIncorrect = Blake3.newHasher()
-      .update(extended.getBytes, 2, pattern.length).done(13)
+    val hashedIncorrect = Blake3.newHasher().update(extended.getBytes, 2,
+      pattern.length).done(13)
 
     hashedExtended should be(hashedPattern)
     hashedIncorrect shouldNot be(hashedPattern)
@@ -111,8 +111,8 @@ class Blake3Test extends AnyWordSpec with should.Matchers {
     val input = "some text"
 
     Blake3.hash(input) shouldBe 0xa0.toByte
-    Blake3.hash(input, 4) shouldBe
-      Array(0xa0.toByte, 0xa1.toByte, 0xc1.toByte, 0x59.toByte)
+    Blake3.hash(input, 4) shouldBe Array(0xa0.toByte, 0xa1.toByte, 0xc1.toByte,
+      0x59.toByte)
 
     Blake3.hashShort(input) shouldBe -24160
     Blake3.hashInt(input) shouldBe 1505862048
