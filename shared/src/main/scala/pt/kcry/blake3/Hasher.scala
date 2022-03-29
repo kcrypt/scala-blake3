@@ -236,6 +236,6 @@ trait Hasher extends OutputStream {
   /**
    * Update hash as [[OutputStream]].
    */
-  override def write(b: Array[Byte], off: Int, len: Int): Unit =
-    update(b, off, len)
+  override def write(b: Array[Byte], off: Int, len: Int): Unit = update(b, off,
+    len)
 }

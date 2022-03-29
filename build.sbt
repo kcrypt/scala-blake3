@@ -6,7 +6,7 @@ lazy val scala211 = "2.11.12"
 lazy val scala212 = "2.12.15"
 lazy val scala213 = "2.13.8"
 lazy val scala30 = "3.0.2"
-lazy val scala31 = "3.1.0"
+lazy val scala31 = "3.1.1"
 
 lazy val scalatestVersion = "3.2.10"
 
@@ -20,8 +20,8 @@ ThisBuild / dynverSeparator := "-"
 ThisBuild / scalaVersion := scala213
 ThisBuild / crossScalaVersions := Seq()
 
-ThisBuild / scalacOptions ++=
-  Seq("-target:jvm-1.8", "-unchecked", "-deprecation")
+ThisBuild / scalacOptions ++= Seq("-target:jvm-1.8", "-unchecked",
+  "-deprecation")
 
 ThisBuild / publishTo := sonatypePublishToBundle.value
 
@@ -45,8 +45,8 @@ lazy val blake3 = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     libraryDependencies ++=
       Seq("org.scalatest" %%% "scalatest" % scalatestVersion % Test)
   ).jvmSettings(scalaVersion := scala213,
-    crossScalaVersions :=
-      Seq(scala210, scala211, scala212, scala213, scala30, scala31)
+    crossScalaVersions := Seq(scala210, scala211, scala212, scala213, scala30,
+      scala31)
   ).jsSettings(scalaVersion := scala213,
     crossScalaVersions := Seq(scala211, scala212, scala213, scala30, scala31))
   .nativeSettings(scalaVersion := scala213,

@@ -116,8 +116,8 @@ object Blake3 {
    * Compute a hex representative of hash of specified output len from specified
    * source
    */
-  def hex(source: String, resultLength: Int): String =
-    hex(source.getBytes, resultLength)
+  def hex(source: String, resultLength: Int): String = hex(source.getBytes,
+    resultLength)
 
   /**
    * Compute a BigInt representative of hash of specified len from specified
@@ -130,8 +130,8 @@ object Blake3 {
    * Compute a BigInt representative of hash of specified len from specified
    * source
    */
-  def bigInt(source: String, bitLength: Int): BigInt =
-    bigInt(source.getBytes, bitLength)
+  def bigInt(source: String, bitLength: Int): BigInt = bigInt(source.getBytes,
+    bitLength)
 
   /**
    * Compute a BigInt representative of hash and return it as positive BigInt
@@ -183,8 +183,8 @@ object Blake3 {
    * Compute a hash of specified len from specified source and returns as base32
    * hex-compatibly encoded string
    */
-  def base32Hex(source: String, len: Int): String =
-    base32Hex(source.getBytes, len)
+  def base32Hex(source: String, len: Int): String = base32Hex(source.getBytes,
+    len)
 
   /**
    * Compute a hash of specified len from specified source and returns as base64
@@ -210,6 +210,6 @@ object Blake3 {
    * Compute a hash of specified len from specified source and returns as base64
    * URL-safe encoded string
    */
-  def base64Url(source: String, len: Int): String =
-    base64Url(source.getBytes, len)
+  def base64Url(source: String, len: Int): String = base64Url(source.getBytes,
+    len)
 }
