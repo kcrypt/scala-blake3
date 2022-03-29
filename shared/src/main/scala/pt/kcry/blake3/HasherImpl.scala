@@ -181,8 +181,8 @@ private[blake3] class HasherImpl(val key: Array[Int], val flags: Int)
       while (parentNodesRemaining > 0) {
         parentNodesRemaining -= 1
         output.chainingValue(cv)
-        output =
-          parentOutput(blockWords, cvStack(parentNodesRemaining), cv, key, flags)
+        output = parentOutput(blockWords, cvStack(parentNodesRemaining), cv,
+          key, flags)
       }
       output
     }
