@@ -148,7 +148,9 @@ class TestVector(
         (done(hasher, len), done(keyedHasher, len), done(deriveHeyHasher, len))
       }
 
-    val reducer: (((String, String, String), (String, String, String)) => (String, String, String)) = {
+    val reducer: (
+      ((String, String, String), (String, String, String)) => (String, String, String)
+    ) = {
       case ((leftHash: String, leftKeyedHash: String, leftDeriveKeyHash: String),
             (rightHash: String, rightKeyedHash: String,
               rightDeriveKeyHash: String)) =>
