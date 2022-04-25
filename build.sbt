@@ -8,7 +8,7 @@ lazy val scala213 = "2.13.8"
 lazy val scala30 = "3.0.2"
 lazy val scala31 = "3.1.1"
 
-lazy val scalatestVersion = "3.2.10"
+lazy val scalatestVersion = "3.2.12"
 
 lazy val blake3jniVersion = "0.2.2"
 
