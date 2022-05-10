@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [unreleased]
+- Switched to scala-3.1.2
 
 ## [3.0.0] - 2021-12-23
 - Migrated to package `pt.kcry.blake3`
