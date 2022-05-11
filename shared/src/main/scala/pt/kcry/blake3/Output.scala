@@ -44,6 +44,11 @@ private[blake3] class Output(
         val word = words(wordIdx)
         wordIdx += 1
         lim - pos match {
+          case x if x <= 0 =>
+            throw new RuntimeException(
+              s"x: $x; pos: $pos; lim: $lim; wordIdx: $wordIdx; off: $off; len: $len"
+            )
+
           case 1 =>
             out(pos) = word.toByte
             pos += 1
