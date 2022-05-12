@@ -104,6 +104,11 @@ private[blake3] class Output(
         val word = words(wordIdx)
         wordIdx += 1
         outLim - outPos match {
+          case x if x <= 0 =>
+            throw new RuntimeException(
+              s"x: $x; outPos: $outPos; outLim: $outLim; wordIdx: $wordIdx; outOff: $outOff; len: $len"
+            )
+
           case 1 =>
             out(outPos) = (in(inPos) ^ word).toByte
             inPos += 1
@@ -177,6 +182,11 @@ private[blake3] class Output(
         val word = words(wordIdx)
         wordIdx += 1
         len - pos match {
+          case x if x <= 0 =>
+            throw new RuntimeException(
+              s"x: $x; pos: $pos; wordIdx: $wordIdx; len: $len"
+            )
+
           case 1 =>
             out.write(word)
             pos += 1
@@ -222,6 +232,11 @@ private[blake3] class Output(
         val word = words(wordIdx)
         wordIdx += 1
         len - pos match {
+          case x if x <= 0 =>
+            throw new RuntimeException(
+              s"x: $x; pos: $pos; wordIdx: $wordIdx; len: $len"
+            )
+
           case 1 =>
             out.write(in.read() ^ word)
             pos += 1
@@ -267,6 +282,11 @@ private[blake3] class Output(
         val word = words(wordIdx)
         wordIdx += 1
         len - pos match {
+          case x if x <= 0 =>
+            throw new RuntimeException(
+              s"x: $x; pos: $pos; wordIdx: $wordIdx; len: $len"
+            )
+
           case 1 =>
             out put word.toByte
             pos += 1
@@ -312,6 +332,11 @@ private[blake3] class Output(
         val word = words(wordIdx)
         wordIdx += 1
         len - pos match {
+          case x if x <= 0 =>
+            throw new RuntimeException(
+              s"x: $x; pos: $pos; wordIdx: $wordIdx; len: $len"
+            )
+
           case 1 =>
             out put (in.get() ^ word).toByte
             pos += 1
