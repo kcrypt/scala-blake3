@@ -19,7 +19,7 @@ trait Hasher extends OutputStream {
   /**
    * Updates a hasher by provided bytes, returns the same hasher
    */
-  def update(input: Array[Byte]): Hasher
+  def update(input: Array[Byte]): Hasher = update(input, 0, input.length)
 
   /**
    * Updates a hasher by specified part of provided bytes, returns the same
@@ -50,7 +50,7 @@ trait Hasher extends OutputStream {
   /**
    * Updates a hasher by specified string, returns the same hasher
    */
-  def update(input: String): Hasher
+  def update(input: String): Hasher = update(input.getBytes)
 
   /**
    * Updates a hasher from specified InputStream, returns the same hasher
@@ -81,7 +81,7 @@ trait Hasher extends OutputStream {
   /**
    * Calculate a hash into specified byte array
    */
-  def done(out: Array[Byte]): Unit
+  def done(out: Array[Byte]): Unit = done(out, 0, out.length)
 
   /**
    * Calculate a hash into specified part of array
@@ -121,6 +121,11 @@ trait Hasher extends OutputStream {
   def done(out: ByteBuffer): Unit = done(out, out.remaining())
 
   /**
+   * Calculate a hash with specified length and consume it via callback.
+   */
+  def doneCallBack[T](out: Byte => T, len: Int): Unit
+
+  /**
    * Calculate a hash as single short
    */
   def doneShort(): Short
@@ -139,7 +144,14 @@ trait Hasher extends OutputStream {
    * Calculate a hash into specified byte array and apply it as XOR to existed
    * value
    */
-  def doneXor(out: Array[Byte]): Unit
+  def doneXor(out: Array[Byte]): Unit = doneXor(out, 0, out, 0, out.length)
+
+  /**
+   * Calculate a hash into specified byte array and apply it as XOR to existed
+   * value
+   */
+  def doneXor(out: Array[Byte], off: Int, len: Int): Unit = doneXor(out, off,
+    out, off, len)
 
   /**
    * Calculate a hash into specified part of array and apply it as XOR with
@@ -160,6 +172,12 @@ trait Hasher extends OutputStream {
    * bytes and and apply it as XOR with specified part of existed values
    */
   def doneXor(in: ByteBuffer, out: ByteBuffer, len: Int): Unit
+
+  /**
+   * Calculate a hash with specified size and consume it via output callback,
+   * and and apply it as XOR value which is get's via in callback.
+   */
+  def doneXorCallBack[T](in: () => Byte, out: Byte => T, len: Int): Unit
 
   /**
    * Calculate a hash and return it as positive BigInt with specified length in

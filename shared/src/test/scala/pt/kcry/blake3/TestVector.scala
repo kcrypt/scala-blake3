@@ -97,6 +97,20 @@ class TestVector(
       bb.get(out)
       mask.indices.foreach(i => out(i) = (out(i) ^ i.toByte).toByte)
       byte2hex(out)
+    },
+    { (hasher, outputLen) =>
+      val out = ByteBuffer.allocate(outputLen)
+      hasher.doneCallBack(out.put, outputLen)
+      byte2hex(out.array())
+    },
+    { (hasher, outputLen) =>
+      val mask = (0 until outputLen).map(_.toByte).toArray
+      val in = ByteBuffer.wrap(mask)
+      val bb = ByteBuffer.allocate(outputLen)
+      hasher.doneXorCallBack(in.get, bb.put, outputLen)
+      val out = new Array[Byte](outputLen)
+      mask.indices.foreach(i => out(i) = (bb.get(i) ^ i.toByte).toByte)
+      byte2hex(out)
     }
   )
 

@@ -47,7 +47,8 @@ scala>
  - `doneBigInt(bitLength: Int)` that returns positive BigInt with specified length in bits;
  - `doneHex(resultLength: Int)` that returns hex encoded string with specified output length in characters;
  - `doneBaseXXX(len: Int)` that returns string representative of XXX encoded as it defined in [RFC 4648] without padding;
- - `doneXor(...)` that applied hash to existed value via XOR.
+ - `doneXor(...)` that applied hash to existed value via XOR;
+ - `doneCallBack(..)` and `doneXorCallBack(...)` which is used callback to for each produced byte.
  
 This implementation is thread-safe and you can use it in multithreaded environment.
 Anyway this implementation doesn't currently include any multithreading optimizations.

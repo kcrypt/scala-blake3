@@ -70,31 +70,28 @@ private[blake3] class HasherImpl(val key: Array[Int], val flags: Int)
   }
 
   // Add input to the hash state. This can be called any number of times.
-  def update(input: Array[Byte], offset: Int, len: Int): Hasher = synchronized {
-    var i = offset
-    val end = offset + len
-    while (i < end) {
-      val len = finalizeWhenCompleted()
-      val consume = Math.min(CHUNK_LEN - len, end - i)
-      chunkState.update(input, i, i + consume)
-      i += consume
+  override def update(input: Array[Byte], offset: Int, len: Int): Hasher =
+    synchronized {
+      var i = offset
+      val end = offset + len
+      while (i < end) {
+        val len = finalizeWhenCompleted()
+        val consume = Math.min(CHUNK_LEN - len, end - i)
+        chunkState.update(input, i, i + consume)
+        i += consume
+      }
+      this
     }
-    this
-  }
-
-  def update(input: Array[Byte]): Hasher = update(input, 0, input.length)
-
-  def update(input: String): Hasher = update(input.getBytes)
 
   // Simplified version of update(Array[Byte])
-  def update(input: Byte): Hasher = synchronized {
+  override def update(input: Byte): Hasher = synchronized {
     finalizeWhenCompleted()
     chunkState.update(input)
     this
   }
 
   // Simplified version of update(Array[Byte])
-  def update(input: Short): Hasher = synchronized {
+  override def update(input: Short): Hasher = synchronized {
     var v = input
     var i = 0
     while (i < 2) {
@@ -107,7 +104,7 @@ private[blake3] class HasherImpl(val key: Array[Int], val flags: Int)
   }
 
   // Simplified version of update(Array[Byte])
-  def update(input: Int): Hasher = synchronized {
+  override def update(input: Int): Hasher = synchronized {
     var v = input
     var i = 0
     while (i < 4) {
@@ -120,7 +117,7 @@ private[blake3] class HasherImpl(val key: Array[Int], val flags: Int)
   }
 
   // Simplified version of update(Array[Byte])
-  def update(input: Long): Hasher = synchronized {
+  override def update(input: Long): Hasher = synchronized {
     var v = input
     var i = 0
     while (i < 8) {
@@ -132,7 +129,7 @@ private[blake3] class HasherImpl(val key: Array[Int], val flags: Int)
     this
   }
 
-  def update(input: InputStream, len: Int): Hasher = synchronized {
+  override def update(input: InputStream, len: Int): Hasher = synchronized {
     val bytes = new Array[Byte](CHUNK_LEN)
 
     var consume = chunkState.len() match {
@@ -153,7 +150,7 @@ private[blake3] class HasherImpl(val key: Array[Int], val flags: Int)
     this
   }
 
-  def update(input: ByteBuffer, len: Int): Hasher = synchronized {
+  override def update(input: ByteBuffer, len: Int): Hasher = synchronized {
     val bytes = new Array[Byte](CHUNK_LEN)
 
     var remaining = len
@@ -189,33 +186,40 @@ private[blake3] class HasherImpl(val key: Array[Int], val flags: Int)
   }
 
   // Finalize the hash and write any number of output bytes.
-  def done(out: Array[Byte], offset: Int, len: Int): Unit = getOutput
+  override def done(out: Array[Byte], offset: Int, len: Int): Unit = getOutput
     .rootBytes(out, offset, len)
 
-  def done(out: Array[Byte]): Unit = done(out, 0, out.length)
-
   // Finalize the hash and write one byte.
-  def done(): Byte = getOutput.rootByte()
+  override def done(): Byte = getOutput.rootByte()
 
-  def doneShort(): Short = getOutput.rootShort()
+  override def doneShort(): Short = getOutput.rootShort()
 
-  def doneInt(): Int = getOutput.rootInt()
+  override def doneInt(): Int = getOutput.rootInt()
 
-  def doneLong(): Long = getOutput.rootLong()
+  override def doneLong(): Long = getOutput.rootLong()
 
-  def done(out: OutputStream, len: Int): Unit = getOutput.rootBytes(out, len)
+  override def doneCallBack[T](out: Byte => T, len: Int): Unit = getOutput
+    .rootBytes(out, len)
 
-  def done(out: ByteBuffer, len: Int): Unit = getOutput.rootBytes(out, len)
+  // avoid callback here to prevent make a call GC friendly
+  override def done(out: OutputStream, len: Int): Unit = getOutput
+    .rootBytes(out, len)
 
-  def doneXor(
+  // avoid callback here to prevent make a call GC friendly
+  override def done(out: ByteBuffer, len: Int): Unit = getOutput.rootBytes(out,
+    len)
+
+  override def doneXor(
     in: Array[Byte], inOff: Int, out: Array[Byte], outOff: Int, len: Int
   ): Unit = getOutput.rootBytesXor(in, inOff, out, outOff, len)
 
-  def doneXor(out: Array[Byte]): Unit = doneXor(out, 0, out, 0, out.length)
+  override def doneXor(in: InputStream, out: OutputStream, len: Int): Unit =
+    getOutput.rootBytesXor(in, out, len)
 
-  def doneXor(in: InputStream, out: OutputStream, len: Int): Unit = getOutput
-    .rootBytesXor(in, out, len)
+  override def doneXor(in: ByteBuffer, out: ByteBuffer, len: Int): Unit =
+    getOutput.rootBytesXor(in, out, len)
 
-  def doneXor(in: ByteBuffer, out: ByteBuffer, len: Int): Unit = getOutput
-    .rootBytesXor(in, out, len)
+  override def doneXorCallBack[T](
+    in: () => Byte, out: Byte => T, len: Int
+  ): Unit = getOutput.rootBytesXor(in, out, len)
 }
