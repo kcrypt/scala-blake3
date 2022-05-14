@@ -343,20 +343,120 @@ private[blake3] class Output(
 
           case 2 =>
             out put (in.get() ^ word).toByte
-            out put (in.get() ^ word >>> 8).toByte
+            out put (in.get() ^ (word >>> 8)).toByte
             pos += 2
 
           case 3 =>
             out put (in.get() ^ word).toByte
-            out put (in.get() ^ word >>> 8).toByte
-            out put (in.get() ^ word >>> 16).toByte
+            out put (in.get() ^ (word >>> 8)).toByte
+            out put (in.get() ^ (word >>> 16)).toByte
             pos += 3
 
           case _ =>
             out put (in.get() ^ word).toByte
-            out put (in.get() ^ word >>> 8).toByte
-            out put (in.get() ^ word >>> 16).toByte
-            out put (in.get() ^ word >>> 24).toByte
+            out put (in.get() ^ (word >>> 8)).toByte
+            out put (in.get() ^ (word >>> 16)).toByte
+            out put (in.get() ^ (word >>> 24)).toByte
+            pos += 4
+        }
+      }
+
+      outputBlockCounter += 1
+    }
+  }
+
+  def rootBytes[T](out: Byte => T, len: Int): Unit = {
+    var outputBlockCounter = 0
+    var pos = 0
+
+    val blockLenWords = BLOCK_LEN_WORDS
+    val words = new Array[Int](blockLenWords)
+    val flags = this.flags | ROOT
+
+    while (pos < len) {
+      compressInPlace(words, inputChainingValue, blockWords, outputBlockCounter,
+        blockLen, flags)
+
+      var wordIdx = 0
+      while (wordIdx < blockLenWords && pos < len) {
+        val word = words(wordIdx)
+        wordIdx += 1
+        len - pos match {
+          case x if x <= 0 =>
+            throw new RuntimeException(
+              s"x: $x; pos: $pos; wordIdx: $wordIdx; len: $len"
+            )
+
+          case 1 =>
+            out(word.toByte)
+            pos += 1
+
+          case 2 =>
+            out(word.toByte)
+            out((word >>> 8).toByte)
+            pos += 2
+
+          case 3 =>
+            out(word.toByte)
+            out((word >>> 8).toByte)
+            out((word >>> 16).toByte)
+            pos += 3
+
+          case _ =>
+            out(word.toByte)
+            out((word >>> 8).toByte)
+            out((word >>> 16).toByte)
+            out((word >>> 24).toByte)
+            pos += 4
+        }
+      }
+
+      outputBlockCounter += 1
+    }
+  }
+
+  def rootBytesXor[T](in: () => Byte, out: Byte => T, len: Int): Unit = {
+    var outputBlockCounter = 0
+    var pos = 0
+
+    val blockLenWords = BLOCK_LEN_WORDS
+    val words = new Array[Int](blockLenWords)
+    val flags = this.flags | ROOT
+
+    while (pos < len) {
+      compressInPlace(words, inputChainingValue, blockWords, outputBlockCounter,
+        blockLen, flags)
+
+      var wordIdx = 0
+      while (wordIdx < blockLenWords && pos < len) {
+        val word = words(wordIdx)
+        wordIdx += 1
+        len - pos match {
+          case x if x <= 0 =>
+            throw new RuntimeException(
+              s"x: $x; pos: $pos; wordIdx: $wordIdx; len: $len"
+            )
+
+          case 1 =>
+            out((in() ^ word).toByte)
+            pos += 1
+
+          case 2 =>
+            out((in() ^ word).toByte)
+            out((in() ^ (word >>> 8)).toByte)
+            pos += 2
+
+          case 3 =>
+            out((in() ^ word).toByte)
+            out((in() ^ (word >>> 8)).toByte)
+            out((in() ^ (word >>> 16)).toByte)
+            pos += 3
+
+          case _ =>
+            out((in() ^ word).toByte)
+            out((in() ^ (word >>> 8)).toByte)
+            out((in() ^ (word >>> 16)).toByte)
+            out((in() ^ (word >>> 24)).toByte)
             pos += 4
         }
       }
