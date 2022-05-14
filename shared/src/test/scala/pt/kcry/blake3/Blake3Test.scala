@@ -80,19 +80,19 @@ class Blake3Test extends AnyWordSpec with should.Matchers {
   }
 
   "Short works as Byte" in {
-    val shortHash = Blake3.newHasher().update(0x6af6.toShort).doneLong()
+    val shortHash = Blake3.newHasher().update(0x6af6.toShort).doneShort()
 
     val byteHash = Blake3.newHasher().update(0xf6.toByte).update(0x6a.toByte)
-      .doneLong()
+      .doneShort()
 
     shortHash shouldBe byteHash
   }
 
   "Int works as Byte" in {
-    val shortHash = Blake3.newHasher().update(0x7eaa6af6).doneLong()
+    val shortHash = Blake3.newHasher().update(0x7eaa6af6).doneInt()
 
     val byteHash = Blake3.newHasher().update(0xf6.toByte).update(0x6a.toByte)
-      .update(0xaa.toByte).update(0x7e.toByte).doneLong()
+      .update(0xaa.toByte).update(0x7e.toByte).doneInt()
 
     shortHash shouldBe byteHash
   }
