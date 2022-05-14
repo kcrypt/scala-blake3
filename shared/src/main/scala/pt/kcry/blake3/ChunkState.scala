@@ -27,7 +27,7 @@ private[blake3] class ChunkState(
   val block: Array[Byte] = new Array[Byte](BLOCK_LEN)
 
   var blockLen: Int = 0
-  var blocksCompressed: Int = 0
+  var compressedBlocksLen: Int = 0
 
   private val tmpBlockWords: Array[Int] = new Array[Int](BLOCK_LEN_WORDS)
   private val tmpState = new Array[Int](BLOCK_LEN_WORDS)
@@ -36,19 +36,20 @@ private[blake3] class ChunkState(
     System.arraycopy(key, 0, chainingValue, 0, KEY_LEN_WORDS)
     chunkCounter += 1
     blockLen = 0
-    blocksCompressed = 0
+    compressedBlocksLen = 0
 
     chunkCounter // aka totalChunks
   }
 
-  def len(): Int = BLOCK_LEN * blocksCompressed + blockLen
+  def len(): Int = compressedBlocksLen + blockLen
 
-  private def startFlag(): Int = if (blocksCompressed == 0) CHUNK_START else 0
+  private def startFlag(): Int =
+    if (compressedBlocksLen == 0) CHUNK_START else 0
 
   private def compressedWords(bytes: Array[Byte], bytesOffset: Int): Unit = {
     compressInPlace(chainingValue, bytes, bytesOffset, chunkCounter, BLOCK_LEN,
       flags | startFlag(), tmpState, tmpBlockWords)
-    blocksCompressed += 1
+    compressedBlocksLen += BLOCK_LEN
     blockLen = 0
   }
 
