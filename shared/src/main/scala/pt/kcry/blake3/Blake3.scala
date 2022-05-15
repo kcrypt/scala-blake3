@@ -11,14 +11,27 @@
 
 package pt.kcry.blake3
 
-import CommonFunction._
-
 object Blake3 {
 
   /**
    * A new hasher
    */
   def newHasher(): Hasher = new HasherImpl(IV, 0)
+
+  @inline
+  private def wordsFromLittleEndianBytes(bytes: Array[Byte]): Array[Int] = {
+    val res = new Array[Int](bytes.length / 4)
+    var i = 0
+    var off = 0
+    while (i < res.length) {
+      res(i) = ((bytes(3 + off) & 0xff) << 24) |
+        ((bytes(2 + off) & 0xff) << 16) | ((bytes(1 + off) & 0xff) << 8) |
+        ((bytes(off) & 0xff))
+      i += 1
+      off += 4
+    }
+    res
+  }
 
   /**
    * A new keyed hasher where key is 32 byte

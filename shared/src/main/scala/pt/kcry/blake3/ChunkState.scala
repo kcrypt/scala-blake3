@@ -11,7 +11,7 @@
 
 package pt.kcry.blake3
 
-import CommonFunction._
+import Compress._
 
 private[blake3] object ChunkState {
   val zerosBlockWords = new Array[Int](BLOCK_LEN_WORDS)

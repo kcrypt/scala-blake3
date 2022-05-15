@@ -11,7 +11,7 @@
 
 package pt.kcry.blake3
 
-import CommonFunction._
+import Compress._
 
 import java.io._
 import java.nio.ByteBuffer
@@ -463,5 +463,31 @@ private[blake3] class Output(
 
       outputBlockCounter += 1
     }
+  }
+}
+
+private[blake3] object Output {
+  @inline
+  private def mergeChildCV(
+    merged: Array[Int], leftChildCV: Array[Int], rightChildCv: Array[Int]
+  ): Unit = {
+    System.arraycopy(rightChildCv, 0, merged, KEY_LEN_WORDS, KEY_LEN_WORDS)
+    System.arraycopy(leftChildCV, 0, merged, 0, KEY_LEN_WORDS)
+  }
+
+  def parentOutput(
+    blockWords: Array[Int], leftChildCV: Array[Int], rightChildCv: Array[Int],
+    key: Array[Int], flags: Int
+  ): Output = {
+    mergeChildCV(blockWords, leftChildCV, rightChildCv)
+    new Output(key, blockWords, 0, BLOCK_LEN, flags | PARENT)
+  }
+
+  def parentCV(
+    parentCV: Array[Int], leftChildCV: Array[Int], rightChildCv: Array[Int],
+    key: Array[Int], flags: Int, tmpBlockWords: Array[Int]
+  ): Unit = {
+    mergeChildCV(tmpBlockWords, leftChildCV, rightChildCv)
+    compressInPlace(parentCV, key, tmpBlockWords, 0, BLOCK_LEN, flags | PARENT)
   }
 }
