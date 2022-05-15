@@ -11,7 +11,7 @@
 
 package pt.kcry.blake3
 
-import Compress._
+import CompressRounds._
 
 import java.io._
 import java.nio.ByteBuffer
@@ -23,7 +23,7 @@ private[blake3] class Output(
 ) {
 
   def chainingValue(chainingValue: Array[Int]): Unit =
-    compressInPlace(chainingValue, inputChainingValue, blockWords, counter,
+    compressRounds(chainingValue, blockWords, inputChainingValue, counter,
       blockLen, flags)
 
   def rootBytes(out: Array[Byte], off: Int, len: Int): Unit = {
@@ -36,7 +36,7 @@ private[blake3] class Output(
     val flags = this.flags | ROOT
 
     while (pos < lim) {
-      compressInPlace(words, inputChainingValue, blockWords, outputBlockCounter,
+      compressRounds(words, blockWords, inputChainingValue, outputBlockCounter,
         blockLen, flags)
 
       var wordIdx = 0
@@ -96,7 +96,7 @@ private[blake3] class Output(
     val flags = this.flags | ROOT
 
     while (outPos < outLim) {
-      compressInPlace(words, inputChainingValue, blockWords, outputBlockCounter,
+      compressRounds(words, blockWords, inputChainingValue, outputBlockCounter,
         blockLen, flags)
 
       var wordIdx = 0
@@ -153,16 +153,19 @@ private[blake3] class Output(
     }
   }
 
-  def rootByte(): Byte = compressSingle(inputChainingValue, blockWords, 0,
-    blockLen, flags | ROOT).toByte
+  def rootByte(): Byte =
+    (compressRounds(blockWords, inputChainingValue, 0, blockLen,
+      flags | ROOT) >> 32).toByte
 
-  def rootShort(): Short = compressSingle(inputChainingValue, blockWords, 0,
-    blockLen, flags | ROOT).toShort
+  def rootShort(): Short =
+    (compressRounds(blockWords, inputChainingValue, 0, blockLen,
+      flags | ROOT) >> 32).toShort
 
-  def rootInt(): Int = compressSingle(inputChainingValue, blockWords, 0,
-    blockLen, flags | ROOT)
+  def rootInt(): Int =
+    (compressRounds(blockWords, inputChainingValue, 0, blockLen,
+      flags | ROOT) >> 32).toInt
 
-  def rootLong(): Long = compressSingleLong(inputChainingValue, blockWords, 0,
+  def rootLong(): Long = compressRounds(blockWords, inputChainingValue, 0,
     blockLen, flags | ROOT)
 
   def rootBytes(out: OutputStream, len: Int): Unit = {
@@ -174,7 +177,7 @@ private[blake3] class Output(
     val flags = this.flags | ROOT
 
     while (pos < len) {
-      compressInPlace(words, inputChainingValue, blockWords, outputBlockCounter,
+      compressRounds(words, blockWords, inputChainingValue, outputBlockCounter,
         blockLen, flags)
 
       var wordIdx = 0
@@ -224,7 +227,7 @@ private[blake3] class Output(
     val flags = this.flags | ROOT
 
     while (pos < len) {
-      compressInPlace(words, inputChainingValue, blockWords, outputBlockCounter,
+      compressRounds(words, blockWords, inputChainingValue, outputBlockCounter,
         blockLen, flags)
 
       var wordIdx = 0
@@ -274,7 +277,7 @@ private[blake3] class Output(
     val flags = this.flags | ROOT
 
     while (pos < len) {
-      compressInPlace(words, inputChainingValue, blockWords, outputBlockCounter,
+      compressRounds(words, blockWords, inputChainingValue, outputBlockCounter,
         blockLen, flags)
 
       var wordIdx = 0
@@ -324,7 +327,7 @@ private[blake3] class Output(
     val flags = this.flags | ROOT
 
     while (pos < len) {
-      compressInPlace(words, inputChainingValue, blockWords, outputBlockCounter,
+      compressRounds(words, blockWords, inputChainingValue, outputBlockCounter,
         blockLen, flags)
 
       var wordIdx = 0
@@ -374,7 +377,7 @@ private[blake3] class Output(
     val flags = this.flags | ROOT
 
     while (pos < len) {
-      compressInPlace(words, inputChainingValue, blockWords, outputBlockCounter,
+      compressRounds(words, blockWords, inputChainingValue, outputBlockCounter,
         blockLen, flags)
 
       var wordIdx = 0
@@ -424,7 +427,7 @@ private[blake3] class Output(
     val flags = this.flags | ROOT
 
     while (pos < len) {
-      compressInPlace(words, inputChainingValue, blockWords, outputBlockCounter,
+      compressRounds(words, blockWords, inputChainingValue, outputBlockCounter,
         blockLen, flags)
 
       var wordIdx = 0
@@ -488,6 +491,6 @@ private[blake3] object Output {
     key: Array[Int], flags: Int, tmpBlockWords: Array[Int]
   ): Unit = {
     mergeChildCV(tmpBlockWords, leftChildCV, rightChildCv)
-    compressInPlace(parentCV, key, tmpBlockWords, 0, BLOCK_LEN, flags | PARENT)
+    compressRounds(parentCV, tmpBlockWords, key, 0, BLOCK_LEN, flags | PARENT)
   }
 }

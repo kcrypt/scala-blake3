@@ -11,7 +11,7 @@
 
 package pt.kcry.blake3
 
-import Compress._
+import CompressRounds._
 import CompressBytesAsBlockWords._
 
 private[blake3] object ChunkState {
@@ -48,7 +48,7 @@ private[blake3] class ChunkState(
 
   private def compressedWords(bytes: Array[Byte], bytesOffset: Int): Unit = {
     compressBytesAsBlockWords(bytes, bytesOffset, tmpBlockWords)
-    compressInPlace(chainingValue, chainingValue, tmpBlockWords, chunkCounter,
+    compressRounds(chainingValue, tmpBlockWords, chainingValue, chunkCounter,
       BLOCK_LEN, flags | startFlag())
     compressedBlocksLen += BLOCK_LEN
     blockLen = 0
