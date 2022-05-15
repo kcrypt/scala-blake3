@@ -23,24 +23,12 @@ private[blake3] object Compress {
   def compressSingle(
     chainingValue: Array[Int], blockWords: Array[Int], counter: Long,
     blockLen: Int, flags: Int
-  ): Int = {
-    val state = new Array[Int](BLOCK_LEN_WORDS)
-
-    compressRounds(state, blockWords, chainingValue, counter, blockLen, flags)
-
-    // a fast-track for single int
-    state(0)
-  }
+  ): Int =
+    (compressRounds(blockWords, chainingValue, counter, blockLen, flags) >> 32)
+      .toInt
 
   def compressSingleLong(
     chainingValue: Array[Int], blockWords: Array[Int], counter: Long,
     blockLen: Int, flags: Int
-  ): Long = {
-    val state = new Array[Int](BLOCK_LEN_WORDS)
-
-    compressRounds(state, blockWords, chainingValue, counter, blockLen, flags)
-
-    // a fast-track for single long
-    (state(0).toLong << 32) | state(1)
-  }
+  ): Long = compressRounds(blockWords, chainingValue, counter, blockLen, flags)
 }
