@@ -959,21 +959,21 @@ private[blake3] object CompressRounds {
     state_4 = (`state_4 ^ state_9` >>> 7) | (`state_4 ^ state_9` << 25)
 
     // update state
-    state(0) = state_0
-    state(1) = state_1
-    state(2) = state_2
-    state(3) = state_3
-    state(4) = state_4
-    state(5) = state_5
-    state(6) = state_6
-    state(7) = state_7
-    state(8) = state_8
-    state(9) = state_9
-    state(10) = state_10
-    state(11) = state_11
-    state(12) = state_12
-    state(13) = state_13
-    state(14) = state_14
-    state(15) = state_15
+    state(0) = state_0 ^ state_8
+    state(1) = state_1 ^ state_9
+    state(2) = state_2 ^ state_10
+    state(3) = state_3 ^ state_11
+    state(4) = state_4 ^ state_12
+    state(5) = state_5 ^ state_13
+    state(6) = state_6 ^ state_14
+    state(7) = state_7 ^ state_15
+    state(8) = state_8 ^ chainingValue(0)
+    state(9) = state_9 ^ chainingValue(1)
+    state(10) = state_10 ^ chainingValue(2)
+    state(11) = state_11 ^ chainingValue(3)
+    state(12) = state_12 ^ chainingValue(4)
+    state(13) = state_13 ^ chainingValue(5)
+    state(14) = state_14 ^ chainingValue(6)
+    state(15) = state_15 ^ chainingValue(7)
   }
 }
