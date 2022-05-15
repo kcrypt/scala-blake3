@@ -12,7 +12,7 @@
 package pt.kcry.blake3
 
 import Compress._
-import CompressTmpBlockWords._
+import CompressBytesAsBlockWords._
 
 private[blake3] object ChunkState {
   val zerosBlockWords = new Array[Int](BLOCK_LEN_WORDS)
@@ -47,7 +47,7 @@ private[blake3] class ChunkState(
     if (compressedBlocksLen == 0) CHUNK_START else 0
 
   private def compressedWords(bytes: Array[Byte], bytesOffset: Int): Unit = {
-    compressTmpBlockWords(bytes, bytesOffset, tmpBlockWords)
+    compressBytesAsBlockWords(bytes, bytesOffset, tmpBlockWords)
     compressInPlace(chainingValue, chainingValue, tmpBlockWords, chunkCounter,
       BLOCK_LEN, flags | startFlag())
     compressedBlocksLen += BLOCK_LEN
