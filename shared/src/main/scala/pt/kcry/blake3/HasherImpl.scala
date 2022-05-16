@@ -36,7 +36,6 @@ private[blake3] class HasherImpl(val key: Array[Int], val flags: Int)
   private var cvStackLen: Int = 0
 
   private val tmpChunkCV = new Array[Int](BLOCK_LEN_WORDS)
-  private val tmpBlockWords = new Array[Int](BLOCK_LEN_WORDS)
 
   // Section 5.1.2 of the BLAKE3 spec explains this algorithm in more detail.
   private def finalizeWhenCompleted(): Int = {
@@ -56,8 +55,8 @@ private[blake3] class HasherImpl(val key: Array[Int], val flags: Int)
       // by the number of trailing 0-bits in the new total number of chunks.
       while ((totalChunks & 1) == 0) {
         cvStackLen -= 1
-        mergeChildCV(tmpBlockWords, cvStack(cvStackLen), tmpChunkCV)
-        compressRounds(tmpChunkCV, tmpBlockWords, key, 0, BLOCK_LEN,
+        mergeChildCV(chunkState.tmpBlockWords, cvStack(cvStackLen), tmpChunkCV)
+        compressRounds(tmpChunkCV, chunkState.tmpBlockWords, key, 0, BLOCK_LEN,
           flags | PARENT)
         totalChunks >>= 1
       }
@@ -175,8 +174,10 @@ private[blake3] class HasherImpl(val key: Array[Int], val flags: Int)
       while (parentNodesRemaining > 0) {
         parentNodesRemaining -= 1
         output.chainingValue(tmpChunkCV)
-        mergeChildCV(tmpBlockWords, cvStack(parentNodesRemaining), tmpChunkCV)
-        output = new Output(key, tmpBlockWords, 0, BLOCK_LEN, flags | PARENT)
+        mergeChildCV(chunkState.tmpBlockWords, cvStack(parentNodesRemaining),
+          tmpChunkCV)
+        output =
+          new Output(key, chunkState.tmpBlockWords, 0, BLOCK_LEN, flags | PARENT)
       }
       output
     }
