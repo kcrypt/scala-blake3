@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [unreleased]
+
+## [3.1.0] - 2022-05-17
 - Introduced `doneCallback` and `doneXorCallBack`
 - Achieve constant memory footprint
 
@@ -126,7 +128,8 @@ All notable changes to this project will be documented in this file.
 ## [1.0.0] - 2020-07-15
 - The first public release as dedicated project.
 
-[unreleased]: https://github.com/kcrypt/scala-blake3/compare/v3.0.1...HEAD
+[unreleased]: https://github.com/kcrypt/scala-blake3/compare/v3.1.0...HEAD
+[3.1.0]: https://github.com/kcrypt/scala-blake3/compare/v3.0.1...v3.1.0
 [3.0.1]: https://github.com/kcrypt/scala-blake3/compare/v3.0.0...v3.0.1
 [3.0.0]: https://github.com/kcrypt/scala-blake3/compare/v2.9.0...v3.0.0
 [2.9.0]: https://github.com/kcrypt/scala-blake3/compare/v2.8.0...v2.9.0
