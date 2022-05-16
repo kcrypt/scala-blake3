@@ -32,6 +32,13 @@ private[blake3] class ChunkState(
 
   private val tmpBlockWords: Array[Int] = new Array[Int](BLOCK_LEN_WORDS)
 
+  // GC friendly call for unsafeOutput().chainingValue(targetChainingValue)
+  def chainingValue(targetChainingValue: Array[Int]): Unit = {
+    roundBlock(tmpBlockWords)
+    compressRounds(targetChainingValue, tmpBlockWords, chainingValue,
+      chunkCounter, blockLen, flags | startFlag() | CHUNK_END)
+  }
+
   def reset(key: Array[Int]): Long = {
     System.arraycopy(key, 0, chainingValue, 0, KEY_LEN_WORDS)
     chunkCounter += 1
