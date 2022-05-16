@@ -11,7 +11,7 @@
 
 package pt.kcry.blake3
 
-import Output._
+import CompressRounds._
 
 import java.io.{InputStream, OutputStream}
 import java.nio.ByteBuffer
@@ -23,48 +23,47 @@ private[blake3] class HasherImpl(val key: Array[Int], val flags: Int)
   val chunkState: ChunkState = new ChunkState(key, 0, flags)
 
   // Space for 54 subtree chaining values
-  val cvStack: Array[Array[Int]] = new Array[Array[Int]](MAX_DEPTH)
+  val cvStack: Array[Array[Int]] = {
+    val cvStack = new Array[Array[Int]](MAX_DEPTH)
+    var i = 0
+    while (i < MAX_DEPTH) {
+      cvStack(i) = new Array[Int](BLOCK_LEN_WORDS)
+      i += 1
+    }
+    cvStack
+  }
 
   var cvStackLen: Int = 0
 
   private val tmpBlockWords = new Array[Int](BLOCK_LEN_WORDS)
-
-  private def pushStack(cv: Array[Int]): Unit = {
-    cvStack(cvStackLen) = cv
-    cvStackLen += 1
-  }
-
-  private def popStack(): Array[Int] = {
-    cvStackLen -= 1
-    cvStack(cvStackLen)
-  }
+  private val mergedChunkCV = new Array[Int](BLOCK_LEN_WORDS)
 
   // Section 5.1.2 of the BLAKE3 spec explains this algorithm in more detail.
-  private def addChunkChainingValue(cv: Array[Int], chunks: Long): Unit = {
-    // This chunk might complete some subtrees. For each completed subtree,
-    // its left child will be the current top entry in the CV stack, and
-    // its right child will be the current value of `newCv`. Pop each left
-    // child off the stack, merge it with `newCv`, and overwrite `newCv`
-    // with the result. After all these merges, push the final value of
-    // `newCv` onto the stack. The number of completed subtrees is given
-    // by the number of trailing 0-bits in the new total number of chunks.
-    var totalChunks = chunks
-    while ((totalChunks & 1) == 0) {
-      parentCV(cv, popStack(), cv, key, flags, tmpBlockWords)
-      totalChunks >>= 1
-    }
-    pushStack(cv)
-  }
-
   private def finalizeWhenCompleted(): Int = {
     val len = chunkState.len()
     // If the current chunk is complete, finalize it and reset the
     // chunk state. More input is coming, so this chunk is not ROOT.
     if (len == CHUNK_LEN) {
-      val chunkCV = new Array[Int](BLOCK_LEN_WORDS)
-      chunkState.unsafeOutput().chainingValue(chunkCV)
-      val totalChunks = chunkState.reset(key)
-      addChunkChainingValue(chunkCV, totalChunks)
+      chunkState.chainingValue(mergedChunkCV)
+      var totalChunks = chunkState.reset(key)
+
+      // This chunk might complete some subtrees. For each completed subtree,
+      // its left child will be the current top entry in the CV stack, and
+      // its right child will be the current value of `newCv`. Pop each left
+      // child off the stack, merge it with `newCv`, and overwrite `newCv`
+      // with the result. After all these merges, push the final value of
+      // `newCv` onto the stack. The number of completed subtrees is given
+      // by the number of trailing 0-bits in the new total number of chunks.
+      while ((totalChunks & 1) == 0) {
+        cvStackLen -= 1
+        mergeChildCV(tmpBlockWords, cvStack(cvStackLen), mergedChunkCV)
+        compressRounds(mergedChunkCV, tmpBlockWords, key, 0, BLOCK_LEN,
+          flags | PARENT)
+        totalChunks >>= 1
+      }
+
+      System.arraycopy(mergedChunkCV, 0, cvStack(cvStackLen), 0, BLOCK_LEN_WORDS)
+      cvStackLen += 1
       0
     } else len
   }
@@ -178,11 +177,19 @@ private[blake3] class HasherImpl(val key: Array[Int], val flags: Int)
       while (parentNodesRemaining > 0) {
         parentNodesRemaining -= 1
         output.chainingValue(cv)
-        output = parentOutput(blockWords, cvStack(parentNodesRemaining), cv,
-          key, flags)
+        mergeChildCV(blockWords, cvStack(parentNodesRemaining), cv)
+        output = new Output(key, blockWords, 0, BLOCK_LEN, flags | PARENT)
       }
       output
     }
+  }
+
+  @inline
+  private def mergeChildCV(
+    merged: Array[Int], leftChildCV: Array[Int], rightChildCv: Array[Int]
+  ): Unit = {
+    System.arraycopy(rightChildCv, 0, merged, KEY_LEN_WORDS, KEY_LEN_WORDS)
+    System.arraycopy(leftChildCV, 0, merged, 0, KEY_LEN_WORDS)
   }
 
   // Finalize the hash and write any number of output bytes.
