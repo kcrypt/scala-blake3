@@ -165,24 +165,36 @@ private[blake3] class HasherImpl(val key: Array[Int], val flags: Int)
   }
 
   private def getOutput: Output = {
+    // let start from round block
     chunkState.roundBlock()
-    if (cvStackLen == 0) chunkState.unsafeOutput()
-    else {
-      // Starting with the Output from the current chunk, compute all the
-      // parent chaining values along the right edge of the tree, until we
-      // have the root Output.
-      var output = chunkState.unsafeOutput()
-      var parentNodesRemaining = cvStackLen
-      while (parentNodesRemaining > 0) {
-        parentNodesRemaining -= 1
-        output.chainingValue(tmpChunkCV)
-        mergeChildCV(chunkState.tmpBlockWords, cvStack(parentNodesRemaining),
-          tmpChunkCV)
-        output =
-          new Output(key, chunkState.tmpBlockWords, 0, BLOCK_LEN, flags | PARENT)
-      }
-      output
+
+    // Starting with the Output from the current chunk, compute all the
+    // parent chaining values along the right edge of the tree, until we
+    // have the root Output.
+    var parentNodesRemaining = cvStackLen
+    var inputChainingValue = chunkState.chainingValue
+    var counter = chunkState.chunkCounter
+    var blockLen = chunkState.blockLen
+    var outputFlags = flags | chunkState.startFlag() | CHUNK_END
+
+    val blockWords = chunkState.tmpBlockWords
+
+    while (parentNodesRemaining > 0) {
+      parentNodesRemaining -= 1
+
+      compressRounds(tmpChunkCV, blockWords, inputChainingValue, counter,
+        blockLen, outputFlags)
+
+      // emulate reset
+      inputChainingValue = key
+      counter = 0
+      blockLen = BLOCK_LEN
+      outputFlags = flags | PARENT
+
+      mergeChildCV(blockWords, cvStack(parentNodesRemaining), tmpChunkCV)
     }
+
+    new Output(inputChainingValue, blockWords, counter, blockLen, outputFlags)
   }
 
   @inline

@@ -48,8 +48,7 @@ private[blake3] class ChunkState(
 
   def len(): Int = compressedBlocksLen + blockLen
 
-  private def startFlag(): Int =
-    if (compressedBlocksLen == 0) CHUNK_START else 0
+  def startFlag(): Int = if (compressedBlocksLen == 0) CHUNK_START else 0
 
   private def compressedWords(bytes: Array[Byte], bytesOffset: Int): Unit = {
     compressBytesAsBlockWords(bytes, bytesOffset, tmpBlockWords)
@@ -121,7 +120,4 @@ private[blake3] class ChunkState(
     if (zeros > 0) System.arraycopy(ChunkState.zerosBlockWords, 0,
       tmpBlockWords, i, zeros)
   }
-
-  def unsafeOutput(): Output = new Output(chainingValue, tmpBlockWords,
-    chunkCounter, blockLen, flags | startFlag() | CHUNK_END)
 }

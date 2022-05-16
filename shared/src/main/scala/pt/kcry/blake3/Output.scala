@@ -21,11 +21,6 @@ private[blake3] class Output(
   val inputChainingValue: Array[Int], val blockWords: Array[Int],
   val counter: Long, val blockLen: Int, val flags: Int
 ) {
-
-  def chainingValue(chainingValue: Array[Int]): Unit =
-    compressRounds(chainingValue, blockWords, inputChainingValue, counter,
-      blockLen, flags)
-
   def rootBytes(out: Array[Byte], off: Int, len: Int): Unit = {
     var outputBlockCounter = 0
     var pos = off
