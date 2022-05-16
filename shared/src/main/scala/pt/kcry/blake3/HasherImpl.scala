@@ -11,7 +11,7 @@
 
 package pt.kcry.blake3
 
-import CommonFunction._
+import Output._
 
 import java.io.{InputStream, OutputStream}
 import java.nio.ByteBuffer

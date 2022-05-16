@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## [unreleased]
 - Introduced `doneCallback` and `doneXorCallBack`
+- Reduce memory footprint
 
 ## [3.0.1] - 2022-05-11
 - Switched to scala-3.1.2
