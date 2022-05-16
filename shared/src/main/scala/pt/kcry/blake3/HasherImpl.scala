@@ -20,7 +20,14 @@ import java.nio.ByteBuffer
 private[blake3] class HasherImpl(val key: Array[Int], val flags: Int)
     extends Hasher {
 
-  private val chunkState: ChunkState = new ChunkState(key, 0, flags)
+  private val tmpChunkCV = new Array[Int](BLOCK_LEN_WORDS)
+  private val tmpBlockWords = new Array[Int](BLOCK_LEN_WORDS)
+
+  private val chunkState =
+    new ChunkState(key, 0, flags, tmpChunkCV, tmpBlockWords)
+
+  private val output =
+    new Output(key, tmpBlockWords, 0, BLOCK_LEN, flags, tmpChunkCV)
 
   // Space for 54 subtree chaining values
   private val cvStack: Array[Array[Int]] = {
@@ -34,8 +41,6 @@ private[blake3] class HasherImpl(val key: Array[Int], val flags: Int)
   }
 
   private var cvStackLen: Int = 0
-
-  private val tmpChunkCV = new Array[Int](BLOCK_LEN_WORDS)
 
   // Section 5.1.2 of the BLAKE3 spec explains this algorithm in more detail.
   private def finalizeWhenCompleted(): Int = {
@@ -56,8 +61,8 @@ private[blake3] class HasherImpl(val key: Array[Int], val flags: Int)
       // by the number of trailing 0-bits in the new total number of chunks.
       while ((totalChunks & 1) == 0) {
         cvStackLen -= 1
-        mergeChildCV(chunkState.tmpBlockWords, cvStack(cvStackLen), tmpChunkCV)
-        compressRounds(tmpChunkCV, chunkState.tmpBlockWords, key, 0, BLOCK_LEN,
+        mergeChildCV(tmpBlockWords, cvStack(cvStackLen), tmpChunkCV)
+        compressRounds(tmpChunkCV, tmpBlockWords, key, 0, BLOCK_LEN,
           flags | PARENT)
         totalChunks >>= 1
       }
@@ -177,12 +182,10 @@ private[blake3] class HasherImpl(val key: Array[Int], val flags: Int)
     var blockLen = chunkState.blockLen
     var outputFlags = flags | chunkState.startFlag() | CHUNK_END
 
-    val blockWords = chunkState.tmpBlockWords
-
     while (parentNodesRemaining > 0) {
       parentNodesRemaining -= 1
 
-      compressRounds(tmpChunkCV, blockWords, inputChainingValue, counter,
+      compressRounds(tmpChunkCV, tmpBlockWords, inputChainingValue, counter,
         blockLen, outputFlags)
 
       // emulate reset
@@ -191,10 +194,16 @@ private[blake3] class HasherImpl(val key: Array[Int], val flags: Int)
       blockLen = BLOCK_LEN
       outputFlags = flags | PARENT
 
-      mergeChildCV(blockWords, cvStack(parentNodesRemaining), tmpChunkCV)
+      mergeChildCV(tmpBlockWords, cvStack(parentNodesRemaining), tmpChunkCV)
     }
 
-    new Output(inputChainingValue, blockWords, counter, blockLen, outputFlags)
+    // reset cached output
+    output.inputChainingValue = inputChainingValue
+    output.counter = counter
+    output.blockLen = blockLen
+    output.flags = outputFlags
+
+    output
   }
 
   @inline

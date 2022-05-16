@@ -19,7 +19,8 @@ private[blake3] object ChunkState {
 }
 
 private[blake3] class ChunkState(
-  val key: Array[Int], var chunkCounter: Long, val flags: Int
+  val key: Array[Int], var chunkCounter: Long, val flags: Int,
+  val tmpChunkCV: Array[Int], val tmpBlockWords: Array[Int]
 ) {
 
   val chainingValue: Array[Int] = new Array[Int](BLOCK_LEN_WORDS)
@@ -29,8 +30,6 @@ private[blake3] class ChunkState(
 
   var blockLen: Int = 0
   var compressedBlocksLen: Int = 0
-
-  val tmpBlockWords: Array[Int] = new Array[Int](BLOCK_LEN_WORDS)
 
   // GC friendly call for unsafeOutput().chainingValue(targetChainingValue)
   def chainingValue(targetChainingValue: Array[Int]): Unit =
