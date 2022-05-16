@@ -33,11 +33,9 @@ private[blake3] class ChunkState(
   val tmpBlockWords: Array[Int] = new Array[Int](BLOCK_LEN_WORDS)
 
   // GC friendly call for unsafeOutput().chainingValue(targetChainingValue)
-  def chainingValue(targetChainingValue: Array[Int]): Unit = {
-    roundBlock(tmpBlockWords)
+  def chainingValue(targetChainingValue: Array[Int]): Unit =
     compressRounds(targetChainingValue, tmpBlockWords, chainingValue,
       chunkCounter, blockLen, flags | startFlag() | CHUNK_END)
-  }
 
   def reset(key: Array[Int]): Long = {
     System.arraycopy(key, 0, chainingValue, 0, KEY_LEN_WORDS)
@@ -97,20 +95,20 @@ private[blake3] class ChunkState(
     blockLen += 1
   }
 
-  private def roundBlock(blockWords: Array[Int]): Unit = {
+  def roundBlock(): Unit = {
     var off = 0
     var i = 0
     while (off < blockLen) {
       blockLen - off match {
-        case 1 => blockWords(i) = block(off) & 0xff
+        case 1 => tmpBlockWords(i) = block(off) & 0xff
 
-        case 2 => blockWords(i) = ((block(off + 1) & 0xff) << 8) |
+        case 2 => tmpBlockWords(i) = ((block(off + 1) & 0xff) << 8) |
             (block(off) & 0xff)
 
-        case 3 => blockWords(i) = ((block(off + 2) & 0xff) << 16) |
+        case 3 => tmpBlockWords(i) = ((block(off + 2) & 0xff) << 16) |
             ((block(off + 1) & 0xff) << 8) | (block(off) & 0xff)
 
-        case _ => blockWords(i) = ((block(off + 3) & 0xff) << 24) |
+        case _ => tmpBlockWords(i) = ((block(off + 3) & 0xff) << 24) |
             ((block(off + 2) & 0xff) << 16) | ((block(off + 1) & 0xff) << 8) |
             (block(off) & 0xff)
       }
@@ -120,13 +118,10 @@ private[blake3] class ChunkState(
     }
 
     val zeros = BLOCK_LEN_WORDS - i
-    if (zeros > 0) System.arraycopy(ChunkState.zerosBlockWords, 0, blockWords,
-      i, zeros)
+    if (zeros > 0) System.arraycopy(ChunkState.zerosBlockWords, 0,
+      tmpBlockWords, i, zeros)
   }
 
-  def unsafeOutput(): Output = {
-    roundBlock(tmpBlockWords)
-    new Output(chainingValue, tmpBlockWords, chunkCounter, blockLen,
-      flags | startFlag() | CHUNK_END)
-  }
+  def unsafeOutput(): Output = new Output(chainingValue, tmpBlockWords,
+    chunkCounter, blockLen, flags | startFlag() | CHUNK_END)
 }

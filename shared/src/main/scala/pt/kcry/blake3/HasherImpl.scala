@@ -43,6 +43,7 @@ private[blake3] class HasherImpl(val key: Array[Int], val flags: Int)
     // If the current chunk is complete, finalize it and reset the
     // chunk state. More input is coming, so this chunk is not ROOT.
     if (len == CHUNK_LEN) {
+      chunkState.roundBlock()
       chunkState.chainingValue(tmpChunkCV)
       var totalChunks = chunkState.reset(key)
 
@@ -163,7 +164,8 @@ private[blake3] class HasherImpl(val key: Array[Int], val flags: Int)
     this
   }
 
-  private def getOutput: Output =
+  private def getOutput: Output = {
+    chunkState.roundBlock()
     if (cvStackLen == 0) chunkState.unsafeOutput()
     else {
       // Starting with the Output from the current chunk, compute all the
@@ -181,6 +183,7 @@ private[blake3] class HasherImpl(val key: Array[Int], val flags: Int)
       }
       output
     }
+  }
 
   @inline
   private def mergeChildCV(
