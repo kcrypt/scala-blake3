@@ -129,15 +129,4 @@ private[blake3] class ChunkState(
     new Output(chainingValue, tmpBlockWords, chunkCounter, blockLen,
       flags | startFlag() | CHUNK_END)
   }
-
-  def output(): Output = {
-    val safeChainingValue = new Array[Int](KEY_LEN_WORDS)
-    System.arraycopy(chainingValue, 0, safeChainingValue, 0, KEY_LEN_WORDS)
-
-    val safeBlockWords = new Array[Int](BLOCK_LEN_WORDS)
-    roundBlock(safeBlockWords)
-
-    new Output(safeChainingValue, safeBlockWords, chunkCounter, blockLen,
-      flags | startFlag() | CHUNK_END)
-  }
 }
