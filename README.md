@@ -37,7 +37,8 @@ scala>
 
 `Hasher.update` is mutable when `Hasher.done` isn't.
 
-`Hasher.update` supports different input such as: byte array, part of byte array, single byte or string.
+`Hasher.update` supports different input such as: byte array, part of byte array, single byte or string,
+ and many others like `OutputStream` or `ByteBuffer`.
 
 `Hasher.done` supports different output such as:
  - `done(out: Array[Byte])` to fill full provided array;
@@ -59,14 +60,13 @@ As baseline for benchmarks I've used original C version [c-0.3.7] via JNI interf
  that was implemented as part of [BLAKE3jni].
 
 All benchmarks was performed on two machines:
-- `Zulu16+59-CA (build 16-ea+24)` at [Intel® Core™ i7-8700B] with [AVX2 assembly] optimization inside baseline,
-- `Zulu16+65-CA (build 16-ea+24)` at [Apple M1] without any assembly optimization inside baseline.
+- `Zulu11.56+19-CA (build 11.0.15+10-LTS)` at [Intel® Core™ i7-8700B] with [AVX2 assembly] optimization inside baseline,
+- `Zulu11.56+19-CA (build 11.0.15+10-LTS)` at [Apple M1] without any assembly optimization inside baseline.
 
 Short summary:
- - it is about 5 times slower than [AVX2 assembly] version via JNI that is expected,
+ - it is about 4 times slower than [AVX2 assembly] version via JNI that is expected,
  - it is about 30% slower than original C version via JNI,
- - it has memory footprint near 20% of hashed data that is cleaned up by GC,
- - it has near to constant memory footprint that won't be cleaned up by GC,
+ - it has constant memory footprint (yeah, no GC on hashing!),
  - increasing result hash size has the same impact such as hashing.
 
 Full version of results are available as
