@@ -20,10 +20,17 @@ import java.nio.ByteBuffer
 private[blake3] class HasherImpl(val key: Array[Int], val flags: Int)
     extends Hasher {
 
-  val chunkState: ChunkState = new ChunkState(key, 0, flags)
+  private val tmpChunkCV = new Array[Int](BLOCK_LEN_WORDS)
+  private val tmpBlockWords = new Array[Int](BLOCK_LEN_WORDS)
+
+  private val chunkState =
+    new ChunkState(key, 0, flags, tmpChunkCV, tmpBlockWords)
+
+  private val output =
+    new Output(key, tmpBlockWords, 0, BLOCK_LEN, flags, tmpChunkCV)
 
   // Space for 54 subtree chaining values
-  val cvStack: Array[Array[Int]] = {
+  private val cvStack: Array[Array[Int]] = {
     val cvStack = new Array[Array[Int]](MAX_DEPTH)
     var i = 0
     while (i < MAX_DEPTH) {
@@ -33,10 +40,7 @@ private[blake3] class HasherImpl(val key: Array[Int], val flags: Int)
     cvStack
   }
 
-  var cvStackLen: Int = 0
-
-  private val tmpBlockWords = new Array[Int](BLOCK_LEN_WORDS)
-  private val mergedChunkCV = new Array[Int](BLOCK_LEN_WORDS)
+  private var cvStackLen: Int = 0
 
   // Section 5.1.2 of the BLAKE3 spec explains this algorithm in more detail.
   private def finalizeWhenCompleted(): Int = {
@@ -44,7 +48,8 @@ private[blake3] class HasherImpl(val key: Array[Int], val flags: Int)
     // If the current chunk is complete, finalize it and reset the
     // chunk state. More input is coming, so this chunk is not ROOT.
     if (len == CHUNK_LEN) {
-      chunkState.chainingValue(mergedChunkCV)
+      chunkState.roundBlock()
+      chunkState.chainingValue(tmpChunkCV)
       var totalChunks = chunkState.reset(key)
 
       // This chunk might complete some subtrees. For each completed subtree,
@@ -56,13 +61,13 @@ private[blake3] class HasherImpl(val key: Array[Int], val flags: Int)
       // by the number of trailing 0-bits in the new total number of chunks.
       while ((totalChunks & 1) == 0) {
         cvStackLen -= 1
-        mergeChildCV(tmpBlockWords, cvStack(cvStackLen), mergedChunkCV)
-        compressRounds(mergedChunkCV, tmpBlockWords, key, 0, BLOCK_LEN,
+        mergeChildCV(tmpBlockWords, cvStack(cvStackLen), tmpChunkCV)
+        compressRounds(tmpChunkCV, tmpBlockWords, key, 0, BLOCK_LEN,
           flags | PARENT)
         totalChunks >>= 1
       }
 
-      System.arraycopy(mergedChunkCV, 0, cvStack(cvStackLen), 0, BLOCK_LEN_WORDS)
+      System.arraycopy(tmpChunkCV, 0, cvStack(cvStackLen), 0, BLOCK_LEN_WORDS)
       cvStackLen += 1
       0
     } else len
@@ -164,24 +169,41 @@ private[blake3] class HasherImpl(val key: Array[Int], val flags: Int)
     this
   }
 
-  private def getOutput: Output = synchronized {
-    if (cvStackLen == 0) chunkState.output()
-    else {
-      // Starting with the Output from the current chunk, compute all the
-      // parent chaining values along the right edge of the tree, until we
-      // have the root Output.
-      var output = chunkState.unsafeOutput()
-      val cv = new Array[Int](BLOCK_LEN_WORDS)
-      val blockWords = new Array[Int](BLOCK_LEN_WORDS)
-      var parentNodesRemaining = cvStackLen
-      while (parentNodesRemaining > 0) {
-        parentNodesRemaining -= 1
-        output.chainingValue(cv)
-        mergeChildCV(blockWords, cvStack(parentNodesRemaining), cv)
-        output = new Output(key, blockWords, 0, BLOCK_LEN, flags | PARENT)
-      }
-      output
+  private def getOutput: Output = {
+    // let start from round block
+    chunkState.roundBlock()
+
+    // Starting with the Output from the current chunk, compute all the
+    // parent chaining values along the right edge of the tree, until we
+    // have the root Output.
+    var parentNodesRemaining = cvStackLen
+    var inputChainingValue = chunkState.chainingValue
+    var counter = chunkState.chunkCounter
+    var blockLen = chunkState.blockLen
+    var outputFlags = flags | chunkState.startFlag() | CHUNK_END
+
+    while (parentNodesRemaining > 0) {
+      parentNodesRemaining -= 1
+
+      compressRounds(tmpChunkCV, tmpBlockWords, inputChainingValue, counter,
+        blockLen, outputFlags)
+
+      // emulate reset
+      inputChainingValue = key
+      counter = 0
+      blockLen = BLOCK_LEN
+      outputFlags = flags | PARENT
+
+      mergeChildCV(tmpBlockWords, cvStack(parentNodesRemaining), tmpChunkCV)
     }
+
+    // reset cached output
+    output.inputChainingValue = inputChainingValue
+    output.counter = counter
+    output.blockLen = blockLen
+    output.flags = outputFlags
+
+    output
   }
 
   @inline
@@ -193,40 +215,40 @@ private[blake3] class HasherImpl(val key: Array[Int], val flags: Int)
   }
 
   // Finalize the hash and write any number of output bytes.
-  override def done(out: Array[Byte], offset: Int, len: Int): Unit = getOutput
-    .rootBytes(out, offset, len)
+  override def done(out: Array[Byte], offset: Int, len: Int): Unit =
+    synchronized(getOutput.rootBytes(out, offset, len))
 
   // Finalize the hash and write one byte.
-  override def done(): Byte = getOutput.rootByte()
+  override def done(): Byte = synchronized(getOutput.rootByte())
 
-  override def doneShort(): Short = getOutput.rootShort()
+  override def doneShort(): Short = synchronized(getOutput.rootShort())
 
-  override def doneInt(): Int = getOutput.rootInt()
+  override def doneInt(): Int = synchronized(getOutput.rootInt())
 
-  override def doneLong(): Long = getOutput.rootLong()
+  override def doneLong(): Long = synchronized(getOutput.rootLong())
 
-  override def doneCallBack[T](out: Byte => T, len: Int): Unit = getOutput
-    .rootBytes(out, len)
-
-  // avoid callback here to prevent make a call GC friendly
-  override def done(out: OutputStream, len: Int): Unit = getOutput
-    .rootBytes(out, len)
+  override def doneCallBack[T](out: Byte => T, len: Int): Unit =
+    synchronized(getOutput.rootBytes(out, len))
 
   // avoid callback here to prevent make a call GC friendly
-  override def done(out: ByteBuffer, len: Int): Unit = getOutput.rootBytes(out,
-    len)
+  override def done(out: OutputStream, len: Int): Unit =
+    synchronized(getOutput.rootBytes(out, len))
+
+  // avoid callback here to prevent make a call GC friendly
+  override def done(out: ByteBuffer, len: Int): Unit =
+    synchronized(getOutput.rootBytes(out, len))
 
   override def doneXor(
     in: Array[Byte], inOff: Int, out: Array[Byte], outOff: Int, len: Int
-  ): Unit = getOutput.rootBytesXor(in, inOff, out, outOff, len)
+  ): Unit = synchronized(getOutput.rootBytesXor(in, inOff, out, outOff, len))
 
   override def doneXor(in: InputStream, out: OutputStream, len: Int): Unit =
-    getOutput.rootBytesXor(in, out, len)
+    synchronized(getOutput.rootBytesXor(in, out, len))
 
   override def doneXor(in: ByteBuffer, out: ByteBuffer, len: Int): Unit =
-    getOutput.rootBytesXor(in, out, len)
+    synchronized(getOutput.rootBytesXor(in, out, len))
 
   override def doneXorCallBack[T](
     in: () => Byte, out: Byte => T, len: Int
-  ): Unit = getOutput.rootBytesXor(in, out, len)
+  ): Unit = synchronized(getOutput.rootBytesXor(in, out, len))
 }

@@ -18,21 +18,17 @@ import java.nio.ByteBuffer
 import scala.language.implicitConversions
 
 private[blake3] class Output(
-  val inputChainingValue: Array[Int], val blockWords: Array[Int],
-  val counter: Long, val blockLen: Int, val flags: Int
+  var inputChainingValue: Array[Int], val blockWords: Array[Int],
+  var counter: Long, var blockLen: Int, var flags: Int,
+  val tmpBlockWords: Array[Int]
 ) {
-
-  def chainingValue(chainingValue: Array[Int]): Unit =
-    compressRounds(chainingValue, blockWords, inputChainingValue, counter,
-      blockLen, flags)
-
   def rootBytes(out: Array[Byte], off: Int, len: Int): Unit = {
     var outputBlockCounter = 0
     var pos = off
     val lim = off + len
 
     val blockLenWords = BLOCK_LEN_WORDS
-    val words = new Array[Int](blockLenWords)
+    val words = tmpBlockWords
     val flags = this.flags | ROOT
 
     while (pos < lim) {
@@ -92,7 +88,7 @@ private[blake3] class Output(
     val outLim = outOff + len
 
     val blockLenWords = BLOCK_LEN_WORDS
-    val words = new Array[Int](blockLenWords)
+    val words = tmpBlockWords
     val flags = this.flags | ROOT
 
     while (outPos < outLim) {
@@ -173,7 +169,7 @@ private[blake3] class Output(
     var pos = 0
 
     val blockLenWords = BLOCK_LEN_WORDS
-    val words = new Array[Int](blockLenWords)
+    val words = tmpBlockWords
     val flags = this.flags | ROOT
 
     while (pos < len) {
@@ -223,7 +219,7 @@ private[blake3] class Output(
     var pos = 0
 
     val blockLenWords = BLOCK_LEN_WORDS
-    val words = new Array[Int](blockLenWords)
+    val words = tmpBlockWords
     val flags = this.flags | ROOT
 
     while (pos < len) {
@@ -273,7 +269,7 @@ private[blake3] class Output(
     var pos = 0
 
     val blockLenWords = BLOCK_LEN_WORDS
-    val words = new Array[Int](blockLenWords)
+    val words = tmpBlockWords
     val flags = this.flags | ROOT
 
     while (pos < len) {
@@ -323,7 +319,7 @@ private[blake3] class Output(
     var pos = 0
 
     val blockLenWords = BLOCK_LEN_WORDS
-    val words = new Array[Int](blockLenWords)
+    val words = tmpBlockWords
     val flags = this.flags | ROOT
 
     while (pos < len) {
@@ -373,7 +369,7 @@ private[blake3] class Output(
     var pos = 0
 
     val blockLenWords = BLOCK_LEN_WORDS
-    val words = new Array[Int](blockLenWords)
+    val words = tmpBlockWords
     val flags = this.flags | ROOT
 
     while (pos < len) {
@@ -423,7 +419,7 @@ private[blake3] class Output(
     var pos = 0
 
     val blockLenWords = BLOCK_LEN_WORDS
-    val words = new Array[Int](blockLenWords)
+    val words = tmpBlockWords
     val flags = this.flags | ROOT
 
     while (pos < len) {

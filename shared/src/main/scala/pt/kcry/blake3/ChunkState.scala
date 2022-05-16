@@ -19,7 +19,8 @@ private[blake3] object ChunkState {
 }
 
 private[blake3] class ChunkState(
-  val key: Array[Int], var chunkCounter: Long, val flags: Int
+  val key: Array[Int], var chunkCounter: Long, val flags: Int,
+  val tmpChunkCV: Array[Int], val tmpBlockWords: Array[Int]
 ) {
 
   val chainingValue: Array[Int] = new Array[Int](BLOCK_LEN_WORDS)
@@ -30,14 +31,10 @@ private[blake3] class ChunkState(
   var blockLen: Int = 0
   var compressedBlocksLen: Int = 0
 
-  private val tmpBlockWords: Array[Int] = new Array[Int](BLOCK_LEN_WORDS)
-
   // GC friendly call for unsafeOutput().chainingValue(targetChainingValue)
-  def chainingValue(targetChainingValue: Array[Int]): Unit = {
-    roundBlock(tmpBlockWords)
+  def chainingValue(targetChainingValue: Array[Int]): Unit =
     compressRounds(targetChainingValue, tmpBlockWords, chainingValue,
       chunkCounter, blockLen, flags | startFlag() | CHUNK_END)
-  }
 
   def reset(key: Array[Int]): Long = {
     System.arraycopy(key, 0, chainingValue, 0, KEY_LEN_WORDS)
@@ -50,8 +47,7 @@ private[blake3] class ChunkState(
 
   def len(): Int = compressedBlocksLen + blockLen
 
-  private def startFlag(): Int =
-    if (compressedBlocksLen == 0) CHUNK_START else 0
+  def startFlag(): Int = if (compressedBlocksLen == 0) CHUNK_START else 0
 
   private def compressedWords(bytes: Array[Byte], bytesOffset: Int): Unit = {
     compressBytesAsBlockWords(bytes, bytesOffset, tmpBlockWords)
@@ -97,20 +93,20 @@ private[blake3] class ChunkState(
     blockLen += 1
   }
 
-  private def roundBlock(blockWords: Array[Int]): Unit = {
+  def roundBlock(): Unit = {
     var off = 0
     var i = 0
     while (off < blockLen) {
       blockLen - off match {
-        case 1 => blockWords(i) = block(off) & 0xff
+        case 1 => tmpBlockWords(i) = block(off) & 0xff
 
-        case 2 => blockWords(i) = ((block(off + 1) & 0xff) << 8) |
+        case 2 => tmpBlockWords(i) = ((block(off + 1) & 0xff) << 8) |
             (block(off) & 0xff)
 
-        case 3 => blockWords(i) = ((block(off + 2) & 0xff) << 16) |
+        case 3 => tmpBlockWords(i) = ((block(off + 2) & 0xff) << 16) |
             ((block(off + 1) & 0xff) << 8) | (block(off) & 0xff)
 
-        case _ => blockWords(i) = ((block(off + 3) & 0xff) << 24) |
+        case _ => tmpBlockWords(i) = ((block(off + 3) & 0xff) << 24) |
             ((block(off + 2) & 0xff) << 16) | ((block(off + 1) & 0xff) << 8) |
             (block(off) & 0xff)
       }
@@ -120,24 +116,7 @@ private[blake3] class ChunkState(
     }
 
     val zeros = BLOCK_LEN_WORDS - i
-    if (zeros > 0) System.arraycopy(ChunkState.zerosBlockWords, 0, blockWords,
-      i, zeros)
-  }
-
-  def unsafeOutput(): Output = {
-    roundBlock(tmpBlockWords)
-    new Output(chainingValue, tmpBlockWords, chunkCounter, blockLen,
-      flags | startFlag() | CHUNK_END)
-  }
-
-  def output(): Output = {
-    val safeChainingValue = new Array[Int](KEY_LEN_WORDS)
-    System.arraycopy(chainingValue, 0, safeChainingValue, 0, KEY_LEN_WORDS)
-
-    val safeBlockWords = new Array[Int](BLOCK_LEN_WORDS)
-    roundBlock(safeBlockWords)
-
-    new Output(safeChainingValue, safeBlockWords, chunkCounter, blockLen,
-      flags | startFlag() | CHUNK_END)
+    if (zeros > 0) System.arraycopy(ChunkState.zerosBlockWords, 0,
+      tmpBlockWords, i, zeros)
   }
 }
