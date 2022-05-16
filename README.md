@@ -1,6 +1,8 @@
 # Blake3 for scala
 
 This is highly optimized blake3 implementation for scala, scala-js and scala-native, without any dependencies.
+This implementation has constant memory footprint (about 5kb) which hasn't depends on size of hashed data
+nor output size hash size.
 
 If you're looking for the faster possible hash function for scala.js I suggest to use this one,
 instead of [SHA] because this implementation use only 32 bits number which nativly supported by JS.
