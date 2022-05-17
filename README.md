@@ -1,11 +1,13 @@
 # Blake3 for scala
 
-This is highly optimized blake3 implementation for scala, scala-js and scala-native, without any dependencies.
-This implementation has constant memory footprint (about 5kb) which hasn't depends on size of hashed data
-nor output size hash size.
+This is a highly optimized blake3 implementation for scala, scala-js, and
+scala-native, without any dependencies. This implementation has a constant
+memory footprint (about 5kb) which hasn't depended on the size of hashed data or
+the size of the output hash.
 
-If you're looking for the faster possible hash function for scala.js I suggest to use this one,
-instead of [SHA] because this implementation use only 32 bits number which nativly supported by JS.
+If you're looking for the faster possible hash function for scala.js I suggest
+to use this one, instead of [SHA] because this implementation use only 32 bits
+number which is natively supported by JS.
 
 You can use it as
 ```
@@ -53,23 +55,27 @@ scala>
  - `doneXor(...)` that applied hash to existed value via XOR;
  - `doneCallBack(..)` and `doneXorCallBack(...)` which is used callback to for each produced byte.
  
-This implementation is thread-safe and you can use it in multithreaded environment.
-Anyway this implementation doesn't currently include any multithreading optimizations.
+This implementation is thread-safe and you can use it in a multithreaded
+environment. Anyway, this implementation doesn't currently include any
+multithreading optimizations.
 
-As baseline for benchmarks I've used original C version [c-0.3.7] via JNI interface
- that was implemented as part of [BLAKE3jni].
+As a baseline for benchmarks, I've used the original C version [c-0.3.7] via the
+ JNI interface that was implemented as part of [BLAKE3jni].
 
-All benchmarks was performed on two machines:
-- `Zulu11.56+19-CA (build 11.0.15+10-LTS)` at [Intel® Core™ i7-8700B] with [AVX2 assembly] optimization inside baseline,
-- `Zulu11.56+19-CA (build 11.0.15+10-LTS)` at [Apple M1] without any assembly optimization inside baseline.
+All benchmarks were performed on two machines:
+- `Zulu11.56+19-CA (build 11.0.15+10-LTS)` at [Intel® Core™ i7-8700B] with [AVX2
+  assembly] optimization inside the baseline,
+- `Zulu11.56+19-CA (build 11.0.15+10-LTS)` at [Apple M1] without any assembly
+  optimization inside the baseline.
 
 Short summary:
- - it is about 4 times slower than [AVX2 assembly] version via JNI that is expected,
- - it is about 30% slower than original C version via JNI,
- - it has constant memory footprint (yeah, no GC on hashing!),
- - increasing result hash size has the same impact such as hashing.
+ - it is about 4 times slower than [AVX2 assembly] version via JNI which is
+   expected,
+ - it is about 30% slower than the original C version via JNI,
+ - it has a constant memory footprint (yeah, no GC on hashing!),
+ - increasing result hash size has the same impact as hashing.
 
-Full version of results are available as
+The full version of the results are available as:
  - for [Intel® Core™ i7-8700B] at [jmh-result.intel.json] or via [Intel @ JMH Visualizer].
  - for [Apple M1] at [jmh-result.m1.json] or via [M1 @ JMH Visualizer].
 
