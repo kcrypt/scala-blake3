@@ -64,27 +64,10 @@ class CompressRoundsBenchmark {
     state: Array[Int], blockWords: Array[Int], chainingValue: Array[Int],
     counter: Long, blockLen: Int, flags: Int
   ): Unit = {
-    // CV 0..7
-    var state_0 = chainingValue(0)
-    var state_1 = chainingValue(1)
-    var state_2 = chainingValue(2)
-    var state_3 = chainingValue(3)
     var state_4 = chainingValue(4)
     var state_5 = chainingValue(5)
     var state_6 = chainingValue(6)
     var state_7 = chainingValue(7)
-
-    // constants from IV
-    var state_8 = 0x6a09e667
-    var state_9 = 0xbb67ae85
-    var state_10 = 0x3c6ef372
-    var state_11 = 0xa54ff53a
-
-    // noise
-    var state_12 = counter.toInt
-    var state_13 = (counter >> 32).toInt
-    var state_14 = blockLen
-    var state_15 = flags
 
     val m_0 = blockWords(0)
     val m_1 = blockWords(1)
@@ -104,11 +87,11 @@ class CompressRoundsBenchmark {
     val m_15 = blockWords(15)
 
     // round 1
-    state_0 = state_0 + state_4 + m_0
-    var `state_12 ^ state_0` = state_12 ^ state_0
-    state_12 = (`state_12 ^ state_0` >>> 16) | (`state_12 ^ state_0` << 16)
+    var state_0 = chainingValue(0) + state_4 + m_0
+    var `state_12 ^ state_0` = counter.toInt ^ state_0
+    var state_12 = (`state_12 ^ state_0` >>> 16) | (`state_12 ^ state_0` << 16)
 
-    state_8 = state_8 + state_12
+    var state_8 = 0x6a09e667 + state_12
     var `state_4 ^ state_8` = state_4 ^ state_8
     state_4 = (`state_4 ^ state_8` >>> 12) | (`state_4 ^ state_8` << 20)
 
@@ -120,11 +103,11 @@ class CompressRoundsBenchmark {
     `state_4 ^ state_8` = state_4 ^ state_8
     state_4 = (`state_4 ^ state_8` >>> 7) | (`state_4 ^ state_8` << 25)
 
-    state_1 = state_1 + state_5 + m_2
-    var `state_13 ^ state_1` = state_13 ^ state_1
-    state_13 = (`state_13 ^ state_1` >>> 16) | (`state_13 ^ state_1` << 16)
+    var state_1 = chainingValue(1) + state_5 + m_2
+    var `state_13 ^ state_1` = (counter >> 32).toInt ^ state_1
+    var state_13 = (`state_13 ^ state_1` >>> 16) | (`state_13 ^ state_1` << 16)
 
-    state_9 = state_9 + state_13
+    var state_9 = 0xbb67ae85 + state_13
     var `state_5 ^ state_9` = state_5 ^ state_9
     state_5 = (`state_5 ^ state_9` >>> 12) | (`state_5 ^ state_9` << 20)
 
@@ -136,11 +119,11 @@ class CompressRoundsBenchmark {
     `state_5 ^ state_9` = state_5 ^ state_9
     state_5 = (`state_5 ^ state_9` >>> 7) | (`state_5 ^ state_9` << 25)
 
-    state_2 = state_2 + state_6 + m_4
-    var `state_14 ^ state_2` = state_14 ^ state_2
-    state_14 = (`state_14 ^ state_2` >>> 16) | (`state_14 ^ state_2` << 16)
+    var state_2 = chainingValue(2) + state_6 + m_4
+    var `state_14 ^ state_2` = blockLen ^ state_2
+    var state_14 = (`state_14 ^ state_2` >>> 16) | (`state_14 ^ state_2` << 16)
 
-    state_10 = state_10 + state_14
+    var state_10 = 0x3c6ef372 + state_14
     var `state_6 ^ state_10` = state_6 ^ state_10
     state_6 = (`state_6 ^ state_10` >>> 12) | (`state_6 ^ state_10` << 20)
 
@@ -152,11 +135,11 @@ class CompressRoundsBenchmark {
     `state_6 ^ state_10` = state_6 ^ state_10
     state_6 = (`state_6 ^ state_10` >>> 7) | (`state_6 ^ state_10` << 25)
 
-    state_3 = state_3 + state_7 + m_6
-    var `state_15 ^ state_3` = state_15 ^ state_3
-    state_15 = (`state_15 ^ state_3` >>> 16) | (`state_15 ^ state_3` << 16)
+    var state_3 = chainingValue(3) + state_7 + m_6
+    var `state_15 ^ state_3` = flags ^ state_3
+    var state_15 = (`state_15 ^ state_3` >>> 16) | (`state_15 ^ state_3` << 16)
 
-    state_11 = state_11 + state_15
+    var state_11 = 0xa54ff53a + state_15
     var `state_7 ^ state_11` = state_7 ^ state_11
     state_7 = (`state_7 ^ state_11` >>> 12) | (`state_7 ^ state_11` << 20)
 
