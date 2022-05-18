@@ -10,9 +10,35 @@
  */
 
 package pt.kcry.blake3
+package benchmark
 
-private[blake3] object CompressBytesAsBlockWords {
-  def compressBytesAsBlockWords(
+import org.openjdk.jmh.annotations._
+
+import scala.util.Random
+
+@State(Scope.Benchmark)
+class CompressBlockBenchmark {
+  private val bytes = new Array[Byte](CHUNK_LEN)
+  private val bytesOffset = 7
+
+  private val tmpBlockWords = new Array[Int](BLOCK_LEN_WORDS)
+
+  @Setup
+  def setup(): Unit = {
+    val random = new Random()
+    random.nextBytes(bytes)
+  }
+
+  @Benchmark
+  def inline(): Unit = inlineImpl(bytes, bytesOffset, tmpBlockWords)
+
+  @Benchmark
+  def loop(): Unit = loopImpl(bytes, bytesOffset, tmpBlockWords)
+
+  @Benchmark
+  def loop2(): Unit = loop2Impl(bytes, bytesOffset, tmpBlockWords)
+
+  private def inlineImpl(
     bytes: Array[Byte], bytesOffset: Int, tmpBlockWords: Array[Int]
   ): Unit = {
     tmpBlockWords(0) = ((bytes(3 + bytesOffset) & 0xff) << 24) |
@@ -78,5 +104,40 @@ private[blake3] object CompressBytesAsBlockWords {
     tmpBlockWords(15) = ((bytes(63 + bytesOffset) & 0xff) << 24) |
       ((bytes(62 + bytesOffset) & 0xff) << 16) |
       ((bytes(61 + bytesOffset) & 0xff) << 8) | bytes(60 + bytesOffset) & 0xff
+  }
+
+  private def loopImpl(
+    bytes: Array[Byte], bytesOffset: Int, tmpBlockWords: Array[Int]
+  ): Unit = {
+    var i = 0
+    var o = bytesOffset
+    while (i < 16) {
+      var r = bytes(o) & 0xff
+      r |= (bytes(1 + o) & 0xff) << 8
+      r |= (bytes(2 + o) & 0xff) << 16
+      r |= (bytes(3 + o) & 0xff) << 24
+      tmpBlockWords(i) = r
+      i += 1
+      o += 4
+    }
+  }
+
+  private def loop2Impl(
+    bytes: Array[Byte], bytesOffset: Int, tmpBlockWords: Array[Int]
+  ): Unit = {
+    var i = 0
+    var o = bytesOffset
+    while (i < 16) {
+      var r = bytes(o) & 0xff
+      o += 1
+      r |= (bytes(o) & 0xff) << 8
+      o += 1
+      r |= (bytes(o) & 0xff) << 16
+      o += 1
+      r |= (bytes(o) & 0xff) << 24
+      tmpBlockWords(i) = r
+      i += 1
+      o += 1
+    }
   }
 }
