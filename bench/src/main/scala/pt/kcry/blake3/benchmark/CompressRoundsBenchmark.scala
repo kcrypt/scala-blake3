@@ -64,27 +64,10 @@ class CompressRoundsBenchmark {
     state: Array[Int], blockWords: Array[Int], chainingValue: Array[Int],
     counter: Long, blockLen: Int, flags: Int
   ): Unit = {
-    // CV 0..7
-    var state_0 = chainingValue(0)
-    var state_1 = chainingValue(1)
-    var state_2 = chainingValue(2)
-    var state_3 = chainingValue(3)
     var state_4 = chainingValue(4)
     var state_5 = chainingValue(5)
     var state_6 = chainingValue(6)
     var state_7 = chainingValue(7)
-
-    // constants from IV
-    var state_8 = 0x6a09e667
-    var state_9 = 0xbb67ae85
-    var state_10 = 0x3c6ef372
-    var state_11 = 0xa54ff53a
-
-    // noise
-    var state_12 = counter.toInt
-    var state_13 = (counter >> 32).toInt
-    var state_14 = blockLen
-    var state_15 = flags
 
     val m_0 = blockWords(0)
     val m_1 = blockWords(1)
@@ -104,907 +87,907 @@ class CompressRoundsBenchmark {
     val m_15 = blockWords(15)
 
     // round 1
-    state_0 = state_0 + state_4 + m_0
-    var `state_12 ^ state_0` = state_12 ^ state_0
-    state_12 = (`state_12 ^ state_0` >>> 16) | (`state_12 ^ state_0` << 16)
+    var state_0 = chainingValue(0) + state_4 + m_0
+    var state_12 = counter.toInt ^ state_0
+    state_12 = (state_12 >>> 16) | (state_12 << 16)
 
-    state_8 = state_8 + state_12
-    var `state_4 ^ state_8` = state_4 ^ state_8
-    state_4 = (`state_4 ^ state_8` >>> 12) | (`state_4 ^ state_8` << 20)
+    var state_8 = 0x6a09e667 + state_12
+    state_4 = state_4 ^ state_8
+    state_4 = (state_4 >>> 12) | (state_4 << 20)
 
     state_0 = state_0 + state_4 + m_1
-    `state_12 ^ state_0` = state_12 ^ state_0
-    state_12 = (`state_12 ^ state_0` >>> 8) | (`state_12 ^ state_0` << 24)
+    state_12 = state_12 ^ state_0
+    state_12 = (state_12 >>> 8) | (state_12 << 24)
 
     state_8 = state_8 + state_12
-    `state_4 ^ state_8` = state_4 ^ state_8
-    state_4 = (`state_4 ^ state_8` >>> 7) | (`state_4 ^ state_8` << 25)
+    state_4 = state_4 ^ state_8
+    state_4 = (state_4 >>> 7) | (state_4 << 25)
 
-    state_1 = state_1 + state_5 + m_2
-    var `state_13 ^ state_1` = state_13 ^ state_1
-    state_13 = (`state_13 ^ state_1` >>> 16) | (`state_13 ^ state_1` << 16)
+    var state_1 = chainingValue(1) + state_5 + m_2
+    var state_13 = (counter >> 32).toInt ^ state_1
+    state_13 = (state_13 >>> 16) | (state_13 << 16)
 
-    state_9 = state_9 + state_13
-    var `state_5 ^ state_9` = state_5 ^ state_9
-    state_5 = (`state_5 ^ state_9` >>> 12) | (`state_5 ^ state_9` << 20)
+    var state_9 = 0xbb67ae85 + state_13
+    state_5 = state_5 ^ state_9
+    state_5 = (state_5 >>> 12) | (state_5 << 20)
 
     state_1 = state_1 + state_5 + m_3
-    `state_13 ^ state_1` = state_13 ^ state_1
-    state_13 = (`state_13 ^ state_1` >>> 8) | (`state_13 ^ state_1` << 24)
+    state_13 = state_13 ^ state_1
+    state_13 = (state_13 >>> 8) | (state_13 << 24)
 
     state_9 = state_9 + state_13
-    `state_5 ^ state_9` = state_5 ^ state_9
-    state_5 = (`state_5 ^ state_9` >>> 7) | (`state_5 ^ state_9` << 25)
+    state_5 = state_5 ^ state_9
+    state_5 = (state_5 >>> 7) | (state_5 << 25)
 
-    state_2 = state_2 + state_6 + m_4
-    var `state_14 ^ state_2` = state_14 ^ state_2
-    state_14 = (`state_14 ^ state_2` >>> 16) | (`state_14 ^ state_2` << 16)
+    var state_2 = chainingValue(2) + state_6 + m_4
+    var state_14 = blockLen ^ state_2
+    state_14 = (state_14 >>> 16) | (state_14 << 16)
 
-    state_10 = state_10 + state_14
-    var `state_6 ^ state_10` = state_6 ^ state_10
-    state_6 = (`state_6 ^ state_10` >>> 12) | (`state_6 ^ state_10` << 20)
+    var state_10 = 0x3c6ef372 + state_14
+    state_6 = state_6 ^ state_10
+    state_6 = (state_6 >>> 12) | (state_6 << 20)
 
     state_2 = state_2 + state_6 + m_5
-    `state_14 ^ state_2` = state_14 ^ state_2
-    state_14 = (`state_14 ^ state_2` >>> 8) | (`state_14 ^ state_2` << 24)
+    state_14 = state_14 ^ state_2
+    state_14 = (state_14 >>> 8) | (state_14 << 24)
 
     state_10 = state_10 + state_14
-    `state_6 ^ state_10` = state_6 ^ state_10
-    state_6 = (`state_6 ^ state_10` >>> 7) | (`state_6 ^ state_10` << 25)
+    state_6 = state_6 ^ state_10
+    state_6 = (state_6 >>> 7) | (state_6 << 25)
 
-    state_3 = state_3 + state_7 + m_6
-    var `state_15 ^ state_3` = state_15 ^ state_3
-    state_15 = (`state_15 ^ state_3` >>> 16) | (`state_15 ^ state_3` << 16)
+    var state_3 = chainingValue(3) + state_7 + m_6
+    var state_15 = flags ^ state_3
+    state_15 = (state_15 >>> 16) | (state_15 << 16)
 
-    state_11 = state_11 + state_15
-    var `state_7 ^ state_11` = state_7 ^ state_11
-    state_7 = (`state_7 ^ state_11` >>> 12) | (`state_7 ^ state_11` << 20)
+    var state_11 = 0xa54ff53a + state_15
+    state_7 = state_7 ^ state_11
+    state_7 = (state_7 >>> 12) | (state_7 << 20)
 
     state_3 = state_3 + state_7 + m_7
-    `state_15 ^ state_3` = state_15 ^ state_3
-    state_15 = (`state_15 ^ state_3` >>> 8) | (`state_15 ^ state_3` << 24)
+    state_15 = state_15 ^ state_3
+    state_15 = (state_15 >>> 8) | (state_15 << 24)
 
     state_11 = state_11 + state_15
-    `state_7 ^ state_11` = state_7 ^ state_11
-    state_7 = (`state_7 ^ state_11` >>> 7) | (`state_7 ^ state_11` << 25)
+    state_7 = state_7 ^ state_11
+    state_7 = (state_7 >>> 7) | (state_7 << 25)
 
     state_0 = state_0 + state_5 + m_8
-    var `state_15 ^ state_0` = state_15 ^ state_0
-    state_15 = (`state_15 ^ state_0` >>> 16) | (`state_15 ^ state_0` << 16)
+    state_15 = state_15 ^ state_0
+    state_15 = (state_15 >>> 16) | (state_15 << 16)
 
     state_10 = state_10 + state_15
-    var `state_5 ^ state_10` = state_5 ^ state_10
-    state_5 = (`state_5 ^ state_10` >>> 12) | (`state_5 ^ state_10` << 20)
+    state_5 = state_5 ^ state_10
+    state_5 = (state_5 >>> 12) | (state_5 << 20)
 
     state_0 = state_0 + state_5 + m_9
-    `state_15 ^ state_0` = state_15 ^ state_0
-    state_15 = (`state_15 ^ state_0` >>> 8) | (`state_15 ^ state_0` << 24)
+    state_15 = state_15 ^ state_0
+    state_15 = (state_15 >>> 8) | (state_15 << 24)
 
     state_10 = state_10 + state_15
-    `state_5 ^ state_10` = state_5 ^ state_10
-    state_5 = (`state_5 ^ state_10` >>> 7) | (`state_5 ^ state_10` << 25)
+    state_5 = state_5 ^ state_10
+    state_5 = (state_5 >>> 7) | (state_5 << 25)
 
     state_1 = state_1 + state_6 + m_10
-    var `state_12 ^ state_1` = state_12 ^ state_1
-    state_12 = (`state_12 ^ state_1` >>> 16) | (`state_12 ^ state_1` << 16)
+    state_12 = state_12 ^ state_1
+    state_12 = (state_12 >>> 16) | (state_12 << 16)
 
     state_11 = state_11 + state_12
-    var `state_6 ^ state_11` = state_6 ^ state_11
-    state_6 = (`state_6 ^ state_11` >>> 12) | (`state_6 ^ state_11` << 20)
+    state_6 = state_6 ^ state_11
+    state_6 = (state_6 >>> 12) | (state_6 << 20)
 
     state_1 = state_1 + state_6 + m_11
-    `state_12 ^ state_1` = state_12 ^ state_1
-    state_12 = (`state_12 ^ state_1` >>> 8) | (`state_12 ^ state_1` << 24)
+    state_12 = state_12 ^ state_1
+    state_12 = (state_12 >>> 8) | (state_12 << 24)
 
     state_11 = state_11 + state_12
-    `state_6 ^ state_11` = state_6 ^ state_11
-    state_6 = (`state_6 ^ state_11` >>> 7) | (`state_6 ^ state_11` << 25)
+    state_6 = state_6 ^ state_11
+    state_6 = (state_6 >>> 7) | (state_6 << 25)
 
     state_2 = state_2 + state_7 + m_12
-    var `state_13 ^ state_2` = state_13 ^ state_2
-    state_13 = (`state_13 ^ state_2` >>> 16) | (`state_13 ^ state_2` << 16)
+    state_13 = state_13 ^ state_2
+    state_13 = (state_13 >>> 16) | (state_13 << 16)
 
     state_8 = state_8 + state_13
-    var `state_7 ^ state_8` = state_7 ^ state_8
-    state_7 = (`state_7 ^ state_8` >>> 12) | (`state_7 ^ state_8` << 20)
+    state_7 = state_7 ^ state_8
+    state_7 = (state_7 >>> 12) | (state_7 << 20)
 
     state_2 = state_2 + state_7 + m_13
-    `state_13 ^ state_2` = state_13 ^ state_2
-    state_13 = (`state_13 ^ state_2` >>> 8) | (`state_13 ^ state_2` << 24)
+    state_13 = state_13 ^ state_2
+    state_13 = (state_13 >>> 8) | (state_13 << 24)
 
     state_8 = state_8 + state_13
-    `state_7 ^ state_8` = state_7 ^ state_8
-    state_7 = (`state_7 ^ state_8` >>> 7) | (`state_7 ^ state_8` << 25)
+    state_7 = state_7 ^ state_8
+    state_7 = (state_7 >>> 7) | (state_7 << 25)
 
     state_3 = state_3 + state_4 + m_14
-    var `state_14 ^ state_3` = state_14 ^ state_3
-    state_14 = (`state_14 ^ state_3` >>> 16) | (`state_14 ^ state_3` << 16)
+    state_14 = state_14 ^ state_3
+    state_14 = (state_14 >>> 16) | (state_14 << 16)
 
     state_9 = state_9 + state_14
-    var `state_4 ^ state_9` = state_4 ^ state_9
-    state_4 = (`state_4 ^ state_9` >>> 12) | (`state_4 ^ state_9` << 20)
+    state_4 = state_4 ^ state_9
+    state_4 = (state_4 >>> 12) | (state_4 << 20)
 
     state_3 = state_3 + state_4 + m_15
-    `state_14 ^ state_3` = state_14 ^ state_3
-    state_14 = (`state_14 ^ state_3` >>> 8) | (`state_14 ^ state_3` << 24)
+    state_14 = state_14 ^ state_3
+    state_14 = (state_14 >>> 8) | (state_14 << 24)
 
     state_9 = state_9 + state_14
-    `state_4 ^ state_9` = state_4 ^ state_9
-    state_4 = (`state_4 ^ state_9` >>> 7) | (`state_4 ^ state_9` << 25)
+    state_4 = state_4 ^ state_9
+    state_4 = (state_4 >>> 7) | (state_4 << 25)
 
     // round 2
     state_0 = state_0 + state_4 + m_2
-    `state_12 ^ state_0` = state_12 ^ state_0
-    state_12 = (`state_12 ^ state_0` >>> 16) | (`state_12 ^ state_0` << 16)
+    state_12 = state_12 ^ state_0
+    state_12 = (state_12 >>> 16) | (state_12 << 16)
 
     state_8 = state_8 + state_12
-    `state_4 ^ state_8` = state_4 ^ state_8
-    state_4 = (`state_4 ^ state_8` >>> 12) | (`state_4 ^ state_8` << 20)
+    state_4 = state_4 ^ state_8
+    state_4 = (state_4 >>> 12) | (state_4 << 20)
 
     state_0 = state_0 + state_4 + m_6
-    `state_12 ^ state_0` = state_12 ^ state_0
-    state_12 = (`state_12 ^ state_0` >>> 8) | (`state_12 ^ state_0` << 24)
+    state_12 = state_12 ^ state_0
+    state_12 = (state_12 >>> 8) | (state_12 << 24)
 
     state_8 = state_8 + state_12
-    `state_4 ^ state_8` = state_4 ^ state_8
-    state_4 = (`state_4 ^ state_8` >>> 7) | (`state_4 ^ state_8` << 25)
+    state_4 = state_4 ^ state_8
+    state_4 = (state_4 >>> 7) | (state_4 << 25)
 
     state_1 = state_1 + state_5 + m_3
-    `state_13 ^ state_1` = state_13 ^ state_1
-    state_13 = (`state_13 ^ state_1` >>> 16) | (`state_13 ^ state_1` << 16)
+    state_13 = state_13 ^ state_1
+    state_13 = (state_13 >>> 16) | (state_13 << 16)
 
     state_9 = state_9 + state_13
-    `state_5 ^ state_9` = state_5 ^ state_9
-    state_5 = (`state_5 ^ state_9` >>> 12) | (`state_5 ^ state_9` << 20)
+    state_5 = state_5 ^ state_9
+    state_5 = (state_5 >>> 12) | (state_5 << 20)
 
     state_1 = state_1 + state_5 + m_10
-    `state_13 ^ state_1` = state_13 ^ state_1
-    state_13 = (`state_13 ^ state_1` >>> 8) | (`state_13 ^ state_1` << 24)
+    state_13 = state_13 ^ state_1
+    state_13 = (state_13 >>> 8) | (state_13 << 24)
 
     state_9 = state_9 + state_13
-    `state_5 ^ state_9` = state_5 ^ state_9
-    state_5 = (`state_5 ^ state_9` >>> 7) | (`state_5 ^ state_9` << 25)
+    state_5 = state_5 ^ state_9
+    state_5 = (state_5 >>> 7) | (state_5 << 25)
 
     state_2 = state_2 + state_6 + m_7
-    `state_14 ^ state_2` = state_14 ^ state_2
-    state_14 = (`state_14 ^ state_2` >>> 16) | (`state_14 ^ state_2` << 16)
+    state_14 = state_14 ^ state_2
+    state_14 = (state_14 >>> 16) | (state_14 << 16)
 
     state_10 = state_10 + state_14
-    `state_6 ^ state_10` = state_6 ^ state_10
-    state_6 = (`state_6 ^ state_10` >>> 12) | (`state_6 ^ state_10` << 20)
+    state_6 = state_6 ^ state_10
+    state_6 = (state_6 >>> 12) | (state_6 << 20)
 
     state_2 = state_2 + state_6 + m_0
-    `state_14 ^ state_2` = state_14 ^ state_2
-    state_14 = (`state_14 ^ state_2` >>> 8) | (`state_14 ^ state_2` << 24)
+    state_14 = state_14 ^ state_2
+    state_14 = (state_14 >>> 8) | (state_14 << 24)
 
     state_10 = state_10 + state_14
-    `state_6 ^ state_10` = state_6 ^ state_10
-    state_6 = (`state_6 ^ state_10` >>> 7) | (`state_6 ^ state_10` << 25)
+    state_6 = state_6 ^ state_10
+    state_6 = (state_6 >>> 7) | (state_6 << 25)
 
     state_3 = state_3 + state_7 + m_4
-    `state_15 ^ state_3` = state_15 ^ state_3
-    state_15 = (`state_15 ^ state_3` >>> 16) | (`state_15 ^ state_3` << 16)
+    state_15 = state_15 ^ state_3
+    state_15 = (state_15 >>> 16) | (state_15 << 16)
 
     state_11 = state_11 + state_15
-    `state_7 ^ state_11` = state_7 ^ state_11
-    state_7 = (`state_7 ^ state_11` >>> 12) | (`state_7 ^ state_11` << 20)
+    state_7 = state_7 ^ state_11
+    state_7 = (state_7 >>> 12) | (state_7 << 20)
 
     state_3 = state_3 + state_7 + m_13
-    `state_15 ^ state_3` = state_15 ^ state_3
-    state_15 = (`state_15 ^ state_3` >>> 8) | (`state_15 ^ state_3` << 24)
+    state_15 = state_15 ^ state_3
+    state_15 = (state_15 >>> 8) | (state_15 << 24)
 
     state_11 = state_11 + state_15
-    `state_7 ^ state_11` = state_7 ^ state_11
-    state_7 = (`state_7 ^ state_11` >>> 7) | (`state_7 ^ state_11` << 25)
+    state_7 = state_7 ^ state_11
+    state_7 = (state_7 >>> 7) | (state_7 << 25)
 
     state_0 = state_0 + state_5 + m_1
-    `state_15 ^ state_0` = state_15 ^ state_0
-    state_15 = (`state_15 ^ state_0` >>> 16) | (`state_15 ^ state_0` << 16)
+    state_15 = state_15 ^ state_0
+    state_15 = (state_15 >>> 16) | (state_15 << 16)
 
     state_10 = state_10 + state_15
-    `state_5 ^ state_10` = state_5 ^ state_10
-    state_5 = (`state_5 ^ state_10` >>> 12) | (`state_5 ^ state_10` << 20)
+    state_5 = state_5 ^ state_10
+    state_5 = (state_5 >>> 12) | (state_5 << 20)
 
     state_0 = state_0 + state_5 + m_11
-    `state_15 ^ state_0` = state_15 ^ state_0
-    state_15 = (`state_15 ^ state_0` >>> 8) | (`state_15 ^ state_0` << 24)
+    state_15 = state_15 ^ state_0
+    state_15 = (state_15 >>> 8) | (state_15 << 24)
 
     state_10 = state_10 + state_15
-    `state_5 ^ state_10` = state_5 ^ state_10
-    state_5 = (`state_5 ^ state_10` >>> 7) | (`state_5 ^ state_10` << 25)
+    state_5 = state_5 ^ state_10
+    state_5 = (state_5 >>> 7) | (state_5 << 25)
 
     state_1 = state_1 + state_6 + m_12
-    `state_12 ^ state_1` = state_12 ^ state_1
-    state_12 = (`state_12 ^ state_1` >>> 16) | (`state_12 ^ state_1` << 16)
+    state_12 = state_12 ^ state_1
+    state_12 = (state_12 >>> 16) | (state_12 << 16)
 
     state_11 = state_11 + state_12
-    `state_6 ^ state_11` = state_6 ^ state_11
-    state_6 = (`state_6 ^ state_11` >>> 12) | (`state_6 ^ state_11` << 20)
+    state_6 = state_6 ^ state_11
+    state_6 = (state_6 >>> 12) | (state_6 << 20)
 
     state_1 = state_1 + state_6 + m_5
-    `state_12 ^ state_1` = state_12 ^ state_1
-    state_12 = (`state_12 ^ state_1` >>> 8) | (`state_12 ^ state_1` << 24)
+    state_12 = state_12 ^ state_1
+    state_12 = (state_12 >>> 8) | (state_12 << 24)
 
     state_11 = state_11 + state_12
-    `state_6 ^ state_11` = state_6 ^ state_11
-    state_6 = (`state_6 ^ state_11` >>> 7) | (`state_6 ^ state_11` << 25)
+    state_6 = state_6 ^ state_11
+    state_6 = (state_6 >>> 7) | (state_6 << 25)
 
     state_2 = state_2 + state_7 + m_9
-    `state_13 ^ state_2` = state_13 ^ state_2
-    state_13 = (`state_13 ^ state_2` >>> 16) | (`state_13 ^ state_2` << 16)
+    state_13 = state_13 ^ state_2
+    state_13 = (state_13 >>> 16) | (state_13 << 16)
 
     state_8 = state_8 + state_13
-    `state_7 ^ state_8` = state_7 ^ state_8
-    state_7 = (`state_7 ^ state_8` >>> 12) | (`state_7 ^ state_8` << 20)
+    state_7 = state_7 ^ state_8
+    state_7 = (state_7 >>> 12) | (state_7 << 20)
 
     state_2 = state_2 + state_7 + m_14
-    `state_13 ^ state_2` = state_13 ^ state_2
-    state_13 = (`state_13 ^ state_2` >>> 8) | (`state_13 ^ state_2` << 24)
+    state_13 = state_13 ^ state_2
+    state_13 = (state_13 >>> 8) | (state_13 << 24)
 
     state_8 = state_8 + state_13
-    `state_7 ^ state_8` = state_7 ^ state_8
-    state_7 = (`state_7 ^ state_8` >>> 7) | (`state_7 ^ state_8` << 25)
+    state_7 = state_7 ^ state_8
+    state_7 = (state_7 >>> 7) | (state_7 << 25)
 
     state_3 = state_3 + state_4 + m_15
-    `state_14 ^ state_3` = state_14 ^ state_3
-    state_14 = (`state_14 ^ state_3` >>> 16) | (`state_14 ^ state_3` << 16)
+    state_14 = state_14 ^ state_3
+    state_14 = (state_14 >>> 16) | (state_14 << 16)
 
     state_9 = state_9 + state_14
-    `state_4 ^ state_9` = state_4 ^ state_9
-    state_4 = (`state_4 ^ state_9` >>> 12) | (`state_4 ^ state_9` << 20)
+    state_4 = state_4 ^ state_9
+    state_4 = (state_4 >>> 12) | (state_4 << 20)
 
     state_3 = state_3 + state_4 + m_8
-    `state_14 ^ state_3` = state_14 ^ state_3
-    state_14 = (`state_14 ^ state_3` >>> 8) | (`state_14 ^ state_3` << 24)
+    state_14 = state_14 ^ state_3
+    state_14 = (state_14 >>> 8) | (state_14 << 24)
 
     state_9 = state_9 + state_14
-    `state_4 ^ state_9` = state_4 ^ state_9
-    state_4 = (`state_4 ^ state_9` >>> 7) | (`state_4 ^ state_9` << 25)
+    state_4 = state_4 ^ state_9
+    state_4 = (state_4 >>> 7) | (state_4 << 25)
 
     // round 3
     state_0 = state_0 + state_4 + m_3
-    `state_12 ^ state_0` = state_12 ^ state_0
-    state_12 = (`state_12 ^ state_0` >>> 16) | (`state_12 ^ state_0` << 16)
+    state_12 = state_12 ^ state_0
+    state_12 = (state_12 >>> 16) | (state_12 << 16)
 
     state_8 = state_8 + state_12
-    `state_4 ^ state_8` = state_4 ^ state_8
-    state_4 = (`state_4 ^ state_8` >>> 12) | (`state_4 ^ state_8` << 20)
+    state_4 = state_4 ^ state_8
+    state_4 = (state_4 >>> 12) | (state_4 << 20)
 
     state_0 = state_0 + state_4 + m_4
-    `state_12 ^ state_0` = state_12 ^ state_0
-    state_12 = (`state_12 ^ state_0` >>> 8) | (`state_12 ^ state_0` << 24)
+    state_12 = state_12 ^ state_0
+    state_12 = (state_12 >>> 8) | (state_12 << 24)
 
     state_8 = state_8 + state_12
-    `state_4 ^ state_8` = state_4 ^ state_8
-    state_4 = (`state_4 ^ state_8` >>> 7) | (`state_4 ^ state_8` << 25)
+    state_4 = state_4 ^ state_8
+    state_4 = (state_4 >>> 7) | (state_4 << 25)
 
     state_1 = state_1 + state_5 + m_10
-    `state_13 ^ state_1` = state_13 ^ state_1
-    state_13 = (`state_13 ^ state_1` >>> 16) | (`state_13 ^ state_1` << 16)
+    state_13 = state_13 ^ state_1
+    state_13 = (state_13 >>> 16) | (state_13 << 16)
 
     state_9 = state_9 + state_13
-    `state_5 ^ state_9` = state_5 ^ state_9
-    state_5 = (`state_5 ^ state_9` >>> 12) | (`state_5 ^ state_9` << 20)
+    state_5 = state_5 ^ state_9
+    state_5 = (state_5 >>> 12) | (state_5 << 20)
 
     state_1 = state_1 + state_5 + m_12
-    `state_13 ^ state_1` = state_13 ^ state_1
-    state_13 = (`state_13 ^ state_1` >>> 8) | (`state_13 ^ state_1` << 24)
+    state_13 = state_13 ^ state_1
+    state_13 = (state_13 >>> 8) | (state_13 << 24)
 
     state_9 = state_9 + state_13
-    `state_5 ^ state_9` = state_5 ^ state_9
-    state_5 = (`state_5 ^ state_9` >>> 7) | (`state_5 ^ state_9` << 25)
+    state_5 = state_5 ^ state_9
+    state_5 = (state_5 >>> 7) | (state_5 << 25)
 
     state_2 = state_2 + state_6 + m_13
-    `state_14 ^ state_2` = state_14 ^ state_2
-    state_14 = (`state_14 ^ state_2` >>> 16) | (`state_14 ^ state_2` << 16)
+    state_14 = state_14 ^ state_2
+    state_14 = (state_14 >>> 16) | (state_14 << 16)
 
     state_10 = state_10 + state_14
-    `state_6 ^ state_10` = state_6 ^ state_10
-    state_6 = (`state_6 ^ state_10` >>> 12) | (`state_6 ^ state_10` << 20)
+    state_6 = state_6 ^ state_10
+    state_6 = (state_6 >>> 12) | (state_6 << 20)
 
     state_2 = state_2 + state_6 + m_2
-    `state_14 ^ state_2` = state_14 ^ state_2
-    state_14 = (`state_14 ^ state_2` >>> 8) | (`state_14 ^ state_2` << 24)
+    state_14 = state_14 ^ state_2
+    state_14 = (state_14 >>> 8) | (state_14 << 24)
 
     state_10 = state_10 + state_14
-    `state_6 ^ state_10` = state_6 ^ state_10
-    state_6 = (`state_6 ^ state_10` >>> 7) | (`state_6 ^ state_10` << 25)
+    state_6 = state_6 ^ state_10
+    state_6 = (state_6 >>> 7) | (state_6 << 25)
 
     state_3 = state_3 + state_7 + m_7
-    `state_15 ^ state_3` = state_15 ^ state_3
-    state_15 = (`state_15 ^ state_3` >>> 16) | (`state_15 ^ state_3` << 16)
+    state_15 = state_15 ^ state_3
+    state_15 = (state_15 >>> 16) | (state_15 << 16)
 
     state_11 = state_11 + state_15
-    `state_7 ^ state_11` = state_7 ^ state_11
-    state_7 = (`state_7 ^ state_11` >>> 12) | (`state_7 ^ state_11` << 20)
+    state_7 = state_7 ^ state_11
+    state_7 = (state_7 >>> 12) | (state_7 << 20)
 
     state_3 = state_3 + state_7 + m_14
-    `state_15 ^ state_3` = state_15 ^ state_3
-    state_15 = (`state_15 ^ state_3` >>> 8) | (`state_15 ^ state_3` << 24)
+    state_15 = state_15 ^ state_3
+    state_15 = (state_15 >>> 8) | (state_15 << 24)
 
     state_11 = state_11 + state_15
-    `state_7 ^ state_11` = state_7 ^ state_11
-    state_7 = (`state_7 ^ state_11` >>> 7) | (`state_7 ^ state_11` << 25)
+    state_7 = state_7 ^ state_11
+    state_7 = (state_7 >>> 7) | (state_7 << 25)
 
     state_0 = state_0 + state_5 + m_6
-    `state_15 ^ state_0` = state_15 ^ state_0
-    state_15 = (`state_15 ^ state_0` >>> 16) | (`state_15 ^ state_0` << 16)
+    state_15 = state_15 ^ state_0
+    state_15 = (state_15 >>> 16) | (state_15 << 16)
 
     state_10 = state_10 + state_15
-    `state_5 ^ state_10` = state_5 ^ state_10
-    state_5 = (`state_5 ^ state_10` >>> 12) | (`state_5 ^ state_10` << 20)
+    state_5 = state_5 ^ state_10
+    state_5 = (state_5 >>> 12) | (state_5 << 20)
 
     state_0 = state_0 + state_5 + m_5
-    `state_15 ^ state_0` = state_15 ^ state_0
-    state_15 = (`state_15 ^ state_0` >>> 8) | (`state_15 ^ state_0` << 24)
+    state_15 = state_15 ^ state_0
+    state_15 = (state_15 >>> 8) | (state_15 << 24)
 
     state_10 = state_10 + state_15
-    `state_5 ^ state_10` = state_5 ^ state_10
-    state_5 = (`state_5 ^ state_10` >>> 7) | (`state_5 ^ state_10` << 25)
+    state_5 = state_5 ^ state_10
+    state_5 = (state_5 >>> 7) | (state_5 << 25)
 
     state_1 = state_1 + state_6 + m_9
-    `state_12 ^ state_1` = state_12 ^ state_1
-    state_12 = (`state_12 ^ state_1` >>> 16) | (`state_12 ^ state_1` << 16)
+    state_12 = state_12 ^ state_1
+    state_12 = (state_12 >>> 16) | (state_12 << 16)
 
     state_11 = state_11 + state_12
-    `state_6 ^ state_11` = state_6 ^ state_11
-    state_6 = (`state_6 ^ state_11` >>> 12) | (`state_6 ^ state_11` << 20)
+    state_6 = state_6 ^ state_11
+    state_6 = (state_6 >>> 12) | (state_6 << 20)
 
     state_1 = state_1 + state_6 + m_0
-    `state_12 ^ state_1` = state_12 ^ state_1
-    state_12 = (`state_12 ^ state_1` >>> 8) | (`state_12 ^ state_1` << 24)
+    state_12 = state_12 ^ state_1
+    state_12 = (state_12 >>> 8) | (state_12 << 24)
 
     state_11 = state_11 + state_12
-    `state_6 ^ state_11` = state_6 ^ state_11
-    state_6 = (`state_6 ^ state_11` >>> 7) | (`state_6 ^ state_11` << 25)
+    state_6 = state_6 ^ state_11
+    state_6 = (state_6 >>> 7) | (state_6 << 25)
 
     state_2 = state_2 + state_7 + m_11
-    `state_13 ^ state_2` = state_13 ^ state_2
-    state_13 = (`state_13 ^ state_2` >>> 16) | (`state_13 ^ state_2` << 16)
+    state_13 = state_13 ^ state_2
+    state_13 = (state_13 >>> 16) | (state_13 << 16)
 
     state_8 = state_8 + state_13
-    `state_7 ^ state_8` = state_7 ^ state_8
-    state_7 = (`state_7 ^ state_8` >>> 12) | (`state_7 ^ state_8` << 20)
+    state_7 = state_7 ^ state_8
+    state_7 = (state_7 >>> 12) | (state_7 << 20)
 
     state_2 = state_2 + state_7 + m_15
-    `state_13 ^ state_2` = state_13 ^ state_2
-    state_13 = (`state_13 ^ state_2` >>> 8) | (`state_13 ^ state_2` << 24)
+    state_13 = state_13 ^ state_2
+    state_13 = (state_13 >>> 8) | (state_13 << 24)
 
     state_8 = state_8 + state_13
-    `state_7 ^ state_8` = state_7 ^ state_8
-    state_7 = (`state_7 ^ state_8` >>> 7) | (`state_7 ^ state_8` << 25)
+    state_7 = state_7 ^ state_8
+    state_7 = (state_7 >>> 7) | (state_7 << 25)
 
     state_3 = state_3 + state_4 + m_8
-    `state_14 ^ state_3` = state_14 ^ state_3
-    state_14 = (`state_14 ^ state_3` >>> 16) | (`state_14 ^ state_3` << 16)
+    state_14 = state_14 ^ state_3
+    state_14 = (state_14 >>> 16) | (state_14 << 16)
 
     state_9 = state_9 + state_14
-    `state_4 ^ state_9` = state_4 ^ state_9
-    state_4 = (`state_4 ^ state_9` >>> 12) | (`state_4 ^ state_9` << 20)
+    state_4 = state_4 ^ state_9
+    state_4 = (state_4 >>> 12) | (state_4 << 20)
 
     state_3 = state_3 + state_4 + m_1
-    `state_14 ^ state_3` = state_14 ^ state_3
-    state_14 = (`state_14 ^ state_3` >>> 8) | (`state_14 ^ state_3` << 24)
+    state_14 = state_14 ^ state_3
+    state_14 = (state_14 >>> 8) | (state_14 << 24)
 
     state_9 = state_9 + state_14
-    `state_4 ^ state_9` = state_4 ^ state_9
-    state_4 = (`state_4 ^ state_9` >>> 7) | (`state_4 ^ state_9` << 25)
+    state_4 = state_4 ^ state_9
+    state_4 = (state_4 >>> 7) | (state_4 << 25)
 
     // round 4
     state_0 = state_0 + state_4 + m_10
-    `state_12 ^ state_0` = state_12 ^ state_0
-    state_12 = (`state_12 ^ state_0` >>> 16) | (`state_12 ^ state_0` << 16)
+    state_12 = state_12 ^ state_0
+    state_12 = (state_12 >>> 16) | (state_12 << 16)
 
     state_8 = state_8 + state_12
-    `state_4 ^ state_8` = state_4 ^ state_8
-    state_4 = (`state_4 ^ state_8` >>> 12) | (`state_4 ^ state_8` << 20)
+    state_4 = state_4 ^ state_8
+    state_4 = (state_4 >>> 12) | (state_4 << 20)
 
     state_0 = state_0 + state_4 + m_7
-    `state_12 ^ state_0` = state_12 ^ state_0
-    state_12 = (`state_12 ^ state_0` >>> 8) | (`state_12 ^ state_0` << 24)
+    state_12 = state_12 ^ state_0
+    state_12 = (state_12 >>> 8) | (state_12 << 24)
 
     state_8 = state_8 + state_12
-    `state_4 ^ state_8` = state_4 ^ state_8
-    state_4 = (`state_4 ^ state_8` >>> 7) | (`state_4 ^ state_8` << 25)
+    state_4 = state_4 ^ state_8
+    state_4 = (state_4 >>> 7) | (state_4 << 25)
 
     state_1 = state_1 + state_5 + m_12
-    `state_13 ^ state_1` = state_13 ^ state_1
-    state_13 = (`state_13 ^ state_1` >>> 16) | (`state_13 ^ state_1` << 16)
+    state_13 = state_13 ^ state_1
+    state_13 = (state_13 >>> 16) | (state_13 << 16)
 
     state_9 = state_9 + state_13
-    `state_5 ^ state_9` = state_5 ^ state_9
-    state_5 = (`state_5 ^ state_9` >>> 12) | (`state_5 ^ state_9` << 20)
+    state_5 = state_5 ^ state_9
+    state_5 = (state_5 >>> 12) | (state_5 << 20)
 
     state_1 = state_1 + state_5 + m_9
-    `state_13 ^ state_1` = state_13 ^ state_1
-    state_13 = (`state_13 ^ state_1` >>> 8) | (`state_13 ^ state_1` << 24)
+    state_13 = state_13 ^ state_1
+    state_13 = (state_13 >>> 8) | (state_13 << 24)
 
     state_9 = state_9 + state_13
-    `state_5 ^ state_9` = state_5 ^ state_9
-    state_5 = (`state_5 ^ state_9` >>> 7) | (`state_5 ^ state_9` << 25)
+    state_5 = state_5 ^ state_9
+    state_5 = (state_5 >>> 7) | (state_5 << 25)
 
     state_2 = state_2 + state_6 + m_14
-    `state_14 ^ state_2` = state_14 ^ state_2
-    state_14 = (`state_14 ^ state_2` >>> 16) | (`state_14 ^ state_2` << 16)
+    state_14 = state_14 ^ state_2
+    state_14 = (state_14 >>> 16) | (state_14 << 16)
 
     state_10 = state_10 + state_14
-    `state_6 ^ state_10` = state_6 ^ state_10
-    state_6 = (`state_6 ^ state_10` >>> 12) | (`state_6 ^ state_10` << 20)
+    state_6 = state_6 ^ state_10
+    state_6 = (state_6 >>> 12) | (state_6 << 20)
 
     state_2 = state_2 + state_6 + m_3
-    `state_14 ^ state_2` = state_14 ^ state_2
-    state_14 = (`state_14 ^ state_2` >>> 8) | (`state_14 ^ state_2` << 24)
+    state_14 = state_14 ^ state_2
+    state_14 = (state_14 >>> 8) | (state_14 << 24)
 
     state_10 = state_10 + state_14
-    `state_6 ^ state_10` = state_6 ^ state_10
-    state_6 = (`state_6 ^ state_10` >>> 7) | (`state_6 ^ state_10` << 25)
+    state_6 = state_6 ^ state_10
+    state_6 = (state_6 >>> 7) | (state_6 << 25)
 
     state_3 = state_3 + state_7 + m_13
-    `state_15 ^ state_3` = state_15 ^ state_3
-    state_15 = (`state_15 ^ state_3` >>> 16) | (`state_15 ^ state_3` << 16)
+    state_15 = state_15 ^ state_3
+    state_15 = (state_15 >>> 16) | (state_15 << 16)
 
     state_11 = state_11 + state_15
-    `state_7 ^ state_11` = state_7 ^ state_11
-    state_7 = (`state_7 ^ state_11` >>> 12) | (`state_7 ^ state_11` << 20)
+    state_7 = state_7 ^ state_11
+    state_7 = (state_7 >>> 12) | (state_7 << 20)
 
     state_3 = state_3 + state_7 + m_15
-    `state_15 ^ state_3` = state_15 ^ state_3
-    state_15 = (`state_15 ^ state_3` >>> 8) | (`state_15 ^ state_3` << 24)
+    state_15 = state_15 ^ state_3
+    state_15 = (state_15 >>> 8) | (state_15 << 24)
 
     state_11 = state_11 + state_15
-    `state_7 ^ state_11` = state_7 ^ state_11
-    state_7 = (`state_7 ^ state_11` >>> 7) | (`state_7 ^ state_11` << 25)
+    state_7 = state_7 ^ state_11
+    state_7 = (state_7 >>> 7) | (state_7 << 25)
 
     state_0 = state_0 + state_5 + m_4
-    `state_15 ^ state_0` = state_15 ^ state_0
-    state_15 = (`state_15 ^ state_0` >>> 16) | (`state_15 ^ state_0` << 16)
+    state_15 = state_15 ^ state_0
+    state_15 = (state_15 >>> 16) | (state_15 << 16)
 
     state_10 = state_10 + state_15
-    `state_5 ^ state_10` = state_5 ^ state_10
-    state_5 = (`state_5 ^ state_10` >>> 12) | (`state_5 ^ state_10` << 20)
+    state_5 = state_5 ^ state_10
+    state_5 = (state_5 >>> 12) | (state_5 << 20)
 
     state_0 = state_0 + state_5 + m_0
-    `state_15 ^ state_0` = state_15 ^ state_0
-    state_15 = (`state_15 ^ state_0` >>> 8) | (`state_15 ^ state_0` << 24)
+    state_15 = state_15 ^ state_0
+    state_15 = (state_15 >>> 8) | (state_15 << 24)
 
     state_10 = state_10 + state_15
-    `state_5 ^ state_10` = state_5 ^ state_10
-    state_5 = (`state_5 ^ state_10` >>> 7) | (`state_5 ^ state_10` << 25)
+    state_5 = state_5 ^ state_10
+    state_5 = (state_5 >>> 7) | (state_5 << 25)
 
     state_1 = state_1 + state_6 + m_11
-    `state_12 ^ state_1` = state_12 ^ state_1
-    state_12 = (`state_12 ^ state_1` >>> 16) | (`state_12 ^ state_1` << 16)
+    state_12 = state_12 ^ state_1
+    state_12 = (state_12 >>> 16) | (state_12 << 16)
 
     state_11 = state_11 + state_12
-    `state_6 ^ state_11` = state_6 ^ state_11
-    state_6 = (`state_6 ^ state_11` >>> 12) | (`state_6 ^ state_11` << 20)
+    state_6 = state_6 ^ state_11
+    state_6 = (state_6 >>> 12) | (state_6 << 20)
 
     state_1 = state_1 + state_6 + m_2
-    `state_12 ^ state_1` = state_12 ^ state_1
-    state_12 = (`state_12 ^ state_1` >>> 8) | (`state_12 ^ state_1` << 24)
+    state_12 = state_12 ^ state_1
+    state_12 = (state_12 >>> 8) | (state_12 << 24)
 
     state_11 = state_11 + state_12
-    `state_6 ^ state_11` = state_6 ^ state_11
-    state_6 = (`state_6 ^ state_11` >>> 7) | (`state_6 ^ state_11` << 25)
+    state_6 = state_6 ^ state_11
+    state_6 = (state_6 >>> 7) | (state_6 << 25)
 
     state_2 = state_2 + state_7 + m_5
-    `state_13 ^ state_2` = state_13 ^ state_2
-    state_13 = (`state_13 ^ state_2` >>> 16) | (`state_13 ^ state_2` << 16)
+    state_13 = state_13 ^ state_2
+    state_13 = (state_13 >>> 16) | (state_13 << 16)
 
     state_8 = state_8 + state_13
-    `state_7 ^ state_8` = state_7 ^ state_8
-    state_7 = (`state_7 ^ state_8` >>> 12) | (`state_7 ^ state_8` << 20)
+    state_7 = state_7 ^ state_8
+    state_7 = (state_7 >>> 12) | (state_7 << 20)
 
     state_2 = state_2 + state_7 + m_8
-    `state_13 ^ state_2` = state_13 ^ state_2
-    state_13 = (`state_13 ^ state_2` >>> 8) | (`state_13 ^ state_2` << 24)
+    state_13 = state_13 ^ state_2
+    state_13 = (state_13 >>> 8) | (state_13 << 24)
 
     state_8 = state_8 + state_13
-    `state_7 ^ state_8` = state_7 ^ state_8
-    state_7 = (`state_7 ^ state_8` >>> 7) | (`state_7 ^ state_8` << 25)
+    state_7 = state_7 ^ state_8
+    state_7 = (state_7 >>> 7) | (state_7 << 25)
 
     state_3 = state_3 + state_4 + m_1
-    `state_14 ^ state_3` = state_14 ^ state_3
-    state_14 = (`state_14 ^ state_3` >>> 16) | (`state_14 ^ state_3` << 16)
+    state_14 = state_14 ^ state_3
+    state_14 = (state_14 >>> 16) | (state_14 << 16)
 
     state_9 = state_9 + state_14
-    `state_4 ^ state_9` = state_4 ^ state_9
-    state_4 = (`state_4 ^ state_9` >>> 12) | (`state_4 ^ state_9` << 20)
+    state_4 = state_4 ^ state_9
+    state_4 = (state_4 >>> 12) | (state_4 << 20)
 
     state_3 = state_3 + state_4 + m_6
-    `state_14 ^ state_3` = state_14 ^ state_3
-    state_14 = (`state_14 ^ state_3` >>> 8) | (`state_14 ^ state_3` << 24)
+    state_14 = state_14 ^ state_3
+    state_14 = (state_14 >>> 8) | (state_14 << 24)
 
     state_9 = state_9 + state_14
-    `state_4 ^ state_9` = state_4 ^ state_9
-    state_4 = (`state_4 ^ state_9` >>> 7) | (`state_4 ^ state_9` << 25)
+    state_4 = state_4 ^ state_9
+    state_4 = (state_4 >>> 7) | (state_4 << 25)
 
     // round 5
     state_0 = state_0 + state_4 + m_12
-    `state_12 ^ state_0` = state_12 ^ state_0
-    state_12 = (`state_12 ^ state_0` >>> 16) | (`state_12 ^ state_0` << 16)
+    state_12 = state_12 ^ state_0
+    state_12 = (state_12 >>> 16) | (state_12 << 16)
 
     state_8 = state_8 + state_12
-    `state_4 ^ state_8` = state_4 ^ state_8
-    state_4 = (`state_4 ^ state_8` >>> 12) | (`state_4 ^ state_8` << 20)
+    state_4 = state_4 ^ state_8
+    state_4 = (state_4 >>> 12) | (state_4 << 20)
 
     state_0 = state_0 + state_4 + m_13
-    `state_12 ^ state_0` = state_12 ^ state_0
-    state_12 = (`state_12 ^ state_0` >>> 8) | (`state_12 ^ state_0` << 24)
+    state_12 = state_12 ^ state_0
+    state_12 = (state_12 >>> 8) | (state_12 << 24)
 
     state_8 = state_8 + state_12
-    `state_4 ^ state_8` = state_4 ^ state_8
-    state_4 = (`state_4 ^ state_8` >>> 7) | (`state_4 ^ state_8` << 25)
+    state_4 = state_4 ^ state_8
+    state_4 = (state_4 >>> 7) | (state_4 << 25)
 
     state_1 = state_1 + state_5 + m_9
-    `state_13 ^ state_1` = state_13 ^ state_1
-    state_13 = (`state_13 ^ state_1` >>> 16) | (`state_13 ^ state_1` << 16)
+    state_13 = state_13 ^ state_1
+    state_13 = (state_13 >>> 16) | (state_13 << 16)
 
     state_9 = state_9 + state_13
-    `state_5 ^ state_9` = state_5 ^ state_9
-    state_5 = (`state_5 ^ state_9` >>> 12) | (`state_5 ^ state_9` << 20)
+    state_5 = state_5 ^ state_9
+    state_5 = (state_5 >>> 12) | (state_5 << 20)
 
     state_1 = state_1 + state_5 + m_11
-    `state_13 ^ state_1` = state_13 ^ state_1
-    state_13 = (`state_13 ^ state_1` >>> 8) | (`state_13 ^ state_1` << 24)
+    state_13 = state_13 ^ state_1
+    state_13 = (state_13 >>> 8) | (state_13 << 24)
 
     state_9 = state_9 + state_13
-    `state_5 ^ state_9` = state_5 ^ state_9
-    state_5 = (`state_5 ^ state_9` >>> 7) | (`state_5 ^ state_9` << 25)
+    state_5 = state_5 ^ state_9
+    state_5 = (state_5 >>> 7) | (state_5 << 25)
 
     state_2 = state_2 + state_6 + m_15
-    `state_14 ^ state_2` = state_14 ^ state_2
-    state_14 = (`state_14 ^ state_2` >>> 16) | (`state_14 ^ state_2` << 16)
+    state_14 = state_14 ^ state_2
+    state_14 = (state_14 >>> 16) | (state_14 << 16)
 
     state_10 = state_10 + state_14
-    `state_6 ^ state_10` = state_6 ^ state_10
-    state_6 = (`state_6 ^ state_10` >>> 12) | (`state_6 ^ state_10` << 20)
+    state_6 = state_6 ^ state_10
+    state_6 = (state_6 >>> 12) | (state_6 << 20)
 
     state_2 = state_2 + state_6 + m_10
-    `state_14 ^ state_2` = state_14 ^ state_2
-    state_14 = (`state_14 ^ state_2` >>> 8) | (`state_14 ^ state_2` << 24)
+    state_14 = state_14 ^ state_2
+    state_14 = (state_14 >>> 8) | (state_14 << 24)
 
     state_10 = state_10 + state_14
-    `state_6 ^ state_10` = state_6 ^ state_10
-    state_6 = (`state_6 ^ state_10` >>> 7) | (`state_6 ^ state_10` << 25)
+    state_6 = state_6 ^ state_10
+    state_6 = (state_6 >>> 7) | (state_6 << 25)
 
     state_3 = state_3 + state_7 + m_14
-    `state_15 ^ state_3` = state_15 ^ state_3
-    state_15 = (`state_15 ^ state_3` >>> 16) | (`state_15 ^ state_3` << 16)
+    state_15 = state_15 ^ state_3
+    state_15 = (state_15 >>> 16) | (state_15 << 16)
 
     state_11 = state_11 + state_15
-    `state_7 ^ state_11` = state_7 ^ state_11
-    state_7 = (`state_7 ^ state_11` >>> 12) | (`state_7 ^ state_11` << 20)
+    state_7 = state_7 ^ state_11
+    state_7 = (state_7 >>> 12) | (state_7 << 20)
 
     state_3 = state_3 + state_7 + m_8
-    `state_15 ^ state_3` = state_15 ^ state_3
-    state_15 = (`state_15 ^ state_3` >>> 8) | (`state_15 ^ state_3` << 24)
+    state_15 = state_15 ^ state_3
+    state_15 = (state_15 >>> 8) | (state_15 << 24)
 
     state_11 = state_11 + state_15
-    `state_7 ^ state_11` = state_7 ^ state_11
-    state_7 = (`state_7 ^ state_11` >>> 7) | (`state_7 ^ state_11` << 25)
+    state_7 = state_7 ^ state_11
+    state_7 = (state_7 >>> 7) | (state_7 << 25)
 
     state_0 = state_0 + state_5 + m_7
-    `state_15 ^ state_0` = state_15 ^ state_0
-    state_15 = (`state_15 ^ state_0` >>> 16) | (`state_15 ^ state_0` << 16)
+    state_15 = state_15 ^ state_0
+    state_15 = (state_15 >>> 16) | (state_15 << 16)
 
     state_10 = state_10 + state_15
-    `state_5 ^ state_10` = state_5 ^ state_10
-    state_5 = (`state_5 ^ state_10` >>> 12) | (`state_5 ^ state_10` << 20)
+    state_5 = state_5 ^ state_10
+    state_5 = (state_5 >>> 12) | (state_5 << 20)
 
     state_0 = state_0 + state_5 + m_2
-    `state_15 ^ state_0` = state_15 ^ state_0
-    state_15 = (`state_15 ^ state_0` >>> 8) | (`state_15 ^ state_0` << 24)
+    state_15 = state_15 ^ state_0
+    state_15 = (state_15 >>> 8) | (state_15 << 24)
 
     state_10 = state_10 + state_15
-    `state_5 ^ state_10` = state_5 ^ state_10
-    state_5 = (`state_5 ^ state_10` >>> 7) | (`state_5 ^ state_10` << 25)
+    state_5 = state_5 ^ state_10
+    state_5 = (state_5 >>> 7) | (state_5 << 25)
 
     state_1 = state_1 + state_6 + m_5
-    `state_12 ^ state_1` = state_12 ^ state_1
-    state_12 = (`state_12 ^ state_1` >>> 16) | (`state_12 ^ state_1` << 16)
+    state_12 = state_12 ^ state_1
+    state_12 = (state_12 >>> 16) | (state_12 << 16)
 
     state_11 = state_11 + state_12
-    `state_6 ^ state_11` = state_6 ^ state_11
-    state_6 = (`state_6 ^ state_11` >>> 12) | (`state_6 ^ state_11` << 20)
+    state_6 = state_6 ^ state_11
+    state_6 = (state_6 >>> 12) | (state_6 << 20)
 
     state_1 = state_1 + state_6 + m_3
-    `state_12 ^ state_1` = state_12 ^ state_1
-    state_12 = (`state_12 ^ state_1` >>> 8) | (`state_12 ^ state_1` << 24)
+    state_12 = state_12 ^ state_1
+    state_12 = (state_12 >>> 8) | (state_12 << 24)
 
     state_11 = state_11 + state_12
-    `state_6 ^ state_11` = state_6 ^ state_11
-    state_6 = (`state_6 ^ state_11` >>> 7) | (`state_6 ^ state_11` << 25)
+    state_6 = state_6 ^ state_11
+    state_6 = (state_6 >>> 7) | (state_6 << 25)
 
     state_2 = state_2 + state_7 + m_0
-    `state_13 ^ state_2` = state_13 ^ state_2
-    state_13 = (`state_13 ^ state_2` >>> 16) | (`state_13 ^ state_2` << 16)
+    state_13 = state_13 ^ state_2
+    state_13 = (state_13 >>> 16) | (state_13 << 16)
 
     state_8 = state_8 + state_13
-    `state_7 ^ state_8` = state_7 ^ state_8
-    state_7 = (`state_7 ^ state_8` >>> 12) | (`state_7 ^ state_8` << 20)
+    state_7 = state_7 ^ state_8
+    state_7 = (state_7 >>> 12) | (state_7 << 20)
 
     state_2 = state_2 + state_7 + m_1
-    `state_13 ^ state_2` = state_13 ^ state_2
-    state_13 = (`state_13 ^ state_2` >>> 8) | (`state_13 ^ state_2` << 24)
+    state_13 = state_13 ^ state_2
+    state_13 = (state_13 >>> 8) | (state_13 << 24)
 
     state_8 = state_8 + state_13
-    `state_7 ^ state_8` = state_7 ^ state_8
-    state_7 = (`state_7 ^ state_8` >>> 7) | (`state_7 ^ state_8` << 25)
+    state_7 = state_7 ^ state_8
+    state_7 = (state_7 >>> 7) | (state_7 << 25)
 
     state_3 = state_3 + state_4 + m_6
-    `state_14 ^ state_3` = state_14 ^ state_3
-    state_14 = (`state_14 ^ state_3` >>> 16) | (`state_14 ^ state_3` << 16)
+    state_14 = state_14 ^ state_3
+    state_14 = (state_14 >>> 16) | (state_14 << 16)
 
     state_9 = state_9 + state_14
-    `state_4 ^ state_9` = state_4 ^ state_9
-    state_4 = (`state_4 ^ state_9` >>> 12) | (`state_4 ^ state_9` << 20)
+    state_4 = state_4 ^ state_9
+    state_4 = (state_4 >>> 12) | (state_4 << 20)
 
     state_3 = state_3 + state_4 + m_4
-    `state_14 ^ state_3` = state_14 ^ state_3
-    state_14 = (`state_14 ^ state_3` >>> 8) | (`state_14 ^ state_3` << 24)
+    state_14 = state_14 ^ state_3
+    state_14 = (state_14 >>> 8) | (state_14 << 24)
 
     state_9 = state_9 + state_14
-    `state_4 ^ state_9` = state_4 ^ state_9
-    state_4 = (`state_4 ^ state_9` >>> 7) | (`state_4 ^ state_9` << 25)
+    state_4 = state_4 ^ state_9
+    state_4 = (state_4 >>> 7) | (state_4 << 25)
 
     // round 6
     state_0 = state_0 + state_4 + m_9
-    `state_12 ^ state_0` = state_12 ^ state_0
-    state_12 = (`state_12 ^ state_0` >>> 16) | (`state_12 ^ state_0` << 16)
+    state_12 = state_12 ^ state_0
+    state_12 = (state_12 >>> 16) | (state_12 << 16)
 
     state_8 = state_8 + state_12
-    `state_4 ^ state_8` = state_4 ^ state_8
-    state_4 = (`state_4 ^ state_8` >>> 12) | (`state_4 ^ state_8` << 20)
+    state_4 = state_4 ^ state_8
+    state_4 = (state_4 >>> 12) | (state_4 << 20)
 
     state_0 = state_0 + state_4 + m_14
-    `state_12 ^ state_0` = state_12 ^ state_0
-    state_12 = (`state_12 ^ state_0` >>> 8) | (`state_12 ^ state_0` << 24)
+    state_12 = state_12 ^ state_0
+    state_12 = (state_12 >>> 8) | (state_12 << 24)
 
     state_8 = state_8 + state_12
-    `state_4 ^ state_8` = state_4 ^ state_8
-    state_4 = (`state_4 ^ state_8` >>> 7) | (`state_4 ^ state_8` << 25)
+    state_4 = state_4 ^ state_8
+    state_4 = (state_4 >>> 7) | (state_4 << 25)
 
     state_1 = state_1 + state_5 + m_11
-    `state_13 ^ state_1` = state_13 ^ state_1
-    state_13 = (`state_13 ^ state_1` >>> 16) | (`state_13 ^ state_1` << 16)
+    state_13 = state_13 ^ state_1
+    state_13 = (state_13 >>> 16) | (state_13 << 16)
 
     state_9 = state_9 + state_13
-    `state_5 ^ state_9` = state_5 ^ state_9
-    state_5 = (`state_5 ^ state_9` >>> 12) | (`state_5 ^ state_9` << 20)
+    state_5 = state_5 ^ state_9
+    state_5 = (state_5 >>> 12) | (state_5 << 20)
 
     state_1 = state_1 + state_5 + m_5
-    `state_13 ^ state_1` = state_13 ^ state_1
-    state_13 = (`state_13 ^ state_1` >>> 8) | (`state_13 ^ state_1` << 24)
+    state_13 = state_13 ^ state_1
+    state_13 = (state_13 >>> 8) | (state_13 << 24)
 
     state_9 = state_9 + state_13
-    `state_5 ^ state_9` = state_5 ^ state_9
-    state_5 = (`state_5 ^ state_9` >>> 7) | (`state_5 ^ state_9` << 25)
+    state_5 = state_5 ^ state_9
+    state_5 = (state_5 >>> 7) | (state_5 << 25)
 
     state_2 = state_2 + state_6 + m_8
-    `state_14 ^ state_2` = state_14 ^ state_2
-    state_14 = (`state_14 ^ state_2` >>> 16) | (`state_14 ^ state_2` << 16)
+    state_14 = state_14 ^ state_2
+    state_14 = (state_14 >>> 16) | (state_14 << 16)
 
     state_10 = state_10 + state_14
-    `state_6 ^ state_10` = state_6 ^ state_10
-    state_6 = (`state_6 ^ state_10` >>> 12) | (`state_6 ^ state_10` << 20)
+    state_6 = state_6 ^ state_10
+    state_6 = (state_6 >>> 12) | (state_6 << 20)
 
     state_2 = state_2 + state_6 + m_12
-    `state_14 ^ state_2` = state_14 ^ state_2
-    state_14 = (`state_14 ^ state_2` >>> 8) | (`state_14 ^ state_2` << 24)
+    state_14 = state_14 ^ state_2
+    state_14 = (state_14 >>> 8) | (state_14 << 24)
 
     state_10 = state_10 + state_14
-    `state_6 ^ state_10` = state_6 ^ state_10
-    state_6 = (`state_6 ^ state_10` >>> 7) | (`state_6 ^ state_10` << 25)
+    state_6 = state_6 ^ state_10
+    state_6 = (state_6 >>> 7) | (state_6 << 25)
 
     state_3 = state_3 + state_7 + m_15
-    `state_15 ^ state_3` = state_15 ^ state_3
-    state_15 = (`state_15 ^ state_3` >>> 16) | (`state_15 ^ state_3` << 16)
+    state_15 = state_15 ^ state_3
+    state_15 = (state_15 >>> 16) | (state_15 << 16)
 
     state_11 = state_11 + state_15
-    `state_7 ^ state_11` = state_7 ^ state_11
-    state_7 = (`state_7 ^ state_11` >>> 12) | (`state_7 ^ state_11` << 20)
+    state_7 = state_7 ^ state_11
+    state_7 = (state_7 >>> 12) | (state_7 << 20)
 
     state_3 = state_3 + state_7 + m_1
-    `state_15 ^ state_3` = state_15 ^ state_3
-    state_15 = (`state_15 ^ state_3` >>> 8) | (`state_15 ^ state_3` << 24)
+    state_15 = state_15 ^ state_3
+    state_15 = (state_15 >>> 8) | (state_15 << 24)
 
     state_11 = state_11 + state_15
-    `state_7 ^ state_11` = state_7 ^ state_11
-    state_7 = (`state_7 ^ state_11` >>> 7) | (`state_7 ^ state_11` << 25)
+    state_7 = state_7 ^ state_11
+    state_7 = (state_7 >>> 7) | (state_7 << 25)
 
     state_0 = state_0 + state_5 + m_13
-    `state_15 ^ state_0` = state_15 ^ state_0
-    state_15 = (`state_15 ^ state_0` >>> 16) | (`state_15 ^ state_0` << 16)
+    state_15 = state_15 ^ state_0
+    state_15 = (state_15 >>> 16) | (state_15 << 16)
 
     state_10 = state_10 + state_15
-    `state_5 ^ state_10` = state_5 ^ state_10
-    state_5 = (`state_5 ^ state_10` >>> 12) | (`state_5 ^ state_10` << 20)
+    state_5 = state_5 ^ state_10
+    state_5 = (state_5 >>> 12) | (state_5 << 20)
 
     state_0 = state_0 + state_5 + m_3
-    `state_15 ^ state_0` = state_15 ^ state_0
-    state_15 = (`state_15 ^ state_0` >>> 8) | (`state_15 ^ state_0` << 24)
+    state_15 = state_15 ^ state_0
+    state_15 = (state_15 >>> 8) | (state_15 << 24)
 
     state_10 = state_10 + state_15
-    `state_5 ^ state_10` = state_5 ^ state_10
-    state_5 = (`state_5 ^ state_10` >>> 7) | (`state_5 ^ state_10` << 25)
+    state_5 = state_5 ^ state_10
+    state_5 = (state_5 >>> 7) | (state_5 << 25)
 
     state_1 = state_1 + state_6 + m_0
-    `state_12 ^ state_1` = state_12 ^ state_1
-    state_12 = (`state_12 ^ state_1` >>> 16) | (`state_12 ^ state_1` << 16)
+    state_12 = state_12 ^ state_1
+    state_12 = (state_12 >>> 16) | (state_12 << 16)
 
     state_11 = state_11 + state_12
-    `state_6 ^ state_11` = state_6 ^ state_11
-    state_6 = (`state_6 ^ state_11` >>> 12) | (`state_6 ^ state_11` << 20)
+    state_6 = state_6 ^ state_11
+    state_6 = (state_6 >>> 12) | (state_6 << 20)
 
     state_1 = state_1 + state_6 + m_10
-    `state_12 ^ state_1` = state_12 ^ state_1
-    state_12 = (`state_12 ^ state_1` >>> 8) | (`state_12 ^ state_1` << 24)
+    state_12 = state_12 ^ state_1
+    state_12 = (state_12 >>> 8) | (state_12 << 24)
 
     state_11 = state_11 + state_12
-    `state_6 ^ state_11` = state_6 ^ state_11
-    state_6 = (`state_6 ^ state_11` >>> 7) | (`state_6 ^ state_11` << 25)
+    state_6 = state_6 ^ state_11
+    state_6 = (state_6 >>> 7) | (state_6 << 25)
 
     state_2 = state_2 + state_7 + m_2
-    `state_13 ^ state_2` = state_13 ^ state_2
-    state_13 = (`state_13 ^ state_2` >>> 16) | (`state_13 ^ state_2` << 16)
+    state_13 = state_13 ^ state_2
+    state_13 = (state_13 >>> 16) | (state_13 << 16)
 
     state_8 = state_8 + state_13
-    `state_7 ^ state_8` = state_7 ^ state_8
-    state_7 = (`state_7 ^ state_8` >>> 12) | (`state_7 ^ state_8` << 20)
+    state_7 = state_7 ^ state_8
+    state_7 = (state_7 >>> 12) | (state_7 << 20)
 
     state_2 = state_2 + state_7 + m_6
-    `state_13 ^ state_2` = state_13 ^ state_2
-    state_13 = (`state_13 ^ state_2` >>> 8) | (`state_13 ^ state_2` << 24)
+    state_13 = state_13 ^ state_2
+    state_13 = (state_13 >>> 8) | (state_13 << 24)
 
     state_8 = state_8 + state_13
-    `state_7 ^ state_8` = state_7 ^ state_8
-    state_7 = (`state_7 ^ state_8` >>> 7) | (`state_7 ^ state_8` << 25)
+    state_7 = state_7 ^ state_8
+    state_7 = (state_7 >>> 7) | (state_7 << 25)
 
     state_3 = state_3 + state_4 + m_4
-    `state_14 ^ state_3` = state_14 ^ state_3
-    state_14 = (`state_14 ^ state_3` >>> 16) | (`state_14 ^ state_3` << 16)
+    state_14 = state_14 ^ state_3
+    state_14 = (state_14 >>> 16) | (state_14 << 16)
 
     state_9 = state_9 + state_14
-    `state_4 ^ state_9` = state_4 ^ state_9
-    state_4 = (`state_4 ^ state_9` >>> 12) | (`state_4 ^ state_9` << 20)
+    state_4 = state_4 ^ state_9
+    state_4 = (state_4 >>> 12) | (state_4 << 20)
 
     state_3 = state_3 + state_4 + m_7
-    `state_14 ^ state_3` = state_14 ^ state_3
-    state_14 = (`state_14 ^ state_3` >>> 8) | (`state_14 ^ state_3` << 24)
+    state_14 = state_14 ^ state_3
+    state_14 = (state_14 >>> 8) | (state_14 << 24)
 
     state_9 = state_9 + state_14
-    `state_4 ^ state_9` = state_4 ^ state_9
-    state_4 = (`state_4 ^ state_9` >>> 7) | (`state_4 ^ state_9` << 25)
+    state_4 = state_4 ^ state_9
+    state_4 = (state_4 >>> 7) | (state_4 << 25)
 
     // round 7
     state_0 = state_0 + state_4 + m_11
-    `state_12 ^ state_0` = state_12 ^ state_0
-    state_12 = (`state_12 ^ state_0` >>> 16) | (`state_12 ^ state_0` << 16)
+    state_12 = state_12 ^ state_0
+    state_12 = (state_12 >>> 16) | (state_12 << 16)
 
     state_8 = state_8 + state_12
-    `state_4 ^ state_8` = state_4 ^ state_8
-    state_4 = (`state_4 ^ state_8` >>> 12) | (`state_4 ^ state_8` << 20)
+    state_4 = state_4 ^ state_8
+    state_4 = (state_4 >>> 12) | (state_4 << 20)
 
     state_0 = state_0 + state_4 + m_15
-    `state_12 ^ state_0` = state_12 ^ state_0
-    state_12 = (`state_12 ^ state_0` >>> 8) | (`state_12 ^ state_0` << 24)
+    state_12 = state_12 ^ state_0
+    state_12 = (state_12 >>> 8) | (state_12 << 24)
 
     state_8 = state_8 + state_12
-    `state_4 ^ state_8` = state_4 ^ state_8
-    state_4 = (`state_4 ^ state_8` >>> 7) | (`state_4 ^ state_8` << 25)
+    state_4 = state_4 ^ state_8
+    state_4 = (state_4 >>> 7) | (state_4 << 25)
 
     state_1 = state_1 + state_5 + m_5
-    `state_13 ^ state_1` = state_13 ^ state_1
-    state_13 = (`state_13 ^ state_1` >>> 16) | (`state_13 ^ state_1` << 16)
+    state_13 = state_13 ^ state_1
+    state_13 = (state_13 >>> 16) | (state_13 << 16)
 
     state_9 = state_9 + state_13
-    `state_5 ^ state_9` = state_5 ^ state_9
-    state_5 = (`state_5 ^ state_9` >>> 12) | (`state_5 ^ state_9` << 20)
+    state_5 = state_5 ^ state_9
+    state_5 = (state_5 >>> 12) | (state_5 << 20)
 
     state_1 = state_1 + state_5 + m_0
-    `state_13 ^ state_1` = state_13 ^ state_1
-    state_13 = (`state_13 ^ state_1` >>> 8) | (`state_13 ^ state_1` << 24)
+    state_13 = state_13 ^ state_1
+    state_13 = (state_13 >>> 8) | (state_13 << 24)
 
     state_9 = state_9 + state_13
-    `state_5 ^ state_9` = state_5 ^ state_9
-    state_5 = (`state_5 ^ state_9` >>> 7) | (`state_5 ^ state_9` << 25)
+    state_5 = state_5 ^ state_9
+    state_5 = (state_5 >>> 7) | (state_5 << 25)
 
     state_2 = state_2 + state_6 + m_1
-    `state_14 ^ state_2` = state_14 ^ state_2
-    state_14 = (`state_14 ^ state_2` >>> 16) | (`state_14 ^ state_2` << 16)
+    state_14 = state_14 ^ state_2
+    state_14 = (state_14 >>> 16) | (state_14 << 16)
 
     state_10 = state_10 + state_14
-    `state_6 ^ state_10` = state_6 ^ state_10
-    state_6 = (`state_6 ^ state_10` >>> 12) | (`state_6 ^ state_10` << 20)
+    state_6 = state_6 ^ state_10
+    state_6 = (state_6 >>> 12) | (state_6 << 20)
 
     state_2 = state_2 + state_6 + m_9
-    `state_14 ^ state_2` = state_14 ^ state_2
-    state_14 = (`state_14 ^ state_2` >>> 8) | (`state_14 ^ state_2` << 24)
+    state_14 = state_14 ^ state_2
+    state_14 = (state_14 >>> 8) | (state_14 << 24)
 
     state_10 = state_10 + state_14
-    `state_6 ^ state_10` = state_6 ^ state_10
-    state_6 = (`state_6 ^ state_10` >>> 7) | (`state_6 ^ state_10` << 25)
+    state_6 = state_6 ^ state_10
+    state_6 = (state_6 >>> 7) | (state_6 << 25)
 
     state_3 = state_3 + state_7 + m_8
-    `state_15 ^ state_3` = state_15 ^ state_3
-    state_15 = (`state_15 ^ state_3` >>> 16) | (`state_15 ^ state_3` << 16)
+    state_15 = state_15 ^ state_3
+    state_15 = (state_15 >>> 16) | (state_15 << 16)
 
     state_11 = state_11 + state_15
-    `state_7 ^ state_11` = state_7 ^ state_11
-    state_7 = (`state_7 ^ state_11` >>> 12) | (`state_7 ^ state_11` << 20)
+    state_7 = state_7 ^ state_11
+    state_7 = (state_7 >>> 12) | (state_7 << 20)
 
     state_3 = state_3 + state_7 + m_6
-    `state_15 ^ state_3` = state_15 ^ state_3
-    state_15 = (`state_15 ^ state_3` >>> 8) | (`state_15 ^ state_3` << 24)
+    state_15 = state_15 ^ state_3
+    state_15 = (state_15 >>> 8) | (state_15 << 24)
 
     state_11 = state_11 + state_15
-    `state_7 ^ state_11` = state_7 ^ state_11
-    state_7 = (`state_7 ^ state_11` >>> 7) | (`state_7 ^ state_11` << 25)
+    state_7 = state_7 ^ state_11
+    state_7 = (state_7 >>> 7) | (state_7 << 25)
 
     state_0 = state_0 + state_5 + m_14
-    `state_15 ^ state_0` = state_15 ^ state_0
-    state_15 = (`state_15 ^ state_0` >>> 16) | (`state_15 ^ state_0` << 16)
+    state_15 = state_15 ^ state_0
+    state_15 = (state_15 >>> 16) | (state_15 << 16)
 
     state_10 = state_10 + state_15
-    `state_5 ^ state_10` = state_5 ^ state_10
-    state_5 = (`state_5 ^ state_10` >>> 12) | (`state_5 ^ state_10` << 20)
+    state_5 = state_5 ^ state_10
+    state_5 = (state_5 >>> 12) | (state_5 << 20)
 
     state_0 = state_0 + state_5 + m_10
-    `state_15 ^ state_0` = state_15 ^ state_0
-    state_15 = (`state_15 ^ state_0` >>> 8) | (`state_15 ^ state_0` << 24)
+    state_15 = state_15 ^ state_0
+    state_15 = (state_15 >>> 8) | (state_15 << 24)
 
     state_10 = state_10 + state_15
-    `state_5 ^ state_10` = state_5 ^ state_10
-    state_5 = (`state_5 ^ state_10` >>> 7) | (`state_5 ^ state_10` << 25)
+    state_5 = state_5 ^ state_10
+    state_5 = (state_5 >>> 7) | (state_5 << 25)
 
     state_1 = state_1 + state_6 + m_2
-    `state_12 ^ state_1` = state_12 ^ state_1
-    state_12 = (`state_12 ^ state_1` >>> 16) | (`state_12 ^ state_1` << 16)
+    state_12 = state_12 ^ state_1
+    state_12 = (state_12 >>> 16) | (state_12 << 16)
 
     state_11 = state_11 + state_12
-    `state_6 ^ state_11` = state_6 ^ state_11
-    state_6 = (`state_6 ^ state_11` >>> 12) | (`state_6 ^ state_11` << 20)
+    state_6 = state_6 ^ state_11
+    state_6 = (state_6 >>> 12) | (state_6 << 20)
 
     state_1 = state_1 + state_6 + m_12
-    `state_12 ^ state_1` = state_12 ^ state_1
-    state_12 = (`state_12 ^ state_1` >>> 8) | (`state_12 ^ state_1` << 24)
+    state_12 = state_12 ^ state_1
+    state_12 = (state_12 >>> 8) | (state_12 << 24)
 
     state_11 = state_11 + state_12
-    `state_6 ^ state_11` = state_6 ^ state_11
-    state_6 = (`state_6 ^ state_11` >>> 7) | (`state_6 ^ state_11` << 25)
+    state_6 = state_6 ^ state_11
+    state_6 = (state_6 >>> 7) | (state_6 << 25)
 
     state_2 = state_2 + state_7 + m_3
-    `state_13 ^ state_2` = state_13 ^ state_2
-    state_13 = (`state_13 ^ state_2` >>> 16) | (`state_13 ^ state_2` << 16)
+    state_13 = state_13 ^ state_2
+    state_13 = (state_13 >>> 16) | (state_13 << 16)
 
     state_8 = state_8 + state_13
-    `state_7 ^ state_8` = state_7 ^ state_8
-    state_7 = (`state_7 ^ state_8` >>> 12) | (`state_7 ^ state_8` << 20)
+    state_7 = state_7 ^ state_8
+    state_7 = (state_7 >>> 12) | (state_7 << 20)
 
     state_2 = state_2 + state_7 + m_4
-    `state_13 ^ state_2` = state_13 ^ state_2
-    state_13 = (`state_13 ^ state_2` >>> 8) | (`state_13 ^ state_2` << 24)
+    state_13 = state_13 ^ state_2
+    state_13 = (state_13 >>> 8) | (state_13 << 24)
 
     state_8 = state_8 + state_13
-    `state_7 ^ state_8` = state_7 ^ state_8
-    state_7 = (`state_7 ^ state_8` >>> 7) | (`state_7 ^ state_8` << 25)
+    state_7 = state_7 ^ state_8
+    state_7 = (state_7 >>> 7) | (state_7 << 25)
 
     state_3 = state_3 + state_4 + m_7
-    `state_14 ^ state_3` = state_14 ^ state_3
-    state_14 = (`state_14 ^ state_3` >>> 16) | (`state_14 ^ state_3` << 16)
+    state_14 = state_14 ^ state_3
+    state_14 = (state_14 >>> 16) | (state_14 << 16)
 
     state_9 = state_9 + state_14
-    `state_4 ^ state_9` = state_4 ^ state_9
-    state_4 = (`state_4 ^ state_9` >>> 12) | (`state_4 ^ state_9` << 20)
+    state_4 = state_4 ^ state_9
+    state_4 = (state_4 >>> 12) | (state_4 << 20)
 
     state_3 = state_3 + state_4 + m_13
-    `state_14 ^ state_3` = state_14 ^ state_3
-    state_14 = (`state_14 ^ state_3` >>> 8) | (`state_14 ^ state_3` << 24)
+    state_14 = state_14 ^ state_3
+    state_14 = (state_14 >>> 8) | (state_14 << 24)
 
     state_9 = state_9 + state_14
-    `state_4 ^ state_9` = state_4 ^ state_9
-    state_4 = (`state_4 ^ state_9` >>> 7) | (`state_4 ^ state_9` << 25)
+    state_4 = state_4 ^ state_9
+    state_4 = (state_4 >>> 7) | (state_4 << 25)
 
     // update state
     state(0) = state_0 ^ state_8
@@ -1029,29 +1012,26 @@ class CompressRoundsBenchmark {
   private def g(
     state: Array[Int], a: Int, b: Int, c: Int, d: Int, mx: Int, my: Int
   ): Unit = {
-    var state_a = state(a)
     var state_b = state(b)
-    var state_c = state(c)
     var state_d = state(d)
 
-    state_a = state_a + state_b + mx
-    var `state_d ^ state_a` = state_d ^ state_a
-    state_d = (`state_d ^ state_a` >>> 16) | (`state_d ^ state_a` << 16)
+    var state_a = state(a) + state_b + mx
+    state_d = state_d ^ state_a
+    state_d = (state_d >>> 16) | (state_d << 16)
 
-    state_c = state_c + state_d
-    var `state_b ^ state_c` = state_b ^ state_c
-    state_b = (`state_b ^ state_c` >>> 12) | (`state_b ^ state_c` << 20)
+    var state_c = state(c) + state_d
+    state_b = state_b ^ state_c
+    state_b = (state_b >>> 12) | (state_b << 20)
 
     state_a = state_a + state_b + my
-    `state_d ^ state_a` = state_d ^ state_a
-    state_d = (`state_d ^ state_a` >>> 8) | (`state_d ^ state_a` << 24)
+    state_d = state_d ^ state_a
+    state_d = (state_d >>> 8) | (state_d << 24)
 
     state_c = state_c + state_d
-    `state_b ^ state_c` = state_b ^ state_c
-    state_b = (`state_b ^ state_c` >>> 7) | (`state_b ^ state_c` << 25)
+    state_b = state_b ^ state_c
+    state(b) = (state_b >>> 7) | (state_b << 25)
 
     state(a) = state_a
-    state(b) = state_b
     state(c) = state_c
     state(d) = state_d
   }
@@ -1176,139 +1156,139 @@ class CompressRoundsBenchmark {
 
     // g(state, 0, 4, 8, 12, m_0, m_1)
     state_0 = state_0 + state_4 + m_0
-    var `state_12 ^ state_0` = state_12 ^ state_0
-    state_12 = (`state_12 ^ state_0` >>> 16) | (`state_12 ^ state_0` << 16)
+    state_12 = state_12 ^ state_0
+    state_12 = (state_12 >>> 16) | (state_12 << 16)
 
     state_8 = state_8 + state_12
-    var `state_4 ^ state_8` = state_4 ^ state_8
-    state_4 = (`state_4 ^ state_8` >>> 12) | (`state_4 ^ state_8` << 20)
+    state_4 = state_4 ^ state_8
+    state_4 = (state_4 >>> 12) | (state_4 << 20)
 
     state_0 = state_0 + state_4 + m_1
-    `state_12 ^ state_0` = state_12 ^ state_0
-    state_12 = (`state_12 ^ state_0` >>> 8) | (`state_12 ^ state_0` << 24)
+    state_12 = state_12 ^ state_0
+    state_12 = (state_12 >>> 8) | (state_12 << 24)
 
     state_8 = state_8 + state_12
-    `state_4 ^ state_8` = state_4 ^ state_8
-    state_4 = (`state_4 ^ state_8` >>> 7) | (`state_4 ^ state_8` << 25)
+    state_4 = state_4 ^ state_8
+    state_4 = (state_4 >>> 7) | (state_4 << 25)
 
     // g(state, 1, 5, 9, 13, m_2, m_3)
     state_1 = state_1 + state_5 + m_2
-    var `state_13 ^ state_1` = state_13 ^ state_1
-    state_13 = (`state_13 ^ state_1` >>> 16) | (`state_13 ^ state_1` << 16)
+    state_13 = state_13 ^ state_1
+    state_13 = (state_13 >>> 16) | (state_13 << 16)
 
     state_9 = state_9 + state_13
-    var `state_5 ^ state_9` = state_5 ^ state_9
-    state_5 = (`state_5 ^ state_9` >>> 12) | (`state_5 ^ state_9` << 20)
+    state_5 = state_5 ^ state_9
+    state_5 = (state_5 >>> 12) | (state_5 << 20)
 
     state_1 = state_1 + state_5 + m_3
-    `state_13 ^ state_1` = state_13 ^ state_1
-    state_13 = (`state_13 ^ state_1` >>> 8) | (`state_13 ^ state_1` << 24)
+    state_13 = state_13 ^ state_1
+    state_13 = (state_13 >>> 8) | (state_13 << 24)
 
     state_9 = state_9 + state_13
-    `state_5 ^ state_9` = state_5 ^ state_9
-    state_5 = (`state_5 ^ state_9` >>> 7) | (`state_5 ^ state_9` << 25)
+    state_5 = state_5 ^ state_9
+    state_5 = (state_5 >>> 7) | (state_5 << 25)
 
     // g(state, 2, 6, 10, 14, m_4, m_5)
     state_2 = state_2 + state_6 + m_4
-    var `state_14 ^ state_2` = state_14 ^ state_2
-    state_14 = (`state_14 ^ state_2` >>> 16) | (`state_14 ^ state_2` << 16)
+    state_14 = state_14 ^ state_2
+    state_14 = (state_14 >>> 16) | (state_14 << 16)
 
     state_10 = state_10 + state_14
-    var `state_6 ^ state_10` = state_6 ^ state_10
-    state_6 = (`state_6 ^ state_10` >>> 12) | (`state_6 ^ state_10` << 20)
+    state_6 = state_6 ^ state_10
+    state_6 = (state_6 >>> 12) | (state_6 << 20)
 
     state_2 = state_2 + state_6 + m_5
-    `state_14 ^ state_2` = state_14 ^ state_2
-    state_14 = (`state_14 ^ state_2` >>> 8) | (`state_14 ^ state_2` << 24)
+    state_14 = state_14 ^ state_2
+    state_14 = (state_14 >>> 8) | (state_14 << 24)
 
     state_10 = state_10 + state_14
-    `state_6 ^ state_10` = state_6 ^ state_10
-    state_6 = (`state_6 ^ state_10` >>> 7) | (`state_6 ^ state_10` << 25)
+    state_6 = state_6 ^ state_10
+    state_6 = (state_6 >>> 7) | (state_6 << 25)
 
     // g(state, 3, 7, 11, 15, m_6, m_7)
     state_3 = state_3 + state_7 + m_6
-    var `state_15 ^ state_3` = state_15 ^ state_3
-    state_15 = (`state_15 ^ state_3` >>> 16) | (`state_15 ^ state_3` << 16)
+    state_15 = state_15 ^ state_3
+    state_15 = (state_15 >>> 16) | (state_15 << 16)
 
     state_11 = state_11 + state_15
-    var `state_7 ^ state_11` = state_7 ^ state_11
-    state_7 = (`state_7 ^ state_11` >>> 12) | (`state_7 ^ state_11` << 20)
+    state_7 = state_7 ^ state_11
+    state_7 = (state_7 >>> 12) | (state_7 << 20)
 
     state_3 = state_3 + state_7 + m_7
-    `state_15 ^ state_3` = state_15 ^ state_3
-    state_15 = (`state_15 ^ state_3` >>> 8) | (`state_15 ^ state_3` << 24)
+    state_15 = state_15 ^ state_3
+    state_15 = (state_15 >>> 8) | (state_15 << 24)
 
     state_11 = state_11 + state_15
-    `state_7 ^ state_11` = state_7 ^ state_11
-    state_7 = (`state_7 ^ state_11` >>> 7) | (`state_7 ^ state_11` << 25)
+    state_7 = state_7 ^ state_11
+    state_7 = (state_7 >>> 7) | (state_7 << 25)
 
     // g(state, 0, 5, 10, 15, m_8, m_9)
     state_0 = state_0 + state_5 + m_8
-    var `state_15 ^ state_0` = state_15 ^ state_0
-    state_15 = (`state_15 ^ state_0` >>> 16) | (`state_15 ^ state_0` << 16)
+    state_15 = state_15 ^ state_0
+    state_15 = (state_15 >>> 16) | (state_15 << 16)
 
     state_10 = state_10 + state_15
-    var `state_5 ^ state_10` = state_5 ^ state_10
-    state_5 = (`state_5 ^ state_10` >>> 12) | (`state_5 ^ state_10` << 20)
+    state_5 = state_5 ^ state_10
+    state_5 = (state_5 >>> 12) | (state_5 << 20)
 
     state_0 = state_0 + state_5 + m_9
-    `state_15 ^ state_0` = state_15 ^ state_0
-    state_15 = (`state_15 ^ state_0` >>> 8) | (`state_15 ^ state_0` << 24)
+    state_15 = state_15 ^ state_0
+    state_15 = (state_15 >>> 8) | (state_15 << 24)
 
     state_10 = state_10 + state_15
-    `state_5 ^ state_10` = state_5 ^ state_10
-    state_5 = (`state_5 ^ state_10` >>> 7) | (`state_5 ^ state_10` << 25)
+    state_5 = state_5 ^ state_10
+    state_5 = (state_5 >>> 7) | (state_5 << 25)
 
     // g(state, 1, 6, 11, 12, m_10, m_11)
     state_1 = state_1 + state_6 + m_10
-    var `state_12 ^ state_1` = state_12 ^ state_1
-    state_12 = (`state_12 ^ state_1` >>> 16) | (`state_12 ^ state_1` << 16)
+    state_12 = state_12 ^ state_1
+    state_12 = (state_12 >>> 16) | (state_12 << 16)
 
     state_11 = state_11 + state_12
-    var `state_6 ^ state_11` = state_6 ^ state_11
-    state_6 = (`state_6 ^ state_11` >>> 12) | (`state_6 ^ state_11` << 20)
+    state_6 = state_6 ^ state_11
+    state_6 = (state_6 >>> 12) | (state_6 << 20)
 
     state_1 = state_1 + state_6 + m_11
-    `state_12 ^ state_1` = state_12 ^ state_1
-    state_12 = (`state_12 ^ state_1` >>> 8) | (`state_12 ^ state_1` << 24)
+    state_12 = state_12 ^ state_1
+    state_12 = (state_12 >>> 8) | (state_12 << 24)
 
     state_11 = state_11 + state_12
-    `state_6 ^ state_11` = state_6 ^ state_11
-    state_6 = (`state_6 ^ state_11` >>> 7) | (`state_6 ^ state_11` << 25)
+    state_6 = state_6 ^ state_11
+    state_6 = (state_6 >>> 7) | (state_6 << 25)
 
     // g(state, 2, 7, 8, 13, m_12, m_13)
     state_2 = state_2 + state_7 + m_12
-    var `state_13 ^ state_2` = state_13 ^ state_2
-    state_13 = (`state_13 ^ state_2` >>> 16) | (`state_13 ^ state_2` << 16)
+    state_13 = state_13 ^ state_2
+    state_13 = (state_13 >>> 16) | (state_13 << 16)
 
     state_8 = state_8 + state_13
-    var `state_7 ^ state_8` = state_7 ^ state_8
-    state_7 = (`state_7 ^ state_8` >>> 12) | (`state_7 ^ state_8` << 20)
+    state_7 = state_7 ^ state_8
+    state_7 = (state_7 >>> 12) | (state_7 << 20)
 
     state_2 = state_2 + state_7 + m_13
-    `state_13 ^ state_2` = state_13 ^ state_2
-    state_13 = (`state_13 ^ state_2` >>> 8) | (`state_13 ^ state_2` << 24)
+    state_13 = state_13 ^ state_2
+    state_13 = (state_13 >>> 8) | (state_13 << 24)
 
     state_8 = state_8 + state_13
-    `state_7 ^ state_8` = state_7 ^ state_8
-    state_7 = (`state_7 ^ state_8` >>> 7) | (`state_7 ^ state_8` << 25)
+    state_7 = state_7 ^ state_8
+    state_7 = (state_7 >>> 7) | (state_7 << 25)
 
     // g(state, 3, 4, 9, 14, m_14, m_15)
     state_3 = state_3 + state_4 + m_14
-    var `state_14 ^ state_3` = state_14 ^ state_3
-    state_14 = (`state_14 ^ state_3` >>> 16) | (`state_14 ^ state_3` << 16)
+    state_14 = state_14 ^ state_3
+    state_14 = (state_14 >>> 16) | (state_14 << 16)
 
     state_9 = state_9 + state_14
-    var `state_4 ^ state_9` = state_4 ^ state_9
-    state_4 = (`state_4 ^ state_9` >>> 12) | (`state_4 ^ state_9` << 20)
+    state_4 = state_4 ^ state_9
+    state_4 = (state_4 >>> 12) | (state_4 << 20)
 
     state_3 = state_3 + state_4 + m_15
-    `state_14 ^ state_3` = state_14 ^ state_3
-    state_14 = (`state_14 ^ state_3` >>> 8) | (`state_14 ^ state_3` << 24)
+    state_14 = state_14 ^ state_3
+    state_14 = (state_14 >>> 8) | (state_14 << 24)
 
     state_9 = state_9 + state_14
-    `state_4 ^ state_9` = state_4 ^ state_9
-    state_4 = (`state_4 ^ state_9` >>> 7) | (`state_4 ^ state_9` << 25)
+    state_4 = state_4 ^ state_9
+    state_4 = (state_4 >>> 7) | (state_4 << 25)
 
     state(0) = state_0
     state(1) = state_1
@@ -1497,20 +1477,20 @@ class CompressRoundsBenchmark {
     var state_d = state(12)
 
     state_a = state_a + state_b + mx
-    var `state_d ^ state_a` = state_d ^ state_a
-    state_d = (`state_d ^ state_a` >>> 16) | (`state_d ^ state_a` << 16)
+    state_d = state_d ^ state_a
+    state_d = (state_d >>> 16) | (state_d << 16)
 
     state_c = state_c + state_d
-    var `state_b ^ state_c` = state_b ^ state_c
-    state_b = (`state_b ^ state_c` >>> 12) | (`state_b ^ state_c` << 20)
+    state_b = state_b ^ state_c
+    state_b = (state_b >>> 12) | (state_b << 20)
 
     state_a = state_a + state_b + my
-    `state_d ^ state_a` = state_d ^ state_a
-    state_d = (`state_d ^ state_a` >>> 8) | (`state_d ^ state_a` << 24)
+    state_d = state_d ^ state_a
+    state_d = (state_d >>> 8) | (state_d << 24)
 
     state_c = state_c + state_d
-    `state_b ^ state_c` = state_b ^ state_c
-    state_b = (`state_b ^ state_c` >>> 7) | (`state_b ^ state_c` << 25)
+    state_b = state_b ^ state_c
+    state_b = (state_b >>> 7) | (state_b << 25)
 
     state(0) = state_a
     state(4) = state_b
@@ -1526,20 +1506,20 @@ class CompressRoundsBenchmark {
     var state_d = state(13)
 
     state_a = state_a + state_b + mx
-    var `state_d ^ state_a` = state_d ^ state_a
-    state_d = (`state_d ^ state_a` >>> 16) | (`state_d ^ state_a` << 16)
+    state_d = state_d ^ state_a
+    state_d = (state_d >>> 16) | (state_d << 16)
 
     state_c = state_c + state_d
-    var `state_b ^ state_c` = state_b ^ state_c
-    state_b = (`state_b ^ state_c` >>> 12) | (`state_b ^ state_c` << 20)
+    state_b = state_b ^ state_c
+    state_b = (state_b >>> 12) | (state_b << 20)
 
     state_a = state_a + state_b + my
-    `state_d ^ state_a` = state_d ^ state_a
-    state_d = (`state_d ^ state_a` >>> 8) | (`state_d ^ state_a` << 24)
+    state_d = state_d ^ state_a
+    state_d = (state_d >>> 8) | (state_d << 24)
 
     state_c = state_c + state_d
-    `state_b ^ state_c` = state_b ^ state_c
-    state_b = (`state_b ^ state_c` >>> 7) | (`state_b ^ state_c` << 25)
+    state_b = state_b ^ state_c
+    state_b = (state_b >>> 7) | (state_b << 25)
 
     state(1) = state_a
     state(5) = state_b
@@ -1555,20 +1535,20 @@ class CompressRoundsBenchmark {
     var state_d = state(14)
 
     state_a = state_a + state_b + mx
-    var `state_d ^ state_a` = state_d ^ state_a
-    state_d = (`state_d ^ state_a` >>> 16) | (`state_d ^ state_a` << 16)
+    state_d = state_d ^ state_a
+    state_d = (state_d >>> 16) | (state_d << 16)
 
     state_c = state_c + state_d
-    var `state_b ^ state_c` = state_b ^ state_c
-    state_b = (`state_b ^ state_c` >>> 12) | (`state_b ^ state_c` << 20)
+    state_b = state_b ^ state_c
+    state_b = (state_b >>> 12) | (state_b << 20)
 
     state_a = state_a + state_b + my
-    `state_d ^ state_a` = state_d ^ state_a
-    state_d = (`state_d ^ state_a` >>> 8) | (`state_d ^ state_a` << 24)
+    state_d = state_d ^ state_a
+    state_d = (state_d >>> 8) | (state_d << 24)
 
     state_c = state_c + state_d
-    `state_b ^ state_c` = state_b ^ state_c
-    state_b = (`state_b ^ state_c` >>> 7) | (`state_b ^ state_c` << 25)
+    state_b = state_b ^ state_c
+    state_b = (state_b >>> 7) | (state_b << 25)
 
     state(2) = state_a
     state(6) = state_b
@@ -1584,20 +1564,20 @@ class CompressRoundsBenchmark {
     var state_d = state(15)
 
     state_a = state_a + state_b + mx
-    var `state_d ^ state_a` = state_d ^ state_a
-    state_d = (`state_d ^ state_a` >>> 16) | (`state_d ^ state_a` << 16)
+    state_d = state_d ^ state_a
+    state_d = (state_d >>> 16) | (state_d << 16)
 
     state_c = state_c + state_d
-    var `state_b ^ state_c` = state_b ^ state_c
-    state_b = (`state_b ^ state_c` >>> 12) | (`state_b ^ state_c` << 20)
+    state_b = state_b ^ state_c
+    state_b = (state_b >>> 12) | (state_b << 20)
 
     state_a = state_a + state_b + my
-    `state_d ^ state_a` = state_d ^ state_a
-    state_d = (`state_d ^ state_a` >>> 8) | (`state_d ^ state_a` << 24)
+    state_d = state_d ^ state_a
+    state_d = (state_d >>> 8) | (state_d << 24)
 
     state_c = state_c + state_d
-    `state_b ^ state_c` = state_b ^ state_c
-    state_b = (`state_b ^ state_c` >>> 7) | (`state_b ^ state_c` << 25)
+    state_b = state_b ^ state_c
+    state_b = (state_b >>> 7) | (state_b << 25)
 
     state(3) = state_a
     state(7) = state_b
@@ -1613,20 +1593,20 @@ class CompressRoundsBenchmark {
     var state_d = state(12)
 
     state_a = state_a + state_b + mx
-    var `state_d ^ state_a` = state_d ^ state_a
-    state_d = (`state_d ^ state_a` >>> 16) | (`state_d ^ state_a` << 16)
+    state_d = state_d ^ state_a
+    state_d = (state_d >>> 16) | (state_d << 16)
 
     state_c = state_c + state_d
-    var `state_b ^ state_c` = state_b ^ state_c
-    state_b = (`state_b ^ state_c` >>> 12) | (`state_b ^ state_c` << 20)
+    state_b = state_b ^ state_c
+    state_b = (state_b >>> 12) | (state_b << 20)
 
     state_a = state_a + state_b + my
-    `state_d ^ state_a` = state_d ^ state_a
-    state_d = (`state_d ^ state_a` >>> 8) | (`state_d ^ state_a` << 24)
+    state_d = state_d ^ state_a
+    state_d = (state_d >>> 8) | (state_d << 24)
 
     state_c = state_c + state_d
-    `state_b ^ state_c` = state_b ^ state_c
-    state_b = (`state_b ^ state_c` >>> 7) | (`state_b ^ state_c` << 25)
+    state_b = state_b ^ state_c
+    state_b = (state_b >>> 7) | (state_b << 25)
 
     state(0) = state_a
     state(5) = state_b
@@ -1642,20 +1622,20 @@ class CompressRoundsBenchmark {
     var state_d = state(12)
 
     state_a = state_a + state_b + mx
-    var `state_d ^ state_a` = state_d ^ state_a
-    state_d = (`state_d ^ state_a` >>> 16) | (`state_d ^ state_a` << 16)
+    state_d = state_d ^ state_a
+    state_d = (state_d >>> 16) | (state_d << 16)
 
     state_c = state_c + state_d
-    var `state_b ^ state_c` = state_b ^ state_c
-    state_b = (`state_b ^ state_c` >>> 12) | (`state_b ^ state_c` << 20)
+    state_b = state_b ^ state_c
+    state_b = (state_b >>> 12) | (state_b << 20)
 
     state_a = state_a + state_b + my
-    `state_d ^ state_a` = state_d ^ state_a
-    state_d = (`state_d ^ state_a` >>> 8) | (`state_d ^ state_a` << 24)
+    state_d = state_d ^ state_a
+    state_d = (state_d >>> 8) | (state_d << 24)
 
     state_c = state_c + state_d
-    `state_b ^ state_c` = state_b ^ state_c
-    state_b = (`state_b ^ state_c` >>> 7) | (`state_b ^ state_c` << 25)
+    state_b = state_b ^ state_c
+    state_b = (state_b >>> 7) | (state_b << 25)
 
     state(1) = state_a
     state(6) = state_b
@@ -1671,20 +1651,20 @@ class CompressRoundsBenchmark {
     var state_d = state(13)
 
     state_a = state_a + state_b + mx
-    var `state_d ^ state_a` = state_d ^ state_a
-    state_d = (`state_d ^ state_a` >>> 16) | (`state_d ^ state_a` << 16)
+    state_d = state_d ^ state_a
+    state_d = (state_d >>> 16) | (state_d << 16)
 
     state_c = state_c + state_d
-    var `state_b ^ state_c` = state_b ^ state_c
-    state_b = (`state_b ^ state_c` >>> 12) | (`state_b ^ state_c` << 20)
+    state_b = state_b ^ state_c
+    state_b = (state_b >>> 12) | (state_b << 20)
 
     state_a = state_a + state_b + my
-    `state_d ^ state_a` = state_d ^ state_a
-    state_d = (`state_d ^ state_a` >>> 8) | (`state_d ^ state_a` << 24)
+    state_d = state_d ^ state_a
+    state_d = (state_d >>> 8) | (state_d << 24)
 
     state_c = state_c + state_d
-    `state_b ^ state_c` = state_b ^ state_c
-    state_b = (`state_b ^ state_c` >>> 7) | (`state_b ^ state_c` << 25)
+    state_b = state_b ^ state_c
+    state_b = (state_b >>> 7) | (state_b << 25)
 
     state(3) = state_a
     state(7) = state_b
@@ -1700,20 +1680,20 @@ class CompressRoundsBenchmark {
     var state_d = state(14)
 
     state_a = state_a + state_b + mx
-    var `state_d ^ state_a` = state_d ^ state_a
-    state_d = (`state_d ^ state_a` >>> 16) | (`state_d ^ state_a` << 16)
+    state_d = state_d ^ state_a
+    state_d = (state_d >>> 16) | (state_d << 16)
 
     state_c = state_c + state_d
-    var `state_b ^ state_c` = state_b ^ state_c
-    state_b = (`state_b ^ state_c` >>> 12) | (`state_b ^ state_c` << 20)
+    state_b = state_b ^ state_c
+    state_b = (state_b >>> 12) | (state_b << 20)
 
     state_a = state_a + state_b + my
-    `state_d ^ state_a` = state_d ^ state_a
-    state_d = (`state_d ^ state_a` >>> 8) | (`state_d ^ state_a` << 24)
+    state_d = state_d ^ state_a
+    state_d = (state_d >>> 8) | (state_d << 24)
 
     state_c = state_c + state_d
-    `state_b ^ state_c` = state_b ^ state_c
-    state_b = (`state_b ^ state_c` >>> 7) | (`state_b ^ state_c` << 25)
+    state_b = state_b ^ state_c
+    state_b = (state_b >>> 7) | (state_b << 25)
 
     state(3) = state_a
     state(4) = state_b
