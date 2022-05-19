@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [unreleased]
+- Performance improved: now it's about 30% slower than C version
 
 ## [3.1.0] - 2022-05-17
 - Introduced `doneCallback` and `doneXorCallBack`
