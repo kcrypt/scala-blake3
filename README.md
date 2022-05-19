@@ -71,7 +71,7 @@ All benchmarks were performed on two machines:
 Short summary:
  - it is about 4 times slower than [AVX2 assembly] version via JNI which is
    expected,
- - it is about 30% slower than the original C version via JNI,
+ - it is about 20% slower than the original C version via JNI,
  - it has a constant memory footprint (yeah, no GC on hashing!),
  - increasing result hash size has the same impact as hashing.
 
