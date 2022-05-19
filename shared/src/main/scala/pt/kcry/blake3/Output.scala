@@ -19,8 +19,7 @@ import scala.language.implicitConversions
 
 private[blake3] class Output(
   var inputChainingValue: Array[Int], val blockWords: Array[Int],
-  var counter: Long, var blockLen: Int, var flags: Int,
-  val tmpBlockWords: Array[Int]
+  var blockLen: Int, var flags: Int, val tmpBlockWords: Array[Int]
 ) {
   def rootBytes(out: Array[Byte], off: Int, len: Int): Unit = {
     var outputBlockCounter = 0

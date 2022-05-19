@@ -27,7 +27,7 @@ private[blake3] class HasherImpl(val key: Array[Int], val flags: Int)
     new ChunkState(key, 0, flags, tmpChunkCV, tmpBlockWords)
 
   private val output =
-    new Output(key, tmpBlockWords, 0, BLOCK_LEN, flags, tmpChunkCV)
+    new Output(key, tmpBlockWords, BLOCK_LEN, flags, tmpChunkCV)
 
   // Space for 54 subtree chaining values
   private val cvStack: Array[Array[Int]] = {
@@ -199,7 +199,6 @@ private[blake3] class HasherImpl(val key: Array[Int], val flags: Int)
 
     // reset cached output
     output.inputChainingValue = inputChainingValue
-    output.counter = counter
     output.blockLen = blockLen
     output.flags = outputFlags
 
