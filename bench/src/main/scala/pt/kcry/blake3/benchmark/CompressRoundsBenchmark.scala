@@ -1012,16 +1012,14 @@ class CompressRoundsBenchmark {
   private def g(
     state: Array[Int], a: Int, b: Int, c: Int, d: Int, mx: Int, my: Int
   ): Unit = {
-    var state_a = state(a)
     var state_b = state(b)
-    var state_c = state(c)
     var state_d = state(d)
 
-    state_a = state_a + state_b + mx
+    var state_a = state(a) + state_b + mx
     state_d = state_d ^ state_a
     state_d = (state_d >>> 16) | (state_d << 16)
 
-    state_c = state_c + state_d
+    var state_c = state(c) + state_d
     state_b = state_b ^ state_c
     state_b = (state_b >>> 12) | (state_b << 20)
 
@@ -1031,10 +1029,9 @@ class CompressRoundsBenchmark {
 
     state_c = state_c + state_d
     state_b = state_b ^ state_c
-    state_b = (state_b >>> 7) | (state_b << 25)
+    state(b) = (state_b >>> 7) | (state_b << 25)
 
     state(a) = state_a
-    state(b) = state_b
     state(c) = state_c
     state(d) = state_d
   }
