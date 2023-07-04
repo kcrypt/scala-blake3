@@ -163,7 +163,9 @@ class TestVector(
       }
 
     val reducer: (
-      ((String, String, String), (String, String, String)) => (String, String, String)
+      ((String, String, String), (String, String, String)) => (
+        String, String, String
+      )
     ) = {
       case ((leftHash: String, leftKeyedHash: String, leftDeriveKeyHash: String),
             (rightHash: String, rightKeyedHash: String,
