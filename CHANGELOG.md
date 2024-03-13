@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 
 ## [unreleased]
+- Drop support scala-2.12 for Scala.JS and Scala-Native
+- Switched to scala-2.12.19
+- Switched to scala-2.13.13
+- Switched to scala-3.4.0
+- Switched to scalajs-1.15.0
+- Switched to scala-native-0.4.7
 
 ## [3.1.1] - 2022-05-19
 - Performance improved: now it's about 20% slower than C version
