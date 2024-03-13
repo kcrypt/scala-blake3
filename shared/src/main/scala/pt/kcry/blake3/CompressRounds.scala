@@ -25,7 +25,8 @@ package pt.kcry.blake3
  * Thus, as nice side effect it makes compiling at SJS and scala-native
  * much faster, much-much faster.
  *
- * See: CompressRoundsBenchmark
+ * See: CompressRoundsBenchmark or listen here
+ * ▶ 🔘───────────────────────────────── 34:15
  */
 private[blake3] object CompressRounds {
   @inline
