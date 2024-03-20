@@ -7,7 +7,7 @@ All notable changes to this project will be documented in this file.
 - Switched to scala-2.12.19
 - Switched to scala-2.13.13
 - Switched to scala-3.4.0
-- Switched to scalajs-1.15.0
+- Switched to scalajs-1.16.0
 - Switched to scala-native-0.4.7
 
 ## [3.1.1] - 2022-05-19
