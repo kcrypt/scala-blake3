@@ -40,8 +40,7 @@ lazy val blake3 = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   ).jvmSettings(
     crossScalaVersions := Seq(scala210, scala211, scala212, scala213, scala3)
   ).jsSettings(crossScalaVersions := Seq(scala212, scala213, scala3))
-  .nativeSettings(crossScalaVersions := Seq(scala212, scala213, scala3),
-    nativeLinkStubs := true)
+  .nativeSettings(crossScalaVersions := Seq(scala212, scala213, scala3))
 
 lazy val bench = project.in(file("bench")).dependsOn(blake3.jvm)
   .enablePlugins(AutomateHeaderPlugin).settings(
