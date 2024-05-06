@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [unreleased]
+- Switched to scala-2.13.14
 
 ## [3.1.2] - 2024-04-24
 - Drop support scala-2.12 for Scala.JS and Scala-Native
