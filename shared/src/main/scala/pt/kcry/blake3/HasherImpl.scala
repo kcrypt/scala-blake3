@@ -62,8 +62,9 @@ private[blake3] class HasherImpl(val key: Array[Int], val flags: Int)
       while ((totalChunks & 1) == 0) {
         cvStackLen -= 1
         mergeChildCV(tmpBlockWords, cvStack(cvStackLen), tmpChunkCV)
-        compressRounds(tmpChunkCV, tmpBlockWords, key, 0, BLOCK_LEN,
-          flags | PARENT)
+        compressRounds(
+          tmpChunkCV, tmpBlockWords, key, 0, BLOCK_LEN, flags | PARENT
+        )
         totalChunks >>= 1
       }
 
@@ -185,8 +186,10 @@ private[blake3] class HasherImpl(val key: Array[Int], val flags: Int)
     while (parentNodesRemaining > 0) {
       parentNodesRemaining -= 1
 
-      compressRounds(tmpChunkCV, tmpBlockWords, inputChainingValue, counter,
-        blockLen, outputFlags)
+      compressRounds(
+        tmpChunkCV, tmpBlockWords, inputChainingValue, counter, blockLen,
+        outputFlags
+      )
 
       // emulate reset
       inputChainingValue = key

@@ -61,8 +61,10 @@ class OutputBenchmark {
     val flags = this.flags | ROOT
 
     while (pos < lim) {
-      compressRounds(words, blockWords, inputChainingValue, outputBlockCounter,
-        blockLen, flags)
+      compressRounds(
+        words, blockWords, inputChainingValue, outputBlockCounter, blockLen,
+        flags
+      )
 
       var wordIdx = 0
       while (wordIdx < blockLenWords && pos < lim) {
@@ -118,8 +120,10 @@ class OutputBenchmark {
     val flags = this.flags | ROOT
 
     while (pos < lim) {
-      compressRounds(words, blockWords, inputChainingValue, outputBlockCounter,
-        blockLen, flags)
+      compressRounds(
+        words, blockWords, inputChainingValue, outputBlockCounter, blockLen,
+        flags
+      )
 
       var wordIdx = 0
       while (wordIdx < blockLenWords && pos < lim) {
@@ -168,8 +172,10 @@ class OutputBenchmark {
 
     var lim = off + len - 63
     while (pos < lim) {
-      compressRounds(words, blockWords, inputChainingValue, outputBlockCounter,
-        blockLen, flags)
+      compressRounds(
+        words, blockWords, inputChainingValue, outputBlockCounter, blockLen,
+        flags
+      )
 
       val word_0 = words(0)
       val word_1 = words(1)
@@ -259,8 +265,10 @@ class OutputBenchmark {
 
     lim += 63
     if (pos < lim) {
-      compressRounds(words, blockWords, inputChainingValue, outputBlockCounter,
-        blockLen, flags)
+      compressRounds(
+        words, blockWords, inputChainingValue, outputBlockCounter, blockLen,
+        flags
+      )
 
       var wordIdx = 0
       while (pos < lim) {

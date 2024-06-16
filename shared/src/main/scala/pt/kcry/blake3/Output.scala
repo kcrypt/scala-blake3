@@ -30,8 +30,10 @@ private[blake3] class Output(
 
     var lim = off + len - 63
     while (pos < lim) {
-      compressRounds(words, blockWords, inputChainingValue, outputBlockCounter,
-        blockLen, flags)
+      compressRounds(
+        words, blockWords, inputChainingValue, outputBlockCounter, blockLen,
+        flags
+      )
 
       val word_0 = words(0)
       val word_1 = words(1)
@@ -121,8 +123,10 @@ private[blake3] class Output(
 
     lim += 63
     if (pos < lim) {
-      compressRounds(words, blockWords, inputChainingValue, outputBlockCounter,
-        blockLen, flags)
+      compressRounds(
+        words, blockWords, inputChainingValue, outputBlockCounter, blockLen,
+        flags
+      )
 
       var wordIdx = 0
       while (pos < lim) {
@@ -172,8 +176,10 @@ private[blake3] class Output(
 
     var lim = outOff + len - 63
     while (outPos < lim) {
-      compressRounds(words, blockWords, inputChainingValue, outputBlockCounter,
-        blockLen, flags)
+      compressRounds(
+        words, blockWords, inputChainingValue, outputBlockCounter, blockLen,
+        flags
+      )
 
       val word_0 = words(0)
       val word_1 = words(1)
@@ -264,8 +270,10 @@ private[blake3] class Output(
 
     lim += 63
     if (outPos < lim) {
-      compressRounds(words, blockWords, inputChainingValue, outputBlockCounter,
-        blockLen, flags)
+      compressRounds(
+        words, blockWords, inputChainingValue, outputBlockCounter, blockLen,
+        flags
+      )
 
       var wordIdx = 0
       while (outPos < lim) {
@@ -307,17 +315,20 @@ private[blake3] class Output(
     }
   }
 
-  def rootByte(): Byte = (compressRounds(blockWords, inputChainingValue, 0,
-    blockLen, flags | ROOT) >> 32).toByte
+  def rootByte(): Byte = (compressRounds(
+    blockWords, inputChainingValue, 0, blockLen, flags | ROOT
+  ) >> 32).toByte
 
-  def rootShort(): Short = (compressRounds(blockWords, inputChainingValue, 0,
-    blockLen, flags | ROOT) >> 32).toShort
+  def rootShort(): Short = (compressRounds(
+    blockWords, inputChainingValue, 0, blockLen, flags | ROOT
+  ) >> 32).toShort
 
-  def rootInt(): Int = (compressRounds(blockWords, inputChainingValue, 0,
-    blockLen, flags | ROOT) >> 32).toInt
+  def rootInt(): Int = (compressRounds(
+    blockWords, inputChainingValue, 0, blockLen, flags | ROOT
+  ) >> 32).toInt
 
-  def rootLong(): Long = compressRounds(blockWords, inputChainingValue, 0,
-    blockLen, flags | ROOT)
+  def rootLong(): Long =
+    compressRounds(blockWords, inputChainingValue, 0, blockLen, flags | ROOT)
 
   def rootBytes(out: OutputStream, len: Int): Unit = {
     var outputBlockCounter = 0
@@ -328,8 +339,10 @@ private[blake3] class Output(
 
     val lim = len - 63
     while (pos < lim) {
-      compressRounds(words, blockWords, inputChainingValue, outputBlockCounter,
-        blockLen, flags)
+      compressRounds(
+        words, blockWords, inputChainingValue, outputBlockCounter, blockLen,
+        flags
+      )
 
       val word_0 = words(0)
       val word_1 = words(1)
@@ -418,8 +431,10 @@ private[blake3] class Output(
     }
 
     if (pos < len) {
-      compressRounds(words, blockWords, inputChainingValue, outputBlockCounter,
-        blockLen, flags)
+      compressRounds(
+        words, blockWords, inputChainingValue, outputBlockCounter, blockLen,
+        flags
+      )
 
       var wordIdx = 0
       while (pos < len) {
@@ -466,8 +481,10 @@ private[blake3] class Output(
 
     val lim = len - 63
     while (pos < lim) {
-      compressRounds(words, blockWords, inputChainingValue, outputBlockCounter,
-        blockLen, flags)
+      compressRounds(
+        words, blockWords, inputChainingValue, outputBlockCounter, blockLen,
+        flags
+      )
 
       val word_0 = words(0)
       val word_1 = words(1)
@@ -556,8 +573,10 @@ private[blake3] class Output(
     }
 
     if (pos < len) {
-      compressRounds(words, blockWords, inputChainingValue, outputBlockCounter,
-        blockLen, flags)
+      compressRounds(
+        words, blockWords, inputChainingValue, outputBlockCounter, blockLen,
+        flags
+      )
 
       var wordIdx = 0
       while (pos < len) {
@@ -606,8 +625,10 @@ private[blake3] class Output(
 
     val lim = len - 63
     while (pos < lim) {
-      compressRounds(words, blockWords, inputChainingValue, outputBlockCounter,
-        blockLen, flags)
+      compressRounds(
+        words, blockWords, inputChainingValue, outputBlockCounter, blockLen,
+        flags
+      )
 
       val word_0 = words(0)
       val word_1 = words(1)
@@ -696,8 +717,10 @@ private[blake3] class Output(
     }
 
     if (pos < len) {
-      compressRounds(words, blockWords, inputChainingValue, outputBlockCounter,
-        blockLen, flags)
+      compressRounds(
+        words, blockWords, inputChainingValue, outputBlockCounter, blockLen,
+        flags
+      )
 
       var wordIdx = 0
       while (pos < len) {
@@ -744,8 +767,10 @@ private[blake3] class Output(
 
     val lim = len - 63
     while (pos < lim) {
-      compressRounds(words, blockWords, inputChainingValue, outputBlockCounter,
-        blockLen, flags)
+      compressRounds(
+        words, blockWords, inputChainingValue, outputBlockCounter, blockLen,
+        flags
+      )
 
       val word_0 = words(0)
       val word_1 = words(1)
@@ -834,8 +859,10 @@ private[blake3] class Output(
     }
 
     if (pos < len) {
-      compressRounds(words, blockWords, inputChainingValue, outputBlockCounter,
-        blockLen, flags)
+      compressRounds(
+        words, blockWords, inputChainingValue, outputBlockCounter, blockLen,
+        flags
+      )
 
       var wordIdx = 0
       while (pos < len) {
@@ -882,8 +909,10 @@ private[blake3] class Output(
 
     val lim = len - 63
     while (pos < lim) {
-      compressRounds(words, blockWords, inputChainingValue, outputBlockCounter,
-        blockLen, flags)
+      compressRounds(
+        words, blockWords, inputChainingValue, outputBlockCounter, blockLen,
+        flags
+      )
 
       val word_0 = words(0)
       val word_1 = words(1)
@@ -972,8 +1001,10 @@ private[blake3] class Output(
     }
 
     if (pos < len) {
-      compressRounds(words, blockWords, inputChainingValue, outputBlockCounter,
-        blockLen, flags)
+      compressRounds(
+        words, blockWords, inputChainingValue, outputBlockCounter, blockLen,
+        flags
+      )
 
       var wordIdx = 0
       while (pos < len) {
@@ -1020,8 +1051,10 @@ private[blake3] class Output(
 
     val lim = len - 63
     while (pos < lim) {
-      compressRounds(words, blockWords, inputChainingValue, outputBlockCounter,
-        blockLen, flags)
+      compressRounds(
+        words, blockWords, inputChainingValue, outputBlockCounter, blockLen,
+        flags
+      )
 
       val word_0 = words(0)
       val word_1 = words(1)
@@ -1110,8 +1143,10 @@ private[blake3] class Output(
     }
 
     if (pos < len) {
-      compressRounds(words, blockWords, inputChainingValue, outputBlockCounter,
-        blockLen, flags)
+      compressRounds(
+        words, blockWords, inputChainingValue, outputBlockCounter, blockLen,
+        flags
+      )
 
       var wordIdx = 0
       while (pos < len) {
