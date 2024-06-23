@@ -41,24 +41,27 @@ class CompressRoundsBenchmark {
   }
 
   @Benchmark
-  def inline(): Unit = inlineImpl(state, blockWords, chainingValue, counter,
-    blockLen, flags)
+  def inline(): Unit =
+    inlineImpl(state, blockWords, chainingValue, counter, blockLen, flags)
 
   @Benchmark
-  def withoutInline(): Unit = compressRoundsImpl(state, blockWords,
-    chainingValue, counter, blockLen, flags)
+  def withoutInline(): Unit = compressRoundsImpl(
+    state, blockWords, chainingValue, counter, blockLen, flags
+  )
 
   @Benchmark
-  def mArrays(): Unit = mArraysImpl(state, blockWords, chainingValue, counter,
-    blockLen, flags)
+  def mArrays(): Unit =
+    mArraysImpl(state, blockWords, chainingValue, counter, blockLen, flags)
 
   @Benchmark
-  def gs(): Unit = compressRoundsGsImpl(state, blockWords, chainingValue,
-    counter, blockLen, flags)
+  def gs(): Unit = compressRoundsGsImpl(
+    state, blockWords, chainingValue, counter, blockLen, flags
+  )
 
   @Benchmark
-  def gOnlyInline(): Unit = gOnlyInlineCompressRoundsImpl(state, blockWords,
-    chainingValue, counter, blockLen, flags)
+  def gOnlyInline(): Unit = gOnlyInlineCompressRoundsImpl(
+    state, blockWords, chainingValue, counter, blockLen, flags
+  )
 
   private def inlineImpl(
     state: Array[Int], blockWords: Array[Int], chainingValue: Array[Int],
@@ -1085,32 +1088,46 @@ class CompressRoundsBenchmark {
     val m_15 = blockWords(15)
 
     // round 1
-    round(state, m_0, m_1, m_2, m_3, m_4, m_5, m_6, m_7, m_8, m_9, m_10, m_11,
-      m_12, m_13, m_14, m_15)
+    round(
+      state, m_0, m_1, m_2, m_3, m_4, m_5, m_6, m_7, m_8, m_9, m_10, m_11, m_12,
+      m_13, m_14, m_15
+    )
 
     // round 2
-    round(state, m_2, m_6, m_3, m_10, m_7, m_0, m_4, m_13, m_1, m_11, m_12, m_5,
-      m_9, m_14, m_15, m_8)
+    round(
+      state, m_2, m_6, m_3, m_10, m_7, m_0, m_4, m_13, m_1, m_11, m_12, m_5,
+      m_9, m_14, m_15, m_8
+    )
 
     // round 3
-    round(state, m_3, m_4, m_10, m_12, m_13, m_2, m_7, m_14, m_6, m_5, m_9, m_0,
-      m_11, m_15, m_8, m_1)
+    round(
+      state, m_3, m_4, m_10, m_12, m_13, m_2, m_7, m_14, m_6, m_5, m_9, m_0,
+      m_11, m_15, m_8, m_1
+    )
 
     // round 4
-    round(state, m_10, m_7, m_12, m_9, m_14, m_3, m_13, m_15, m_4, m_0, m_11,
-      m_2, m_5, m_8, m_1, m_6)
+    round(
+      state, m_10, m_7, m_12, m_9, m_14, m_3, m_13, m_15, m_4, m_0, m_11, m_2,
+      m_5, m_8, m_1, m_6
+    )
 
     // round 5
-    round(state, m_12, m_13, m_9, m_11, m_15, m_10, m_14, m_8, m_7, m_2, m_5,
-      m_3, m_0, m_1, m_6, m_4)
+    round(
+      state, m_12, m_13, m_9, m_11, m_15, m_10, m_14, m_8, m_7, m_2, m_5, m_3,
+      m_0, m_1, m_6, m_4
+    )
 
     // round 6
-    round(state, m_9, m_14, m_11, m_5, m_8, m_12, m_15, m_1, m_13, m_3, m_0,
-      m_10, m_2, m_6, m_4, m_7)
+    round(
+      state, m_9, m_14, m_11, m_5, m_8, m_12, m_15, m_1, m_13, m_3, m_0, m_10,
+      m_2, m_6, m_4, m_7
+    )
 
     // round 7
-    round(state, m_11, m_15, m_5, m_0, m_1, m_9, m_8, m_6, m_14, m_10, m_2,
-      m_12, m_3, m_4, m_7, m_13)
+    round(
+      state, m_11, m_15, m_5, m_0, m_1, m_9, m_8, m_6, m_14, m_10, m_2, m_12,
+      m_3, m_4, m_7, m_13
+    )
 
     state(0) ^= state(8)
     state(1) ^= state(9)
@@ -1339,32 +1356,46 @@ class CompressRoundsBenchmark {
     val m_15 = blockWords(15)
 
     // round 1
-    gInlineRound(state, m_0, m_1, m_2, m_3, m_4, m_5, m_6, m_7, m_8, m_9, m_10,
-      m_11, m_12, m_13, m_14, m_15)
+    gInlineRound(
+      state, m_0, m_1, m_2, m_3, m_4, m_5, m_6, m_7, m_8, m_9, m_10, m_11, m_12,
+      m_13, m_14, m_15
+    )
 
     // round 2
-    gInlineRound(state, m_2, m_6, m_3, m_10, m_7, m_0, m_4, m_13, m_1, m_11,
-      m_12, m_5, m_9, m_14, m_15, m_8)
+    gInlineRound(
+      state, m_2, m_6, m_3, m_10, m_7, m_0, m_4, m_13, m_1, m_11, m_12, m_5,
+      m_9, m_14, m_15, m_8
+    )
 
     // round 3
-    gInlineRound(state, m_3, m_4, m_10, m_12, m_13, m_2, m_7, m_14, m_6, m_5,
-      m_9, m_0, m_11, m_15, m_8, m_1)
+    gInlineRound(
+      state, m_3, m_4, m_10, m_12, m_13, m_2, m_7, m_14, m_6, m_5, m_9, m_0,
+      m_11, m_15, m_8, m_1
+    )
 
     // round 4
-    gInlineRound(state, m_10, m_7, m_12, m_9, m_14, m_3, m_13, m_15, m_4, m_0,
-      m_11, m_2, m_5, m_8, m_1, m_6)
+    gInlineRound(
+      state, m_10, m_7, m_12, m_9, m_14, m_3, m_13, m_15, m_4, m_0, m_11, m_2,
+      m_5, m_8, m_1, m_6
+    )
 
     // round 5
-    gInlineRound(state, m_12, m_13, m_9, m_11, m_15, m_10, m_14, m_8, m_7, m_2,
-      m_5, m_3, m_0, m_1, m_6, m_4)
+    gInlineRound(
+      state, m_12, m_13, m_9, m_11, m_15, m_10, m_14, m_8, m_7, m_2, m_5, m_3,
+      m_0, m_1, m_6, m_4
+    )
 
     // round 6
-    gInlineRound(state, m_9, m_14, m_11, m_5, m_8, m_12, m_15, m_1, m_13, m_3,
-      m_0, m_10, m_2, m_6, m_4, m_7)
+    gInlineRound(
+      state, m_9, m_14, m_11, m_5, m_8, m_12, m_15, m_1, m_13, m_3, m_0, m_10,
+      m_2, m_6, m_4, m_7
+    )
 
     // round 7
-    gInlineRound(state, m_11, m_15, m_5, m_0, m_1, m_9, m_8, m_6, m_14, m_10,
-      m_2, m_12, m_3, m_4, m_7, m_13)
+    gInlineRound(
+      state, m_11, m_15, m_5, m_0, m_1, m_9, m_8, m_6, m_14, m_10, m_2, m_12,
+      m_3, m_4, m_7, m_13
+    )
 
     state(0) ^= state(8)
     state(1) ^= state(9)
@@ -1750,32 +1781,46 @@ class CompressRoundsBenchmark {
     val m_15 = blockWords(15)
 
     // round 1
-    roundGs(state, m_0, m_1, m_2, m_3, m_4, m_5, m_6, m_7, m_8, m_9, m_10, m_11,
-      m_12, m_13, m_14, m_15)
+    roundGs(
+      state, m_0, m_1, m_2, m_3, m_4, m_5, m_6, m_7, m_8, m_9, m_10, m_11, m_12,
+      m_13, m_14, m_15
+    )
 
     // round 2
-    roundGs(state, m_2, m_6, m_3, m_10, m_7, m_0, m_4, m_13, m_1, m_11, m_12,
-      m_5, m_9, m_14, m_15, m_8)
+    roundGs(
+      state, m_2, m_6, m_3, m_10, m_7, m_0, m_4, m_13, m_1, m_11, m_12, m_5,
+      m_9, m_14, m_15, m_8
+    )
 
     // round 3
-    roundGs(state, m_3, m_4, m_10, m_12, m_13, m_2, m_7, m_14, m_6, m_5, m_9,
-      m_0, m_11, m_15, m_8, m_1)
+    roundGs(
+      state, m_3, m_4, m_10, m_12, m_13, m_2, m_7, m_14, m_6, m_5, m_9, m_0,
+      m_11, m_15, m_8, m_1
+    )
 
     // round 4
-    roundGs(state, m_10, m_7, m_12, m_9, m_14, m_3, m_13, m_15, m_4, m_0, m_11,
-      m_2, m_5, m_8, m_1, m_6)
+    roundGs(
+      state, m_10, m_7, m_12, m_9, m_14, m_3, m_13, m_15, m_4, m_0, m_11, m_2,
+      m_5, m_8, m_1, m_6
+    )
 
     // round 5
-    roundGs(state, m_12, m_13, m_9, m_11, m_15, m_10, m_14, m_8, m_7, m_2, m_5,
-      m_3, m_0, m_1, m_6, m_4)
+    roundGs(
+      state, m_12, m_13, m_9, m_11, m_15, m_10, m_14, m_8, m_7, m_2, m_5, m_3,
+      m_0, m_1, m_6, m_4
+    )
 
     // round 6
-    roundGs(state, m_9, m_14, m_11, m_5, m_8, m_12, m_15, m_1, m_13, m_3, m_0,
-      m_10, m_2, m_6, m_4, m_7)
+    roundGs(
+      state, m_9, m_14, m_11, m_5, m_8, m_12, m_15, m_1, m_13, m_3, m_0, m_10,
+      m_2, m_6, m_4, m_7
+    )
 
     // round 7
-    roundGs(state, m_11, m_15, m_5, m_0, m_1, m_9, m_8, m_6, m_14, m_10, m_2,
-      m_12, m_3, m_4, m_7, m_13)
+    roundGs(
+      state, m_11, m_15, m_5, m_0, m_1, m_9, m_8, m_6, m_14, m_10, m_2, m_12,
+      m_3, m_4, m_7, m_13
+    )
 
     state(0) ^= state(8)
     state(1) ^= state(9)

@@ -19,8 +19,8 @@ ThisBuild / dynverSeparator := "-"
 ThisBuild / scalaVersion := scala3
 ThisBuild / crossScalaVersions := Seq()
 
-ThisBuild / scalacOptions ++= Seq("-target:jvm-1.8", "-unchecked",
-  "-deprecation")
+ThisBuild / scalacOptions ++=
+  Seq("-target:jvm-1.8", "-unchecked", "-deprecation")
 
 ThisBuild / publishTo := sonatypePublishToBundle.value
 
@@ -30,9 +30,11 @@ lazy val blake3 = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .crossType(CrossType.Full).enablePlugins(BuildInfoPlugin)
   .enablePlugins(AutomateHeaderPlugin).in(file(".")).settings(
     Test / publishArtifact := false,
-    buildInfoKeys := Seq(BuildInfoKey.action("commit") {
-      scala.sys.process.Process("git rev-parse HEAD").!!.trim
-    }),
+    buildInfoKeys := Seq(
+      BuildInfoKey.action("commit") {
+        scala.sys.process.Process("git rev-parse HEAD").!!.trim
+      }
+    ),
     headerLicense := LicenseDefinition.template,
     buildInfoPackage := "pt.kcry.blake3",
     libraryDependencies ++=
