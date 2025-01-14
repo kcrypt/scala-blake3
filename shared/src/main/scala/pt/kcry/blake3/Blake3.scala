@@ -150,8 +150,8 @@ object Blake3 {
    * Compute a BigInt representative of hash and return it as positive BigInt
    * `(mod N)`
    */
-  def bigInt(source: Array[Byte], N: BigInt): BigInt = newHasher()
-    .update(source).doneBigInt(N)
+  def bigInt(source: Array[Byte], N: BigInt): BigInt = newHasher().update(source)
+    .doneBigInt(N)
 
   /**
    * Compute a BigInt representative of hash and return it as positive BigInt

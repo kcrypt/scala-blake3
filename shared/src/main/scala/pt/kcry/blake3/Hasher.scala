@@ -158,7 +158,7 @@ trait Hasher extends OutputStream {
    * specified part of existed values
    */
   def doneXor(
-    in: Array[Byte], inOff: Int, out: Array[Byte], outOff: Int, len: Int
+      in: Array[Byte], inOff: Int, out: Array[Byte], outOff: Int, len: Int
   ): Unit
 
   /**

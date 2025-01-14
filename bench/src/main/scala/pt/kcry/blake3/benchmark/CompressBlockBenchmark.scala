@@ -39,7 +39,7 @@ class CompressBlockBenchmark {
   def loop2(): Unit = loop2Impl(bytes, bytesOffset, tmpBlockWords)
 
   private def inlineImpl(
-    bytes: Array[Byte], bytesOffset: Int, tmpBlockWords: Array[Int]
+      bytes: Array[Byte], bytesOffset: Int, tmpBlockWords: Array[Int]
   ): Unit = {
     tmpBlockWords(0) = ((bytes(3 + bytesOffset) & 0xff) << 24) |
       ((bytes(2 + bytesOffset) & 0xff) << 16) |
@@ -107,7 +107,7 @@ class CompressBlockBenchmark {
   }
 
   private def loopImpl(
-    bytes: Array[Byte], bytesOffset: Int, tmpBlockWords: Array[Int]
+      bytes: Array[Byte], bytesOffset: Int, tmpBlockWords: Array[Int]
   ): Unit = {
     var i = 0
     var o = bytesOffset
@@ -123,7 +123,7 @@ class CompressBlockBenchmark {
   }
 
   private def loop2Impl(
-    bytes: Array[Byte], bytesOffset: Int, tmpBlockWords: Array[Int]
+      bytes: Array[Byte], bytesOffset: Int, tmpBlockWords: Array[Int]
   ): Unit = {
     var i = 0
     var o = bytesOffset
