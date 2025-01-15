@@ -20,6 +20,8 @@ jobs:
       with:
         java-version: '11'
         distribution: 'adopt'
+    - name: Install SBT
+      uses: sbt/setup-sbt@v1
     - name: Check headers
       run: sbt +headerCheck
     - name: Check scalafmt
