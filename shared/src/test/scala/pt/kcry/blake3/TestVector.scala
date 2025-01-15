@@ -124,8 +124,9 @@ class TestVector(
       done <- doneMethods
     } yield {
       val hasher = Blake3.newHasher()
-      val keyedHasher = Blake3.newKeyedHasher(testKey
-        .getBytes(StandardCharsets.US_ASCII).take(blake3.KEY_LEN))
+      val keyedHasher = Blake3.newKeyedHasher(
+        testKey.getBytes(StandardCharsets.US_ASCII).take(blake3.KEY_LEN)
+      )
       val deriveHeyHasher = Blake3.newDeriveKeyHasher(testContext)
 
       update(hasher, input)
@@ -146,8 +147,9 @@ class TestVector(
         done <- doneMethods
       } yield {
         val hasher = Blake3.newHasher()
-        val keyedHasher = Blake3.newKeyedHasher(testKey
-          .getBytes(StandardCharsets.US_ASCII).take(blake3.KEY_LEN))
+        val keyedHasher = Blake3.newKeyedHasher(
+          testKey.getBytes(StandardCharsets.US_ASCII).take(blake3.KEY_LEN)
+        )
         val deriveKeyHasher = Blake3.newDeriveKeyHasher(testContext)
 
         update(hasher, input)
@@ -167,9 +169,13 @@ class TestVector(
         String, String, String
       )
     ) = {
-      case ((leftHash: String, leftKeyedHash: String, leftDeriveKeyHash: String),
-            (rightHash: String, rightKeyedHash: String,
-              rightDeriveKeyHash: String)) =>
+      case (
+            (leftHash: String, leftKeyedHash: String, leftDeriveKeyHash: String),
+            (
+              rightHash: String, rightKeyedHash: String,
+              rightDeriveKeyHash: String
+            )
+          ) =>
         leftHash shouldBe rightHash
         leftKeyedHash shouldBe rightKeyedHash
         leftDeriveKeyHash shouldBe rightDeriveKeyHash

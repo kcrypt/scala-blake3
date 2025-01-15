@@ -3,11 +3,11 @@ import sbtcrossproject.CrossPlugin.autoImport.crossProject
 
 lazy val scala210 = "2.10.7"
 lazy val scala211 = "2.11.12"
-lazy val scala212 = "2.12.19"
-lazy val scala213 = "2.13.13"
-lazy val scala3 = "3.4.1"
+lazy val scala212 = "2.12.20"
+lazy val scala213 = "2.13.15"
+lazy val scala3 = "3.6.2"
 
-lazy val scalatestVersion = "3.2.18"
+lazy val scalatestVersion = "3.2.19"
 
 lazy val blake3jniVersion = "0.2.2"
 
@@ -19,8 +19,8 @@ ThisBuild / dynverSeparator := "-"
 ThisBuild / scalaVersion := scala3
 ThisBuild / crossScalaVersions := Seq()
 
-ThisBuild / scalacOptions ++= Seq("-target:jvm-1.8", "-unchecked",
-  "-deprecation")
+ThisBuild / scalacOptions ++=
+  Seq("-target:jvm-1.8", "-unchecked", "-deprecation")
 
 ThisBuild / publishTo := sonatypePublishToBundle.value
 
@@ -30,9 +30,11 @@ lazy val blake3 = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .crossType(CrossType.Full).enablePlugins(BuildInfoPlugin)
   .enablePlugins(AutomateHeaderPlugin).in(file(".")).settings(
     Test / publishArtifact := false,
-    buildInfoKeys := Seq(BuildInfoKey.action("commit") {
-      scala.sys.process.Process("git rev-parse HEAD").!!.trim
-    }),
+    buildInfoKeys := Seq(
+      BuildInfoKey.action("commit") {
+        scala.sys.process.Process("git rev-parse HEAD").!!.trim
+      }
+    ),
     headerLicense := LicenseDefinition.template,
     buildInfoPackage := "pt.kcry.blake3",
     libraryDependencies ++=

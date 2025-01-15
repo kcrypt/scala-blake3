@@ -150,8 +150,8 @@ trait Hasher extends OutputStream {
    * Calculate a hash into specified byte array and apply it as XOR to existed
    * value
    */
-  def doneXor(out: Array[Byte], off: Int, len: Int): Unit = doneXor(out, off,
-    out, off, len)
+  def doneXor(out: Array[Byte], off: Int, len: Int): Unit =
+    doneXor(out, off, out, off, len)
 
   /**
    * Calculate a hash into specified part of array and apply it as XOR with
@@ -254,6 +254,6 @@ trait Hasher extends OutputStream {
   /**
    * Update hash as [[OutputStream]].
    */
-  override def write(b: Array[Byte], off: Int, len: Int): Unit = update(b, off,
-    len)
+  override def write(b: Array[Byte], off: Int, len: Int): Unit =
+    update(b, off, len)
 }

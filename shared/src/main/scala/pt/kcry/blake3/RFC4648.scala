@@ -68,8 +68,9 @@ object RFC4648 {
       sb append alphabet((bytes(offset) >>> 2) & 0x3f)
       sb append
         alphabet(((bytes(offset) & 0x3) << 4) | ((bytes(offset + 1) >>> 4) & 0xf))
-      sb append alphabet(((bytes(offset + 1) & 0xf) << 2) |
-        ((bytes(offset + 2) >>> 6) & 0x3))
+      sb append alphabet(
+        ((bytes(offset + 1) & 0xf) << 2) | ((bytes(offset + 2) >>> 6) & 0x3)
+      )
       sb append alphabet(bytes(offset + 2) & 0x3f)
   }
 
@@ -96,8 +97,9 @@ object RFC4648 {
       sb append
         alphabet(((bytes(offset) & 0x7) << 2) | ((bytes(offset + 1) >>> 6) & 0x3))
       sb append alphabet((bytes(offset + 1) >>> 1) & 0x1f)
-      sb append alphabet(((bytes(offset + 1) & 0x1) << 4) |
-        ((bytes(offset + 2) >>> 4) & 0xf))
+      sb append alphabet(
+        ((bytes(offset + 1) & 0x1) << 4) | ((bytes(offset + 2) >>> 4) & 0xf)
+      )
       sb append alphabet((bytes(offset + 2) & 0xf) << 1)
 
     case 4 =>
@@ -105,10 +107,12 @@ object RFC4648 {
       sb append
         alphabet(((bytes(offset) & 0x7) << 2) | ((bytes(offset + 1) >>> 6) & 0x3))
       sb append alphabet((bytes(offset + 1) >>> 1) & 0x1f)
-      sb append alphabet(((bytes(offset + 1) & 0x1) << 4) |
-        ((bytes(offset + 2) >>> 4) & 0xf))
-      sb append alphabet(((bytes(offset + 2) & 0xf) << 1) |
-        ((bytes(offset + 3) >>> 7) & 0x1))
+      sb append alphabet(
+        ((bytes(offset + 1) & 0x1) << 4) | ((bytes(offset + 2) >>> 4) & 0xf)
+      )
+      sb append alphabet(
+        ((bytes(offset + 2) & 0xf) << 1) | ((bytes(offset + 3) >>> 7) & 0x1)
+      )
       sb append alphabet((bytes(offset + 3) >>> 2) & 0x1f)
       sb append alphabet((bytes(offset + 3) & 0x3) << 3)
 
@@ -117,13 +121,16 @@ object RFC4648 {
       sb append
         alphabet(((bytes(offset) & 0x7) << 2) | ((bytes(offset + 1) >>> 6) & 0x3))
       sb append alphabet((bytes(offset + 1) >>> 1) & 0x1f)
-      sb append alphabet(((bytes(offset + 1) & 0x1) << 4) |
-        ((bytes(offset + 2) >>> 4) & 0xf))
-      sb append alphabet(((bytes(offset + 2) & 0xf) << 1) |
-        ((bytes(offset + 3) >>> 7) & 0x1))
+      sb append alphabet(
+        ((bytes(offset + 1) & 0x1) << 4) | ((bytes(offset + 2) >>> 4) & 0xf)
+      )
+      sb append alphabet(
+        ((bytes(offset + 2) & 0xf) << 1) | ((bytes(offset + 3) >>> 7) & 0x1)
+      )
       sb append alphabet((bytes(offset + 3) >>> 2) & 0x1f)
-      sb append alphabet(((bytes(offset + 3) & 0x3) << 3) |
-        ((bytes(offset + 4) >>> 5) & 0x7))
+      sb append alphabet(
+        ((bytes(offset + 3) & 0x3) << 3) | ((bytes(offset + 4) >>> 5) & 0x7)
+      )
       sb append alphabet(bytes(offset + 4) & 0x1f)
   }
 
@@ -153,20 +160,20 @@ object RFC4648 {
   /**
    * Encode an array as base64 with specified alphabet
    */
-  def base64(data: Array[Byte], alphabet: Array[Char]): String = base64(data, 0,
-    data.length, alphabet)
+  def base64(data: Array[Byte], alphabet: Array[Char]): String =
+    base64(data, 0, data.length, alphabet)
 
   /**
    * Encode specified part of array as base64 with RFC 4648 Section 4 alphabet
    */
-  def base64(data: Array[Byte], offset: Int, len: Int): String = base64(data,
-    offset, len, base64_alphabet)
+  def base64(data: Array[Byte], offset: Int, len: Int): String =
+    base64(data, offset, len, base64_alphabet)
 
   /**
    * Encode an array as base64 with RFC 4648 Section 4 alphabet
    */
-  def base64(data: Array[Byte]): String = base64(data, 0, data.length,
-    base64_alphabet)
+  def base64(data: Array[Byte]): String =
+    base64(data, 0, data.length, base64_alphabet)
 
   /**
    * Encode specified part of array as base64 with RFC 4648 Section 5 alphabet
@@ -177,8 +184,8 @@ object RFC4648 {
   /**
    * Encode an array as base64 with RFC 4648 Section 5 alphabet
    */
-  def base64_url(data: Array[Byte]): String = base64(data, 0, data.length,
-    base64_url_alphabet)
+  def base64_url(data: Array[Byte]): String =
+    base64(data, 0, data.length, base64_url_alphabet)
 
   /**
    * Encode specified part of array as base32 with specified alphabet
@@ -199,20 +206,20 @@ object RFC4648 {
   /**
    * Encode an array as base32 with specified alphabet
    */
-  def base32(data: Array[Byte], alphabet: Array[Char]): String = base32(data, 0,
-    data.length, alphabet)
+  def base32(data: Array[Byte], alphabet: Array[Char]): String =
+    base32(data, 0, data.length, alphabet)
 
   /**
    * Encode specified part of array as base32 with RFC 4648 Section 6 alphabet
    */
-  def base32(data: Array[Byte], offset: Int, len: Int): String = base32(data,
-    offset, len, base32_alphabet)
+  def base32(data: Array[Byte], offset: Int, len: Int): String =
+    base32(data, offset, len, base32_alphabet)
 
   /**
    * Encode an array as base32 with RFC 4648 Section 6 alphabet
    */
-  def base32(data: Array[Byte]): String = base32(data, 0, data.length,
-    base32_alphabet)
+  def base32(data: Array[Byte]): String =
+    base32(data, 0, data.length, base32_alphabet)
 
   /**
    * Encode specified part of array as base32 with RFC 4648 Section 7 alphabet
@@ -223,8 +230,8 @@ object RFC4648 {
   /**
    * Encode an array as base32 with RFC 4648 Section 7 alphabet
    */
-  def base32_hex(data: Array[Byte]): String = base32(data, 0, data.length,
-    base32_hex_alphabet)
+  def base32_hex(data: Array[Byte]): String =
+    base32(data, 0, data.length, base32_hex_alphabet)
 
   /**
    * Encode specified part of array as base16 with specified alphabet
@@ -245,18 +252,18 @@ object RFC4648 {
   /**
    * Encode an array as base16 with specified alphabet
    */
-  def base16(data: Array[Byte], alphabet: Array[Char]): String = base16(data, 0,
-    data.length, alphabet)
+  def base16(data: Array[Byte], alphabet: Array[Char]): String =
+    base16(data, 0, data.length, alphabet)
 
   /**
    * Encode specified part of array as base16 with RFC 4648 Section 8 alphabet
    */
-  def base16(data: Array[Byte], offset: Int, len: Int): String = base16(data,
-    offset, len, base16_alphabet)
+  def base16(data: Array[Byte], offset: Int, len: Int): String =
+    base16(data, offset, len, base16_alphabet)
 
   /**
    * Encode an array as base16 with RFC 4648 Section 8 alphabet
    */
-  def base16(data: Array[Byte]): String = base16(data, 0, data.length,
-    base16_alphabet)
+  def base16(data: Array[Byte]): String =
+    base16(data, 0, data.length, base16_alphabet)
 }

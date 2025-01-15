@@ -32,9 +32,10 @@ private[blake3] class ChunkState(
   var compressedBlocksLen: Int = 0
 
   // GC friendly call for unsafeOutput().chainingValue(targetChainingValue)
-  def chainingValue(targetChainingValue: Array[Int]): Unit =
-    compressRounds(targetChainingValue, tmpBlockWords, chainingValue,
-      chunkCounter, blockLen, flags | startFlag() | CHUNK_END)
+  def chainingValue(targetChainingValue: Array[Int]): Unit = compressRounds(
+    targetChainingValue, tmpBlockWords, chainingValue, chunkCounter, blockLen,
+    flags | startFlag() | CHUNK_END
+  )
 
   def reset(key: Array[Int]): Long = {
     System.arraycopy(key, 0, chainingValue, 0, KEY_LEN_WORDS)
@@ -51,8 +52,10 @@ private[blake3] class ChunkState(
 
   private def compressedWords(bytes: Array[Byte], bytesOffset: Int): Unit = {
     compressBytesAsBlockWords(bytes, bytesOffset, tmpBlockWords)
-    compressRounds(chainingValue, tmpBlockWords, chainingValue, chunkCounter,
-      BLOCK_LEN, flags | startFlag())
+    compressRounds(
+      chainingValue, tmpBlockWords, chainingValue, chunkCounter, BLOCK_LEN,
+      flags | startFlag()
+    )
     compressedBlocksLen += BLOCK_LEN
     blockLen = 0
   }
@@ -116,7 +119,7 @@ private[blake3] class ChunkState(
     }
 
     val zeros = BLOCK_LEN_WORDS - i
-    if (zeros > 0) System.arraycopy(ChunkState.zerosBlockWords, 0,
-      tmpBlockWords, i, zeros)
+    if (zeros > 0) System
+      .arraycopy(ChunkState.zerosBlockWords, 0, tmpBlockWords, i, zeros)
   }
 }

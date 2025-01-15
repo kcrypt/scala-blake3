@@ -20,9 +20,10 @@ import org.scalatest.wordspec.AnyWordSpec
 class OfficialTestVectorsTest extends AnyWordSpec with should.Matchers {
   "where inputLen" when {
 
-    val testVector =
-      new TestVector(testKey = "whats the Elvish word for friend",
-        testContext = "BLAKE3 2019-12-27 16:29:52 test vectors context")
+    val testVector = new TestVector(
+      testKey = "whats the Elvish word for friend",
+      testContext = "BLAKE3 2019-12-27 16:29:52 test vectors context"
+    )
 
     val outputLen = 2 * blake3.BLOCK_LEN + 3
 
