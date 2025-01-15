@@ -48,8 +48,8 @@ object RFC4648 {
   val base16_alphabet: Array[Char] = "0123456789ABCDEF".toCharArray
 
   def base64_b2c(
-    bytes: Array[Byte], offset: Int, len: Int, alphabet: Array[Char],
-    sb: StringBuilder
+      bytes: Array[Byte], offset: Int, len: Int, alphabet: Array[Char],
+      sb: StringBuilder
   ): Unit = len match {
     case 0 =>
     // do nothing
@@ -75,8 +75,8 @@ object RFC4648 {
   }
 
   private def base32_b2c(
-    bytes: Array[Byte], offset: Int, len: Int, alphabet: Array[Char],
-    sb: StringBuilder
+      bytes: Array[Byte], offset: Int, len: Int, alphabet: Array[Char],
+      sb: StringBuilder
   ): Unit = len match {
     case 0 =>
     // do nothing
@@ -135,7 +135,7 @@ object RFC4648 {
   }
 
   private def base16_b2c(
-    byte: Byte, alphabet: Array[Char], sb: StringBuilder
+      byte: Byte, alphabet: Array[Char], sb: StringBuilder
   ): Unit = {
     sb append alphabet((byte >>> 4) & 0xf)
     sb append alphabet(byte & 0xf)
@@ -145,7 +145,7 @@ object RFC4648 {
    * Encode specified part of array as base64 with specified alphabet
    */
   def base64(
-    data: Array[Byte], offset: Int, len: Int, alphabet: Array[Char]
+      data: Array[Byte], offset: Int, len: Int, alphabet: Array[Char]
   ): String = {
     val sb = new StringBuilder(4 * (len / 3))
     var i = offset
@@ -191,7 +191,7 @@ object RFC4648 {
    * Encode specified part of array as base32 with specified alphabet
    */
   def base32(
-    data: Array[Byte], offset: Int, len: Int, alphabet: Array[Char]
+      data: Array[Byte], offset: Int, len: Int, alphabet: Array[Char]
   ): String = {
     val sb = new StringBuilder(8 * (len / 5))
     var i = offset
@@ -237,7 +237,7 @@ object RFC4648 {
    * Encode specified part of array as base16 with specified alphabet
    */
   def base16(
-    data: Array[Byte], offset: Int, len: Int, alphabet: Array[Char]
+      data: Array[Byte], offset: Int, len: Int, alphabet: Array[Char]
   ): String = {
     val sb = new StringBuilder(len * 2)
     var i = offset

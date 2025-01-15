@@ -210,7 +210,7 @@ private[blake3] class HasherImpl(val key: Array[Int], val flags: Int)
 
   @inline
   private def mergeChildCV(
-    merged: Array[Int], leftChildCV: Array[Int], rightChildCv: Array[Int]
+      merged: Array[Int], leftChildCV: Array[Int], rightChildCv: Array[Int]
   ): Unit = {
     System.arraycopy(rightChildCv, 0, merged, KEY_LEN_WORDS, KEY_LEN_WORDS)
     System.arraycopy(leftChildCV, 0, merged, 0, KEY_LEN_WORDS)
@@ -241,7 +241,7 @@ private[blake3] class HasherImpl(val key: Array[Int], val flags: Int)
     synchronized(getOutput.rootBytes(out, len))
 
   override def doneXor(
-    in: Array[Byte], inOff: Int, out: Array[Byte], outOff: Int, len: Int
+      in: Array[Byte], inOff: Int, out: Array[Byte], outOff: Int, len: Int
   ): Unit = synchronized(getOutput.rootBytesXor(in, inOff, out, outOff, len))
 
   override def doneXor(in: InputStream, out: OutputStream, len: Int): Unit =
@@ -251,6 +251,6 @@ private[blake3] class HasherImpl(val key: Array[Int], val flags: Int)
     synchronized(getOutput.rootBytesXor(in, out, len))
 
   override def doneXorCallBack[T](
-    in: () => Byte, out: Byte => T, len: Int
+      in: () => Byte, out: Byte => T, len: Int
   ): Unit = synchronized(getOutput.rootBytesXor(in, out, len))
 }

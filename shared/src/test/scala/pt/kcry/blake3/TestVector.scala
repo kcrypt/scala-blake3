@@ -21,7 +21,7 @@ import java.nio.charset.StandardCharsets
 import scala.language.implicitConversions
 
 class TestVector(
-  val testKey: String, val testContext: String, val inputLimit: Int = 251
+    val testKey: String, val testContext: String, val inputLimit: Int = 251
 ) extends should.Matchers {
 
   final val updateMethods: Seq[(Hasher, Array[Byte]) => Unit] = Seq(
@@ -115,8 +115,8 @@ class TestVector(
   )
 
   def runCase(
-    inputLen: Int, outputLen: Int, hash: String, keyedHash: String,
-    deriveKeyHash: String
+      inputLen: Int, outputLen: Int, hash: String, keyedHash: String,
+      deriveKeyHash: String
   ): Seq[Assertion] = {
     val input = (0 until inputLen).map(_ % inputLimit).map(_.toByte).toArray
     for {
@@ -165,9 +165,9 @@ class TestVector(
       }
 
     val reducer: (
-      ((String, String, String), (String, String, String)) => (
-        String, String, String
-      )
+        ((String, String, String), (String, String, String)) => (
+            String, String, String
+        )
     ) = {
       case (
             (leftHash: String, leftKeyedHash: String, leftDeriveKeyHash: String),

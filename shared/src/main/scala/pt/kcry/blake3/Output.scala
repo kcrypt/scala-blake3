@@ -18,8 +18,8 @@ import java.nio.ByteBuffer
 import scala.language.implicitConversions
 
 private[blake3] class Output(
-  var inputChainingValue: Array[Int], val blockWords: Array[Int],
-  var blockLen: Int, var flags: Int, val tmpBlockWords: Array[Int]
+    var inputChainingValue: Array[Int], val blockWords: Array[Int],
+    var blockLen: Int, var flags: Int, val tmpBlockWords: Array[Int]
 ) {
   def rootBytes(out: Array[Byte], off: Int, len: Int): Unit = {
     var outputBlockCounter = 0
@@ -165,7 +165,7 @@ private[blake3] class Output(
   }
 
   def rootBytesXor(
-    in: Array[Byte], inOff: Int, out: Array[Byte], outOff: Int, len: Int
+      in: Array[Byte], inOff: Int, out: Array[Byte], outOff: Int, len: Int
   ): Unit = {
     var outputBlockCounter = 0
     var inPos = inOff
