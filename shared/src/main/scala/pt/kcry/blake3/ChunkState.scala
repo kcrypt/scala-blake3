@@ -19,8 +19,8 @@ private[blake3] object ChunkState {
 }
 
 private[blake3] class ChunkState(
-    val key: Array[Int], var chunkCounter: Long, val flags: Int,
-    val tmpChunkCV: Array[Int], val tmpBlockWords: Array[Int]
+  val key: Array[Int], var chunkCounter: Long, val flags: Int,
+  val tmpChunkCV: Array[Int], val tmpBlockWords: Array[Int]
 ) {
 
   val chainingValue: Array[Int] = new Array[Int](BLOCK_LEN_WORDS)
