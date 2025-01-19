@@ -64,8 +64,8 @@ class CompressRoundsBenchmark {
   )
 
   private def inlineImpl(
-      state: Array[Int], blockWords: Array[Int], chainingValue: Array[Int],
-      counter: Long, blockLen: Int, flags: Int
+    state: Array[Int], blockWords: Array[Int], chainingValue: Array[Int],
+    counter: Long, blockLen: Int, flags: Int
   ): Unit = {
     var state_4 = chainingValue(4)
     var state_5 = chainingValue(5)
@@ -1013,7 +1013,7 @@ class CompressRoundsBenchmark {
 
   @inline
   private def g(
-      state: Array[Int], a: Int, b: Int, c: Int, d: Int, mx: Int, my: Int
+    state: Array[Int], a: Int, b: Int, c: Int, d: Int, mx: Int, my: Int
   ): Unit = {
     var state_b = state(b)
     var state_d = state(d)
@@ -1041,9 +1041,9 @@ class CompressRoundsBenchmark {
 
   @inline
   private def round(
-      state: Array[Int], m_0: Int, m_1: Int, m_2: Int, m_3: Int, m_4: Int,
-      m_5: Int, m_6: Int, m_7: Int, m_8: Int, m_9: Int, m_10: Int, m_11: Int,
-      m_12: Int, m_13: Int, m_14: Int, m_15: Int
+    state: Array[Int], m_0: Int, m_1: Int, m_2: Int, m_3: Int, m_4: Int,
+    m_5: Int, m_6: Int, m_7: Int, m_8: Int, m_9: Int, m_10: Int, m_11: Int,
+    m_12: Int, m_13: Int, m_14: Int, m_15: Int
   ): Unit = {
     g(state, 0, 4, 8, 12, m_0, m_1)
     g(state, 1, 5, 9, 13, m_2, m_3)
@@ -1058,8 +1058,8 @@ class CompressRoundsBenchmark {
 
   @inline
   private def compressRoundsImpl(
-      state: Array[Int], blockWords: Array[Int], chainingValue: Array[Int],
-      counter: Long, blockLen: Int, flags: Int
+    state: Array[Int], blockWords: Array[Int], chainingValue: Array[Int],
+    counter: Long, blockLen: Int, flags: Int
   ): Unit = {
     // CV 0..7
     System.arraycopy(chainingValue, 0, state, 0, 8)
@@ -1150,9 +1150,9 @@ class CompressRoundsBenchmark {
 
   @inline
   private def gInlineRound(
-      state: Array[Int], m_0: Int, m_1: Int, m_2: Int, m_3: Int, m_4: Int,
-      m_5: Int, m_6: Int, m_7: Int, m_8: Int, m_9: Int, m_10: Int, m_11: Int,
-      m_12: Int, m_13: Int, m_14: Int, m_15: Int
+    state: Array[Int], m_0: Int, m_1: Int, m_2: Int, m_3: Int, m_4: Int,
+    m_5: Int, m_6: Int, m_7: Int, m_8: Int, m_9: Int, m_10: Int, m_11: Int,
+    m_12: Int, m_13: Int, m_14: Int, m_15: Int
   ): Unit = {
     var state_0 = state(0)
     var state_1 = state(1)
@@ -1326,8 +1326,8 @@ class CompressRoundsBenchmark {
   }
 
   def gOnlyInlineCompressRoundsImpl(
-      state: Array[Int], blockWords: Array[Int], chainingValue: Array[Int],
-      counter: Long, blockLen: Int, flags: Int
+    state: Array[Int], blockWords: Array[Int], chainingValue: Array[Int],
+    counter: Long, blockLen: Int, flags: Int
   ): Unit = {
     // CV 0..7
     System.arraycopy(chainingValue, 0, state, 0, 8)
@@ -1418,7 +1418,7 @@ class CompressRoundsBenchmark {
 
   @inline
   private def mArraysRound(
-      state: Array[Int], blockWords: Array[Int], m: Array[Int]
+    state: Array[Int], blockWords: Array[Int], m: Array[Int]
   ): Unit = {
     g(state, 0, 4, 8, 12, blockWords(m(0)), blockWords(m(1)))
     g(state, 1, 5, 9, 13, blockWords(m(2)), blockWords(m(3)))
@@ -1448,8 +1448,8 @@ class CompressRoundsBenchmark {
 
   @inline
   private def mArraysImpl(
-      state: Array[Int], blockWords: Array[Int], chainingValue: Array[Int],
-      counter: Long, blockLen: Int, flags: Int
+    state: Array[Int], blockWords: Array[Int], chainingValue: Array[Int],
+    counter: Long, blockLen: Int, flags: Int
   ): Unit = {
     // CV 0..7
     System.arraycopy(chainingValue, 0, state, 0, 8)
@@ -1734,9 +1734,9 @@ class CompressRoundsBenchmark {
 
   @inline
   private def roundGs(
-      state: Array[Int], m_0: Int, m_1: Int, m_2: Int, m_3: Int, m_4: Int,
-      m_5: Int, m_6: Int, m_7: Int, m_8: Int, m_9: Int, m_10: Int, m_11: Int,
-      m_12: Int, m_13: Int, m_14: Int, m_15: Int
+    state: Array[Int], m_0: Int, m_1: Int, m_2: Int, m_3: Int, m_4: Int,
+    m_5: Int, m_6: Int, m_7: Int, m_8: Int, m_9: Int, m_10: Int, m_11: Int,
+    m_12: Int, m_13: Int, m_14: Int, m_15: Int
   ): Unit = {
     g1(state, m_0, m_1)
     g2(state, m_2, m_3)
@@ -1751,8 +1751,8 @@ class CompressRoundsBenchmark {
 
   @inline
   private def compressRoundsGsImpl(
-      state: Array[Int], blockWords: Array[Int], chainingValue: Array[Int],
-      counter: Long, blockLen: Int, flags: Int
+    state: Array[Int], blockWords: Array[Int], chainingValue: Array[Int],
+    counter: Long, blockLen: Int, flags: Int
   ): Unit = {
     // CV 0..7
     System.arraycopy(chainingValue, 0, state, 0, 8)

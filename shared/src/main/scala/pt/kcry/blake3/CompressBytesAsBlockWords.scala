@@ -13,7 +13,7 @@ package pt.kcry.blake3
 
 private[blake3] object CompressBytesAsBlockWords {
   def compressBytesAsBlockWords(
-      bytes: Array[Byte], bytesOffset: Int, tmpBlockWords: Array[Int]
+    bytes: Array[Byte], bytesOffset: Int, tmpBlockWords: Array[Int]
   ): Unit = {
     tmpBlockWords(0) = ((bytes(3 + bytesOffset) & 0xff) << 24) |
       ((bytes(2 + bytesOffset) & 0xff) << 16) |

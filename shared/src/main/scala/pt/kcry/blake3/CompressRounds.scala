@@ -31,7 +31,7 @@ package pt.kcry.blake3
 private[blake3] object CompressRounds {
   @inline
   private def g(
-      state: Array[Int], a: Int, b: Int, c: Int, d: Int, mx: Int, my: Int
+    state: Array[Int], a: Int, b: Int, c: Int, d: Int, mx: Int, my: Int
   ): Unit = {
     var state_b = state(b)
     var state_d = state(d)
@@ -59,9 +59,9 @@ private[blake3] object CompressRounds {
 
   @inline
   private def round(
-      state: Array[Int], m_0: Int, m_1: Int, m_2: Int, m_3: Int, m_4: Int,
-      m_5: Int, m_6: Int, m_7: Int, m_8: Int, m_9: Int, m_10: Int, m_11: Int,
-      m_12: Int, m_13: Int, m_14: Int, m_15: Int
+    state: Array[Int], m_0: Int, m_1: Int, m_2: Int, m_3: Int, m_4: Int,
+    m_5: Int, m_6: Int, m_7: Int, m_8: Int, m_9: Int, m_10: Int, m_11: Int,
+    m_12: Int, m_13: Int, m_14: Int, m_15: Int
   ): Unit = {
     g(state, 0, 4, 8, 12, m_0, m_1)
     g(state, 1, 5, 9, 13, m_2, m_3)
@@ -75,8 +75,8 @@ private[blake3] object CompressRounds {
   }
 
   def compressRounds(
-      state: Array[Int], blockWords: Array[Int], chainingValue: Array[Int],
-      counter: Long, blockLen: Int, flags: Int
+    state: Array[Int], blockWords: Array[Int], chainingValue: Array[Int],
+    counter: Long, blockLen: Int, flags: Int
   ): Unit = {
     // CV 0..7
     System.arraycopy(chainingValue, 0, state, 0, 8)
@@ -169,8 +169,8 @@ private[blake3] object CompressRounds {
   }
 
   def compressRounds(
-      blockWords: Array[Int], chainingValue: Array[Int], counter: Long,
-      blockLen: Int, flags: Int
+    blockWords: Array[Int], chainingValue: Array[Int], counter: Long,
+    blockLen: Int, flags: Int
   ): Long = {
     var state_4 = chainingValue(4)
     var state_5 = chainingValue(5)
