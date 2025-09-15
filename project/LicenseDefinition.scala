@@ -1,5 +1,5 @@
-import de.heikoseeberger.sbtheader.HeaderPlugin.autoImport.HeaderLicense
-import de.heikoseeberger.sbtheader.License
+import sbtheader.HeaderPlugin.autoImport.HeaderLicense
+import sbtheader.License
 import sbt.url
 
 object LicenseDefinition {
