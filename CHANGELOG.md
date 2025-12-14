@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [unreleased]
-- Switched to scala-2.12.20
+- Switched to scala-2.12.21
 - Switched to scala-2.13.18
 - Switched to scala-3.7.4
 - Switched to scalajs-1.20.1
